@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,12 +10,12 @@ Neurodata’s mri to graphs pipeline.
 \newblock \url{http://m2g.io}.
 \newblock Accessed: 2016-05-23.
 
-\bibitem[Ambroise and Matias(2012)]{ambroise2012new}
-Christophe Ambroise and Catherine Matias.
-\newblock New consistent and asymptotically normal parameter estimates for
-  random-graph mixture models.
-\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
-  Methodology)}, 74\penalty0 (1):\penalty0 3--35, 2012.
+\bibitem[Airoldi et~al.(2008)Airoldi, Blei, Fienberg, and
+  Xing]{airoldi2008mixed}
+Edoardo~M Airoldi, David~M Blei, Stephen~E Fienberg, and Eric~P Xing.
+\newblock Mixed membership stochastic blockmodels.
+\newblock \emph{Journal of Machine Learning Research}, 9\penalty0
+  (Sep):\penalty0 1981--2014, 2008.
 
 \bibitem[Athreya et~al.(2013)Athreya, Priebe, Tang, Lyzinski, Marchette, and
   Sussman]{athreya2013limit}
@@ -41,17 +41,6 @@ Sourav Chatterjee.
 \newblock Matrix estimation by universal singular value thresholding.
 \newblock \emph{The Annals of Statistics}, 43\penalty0 (1):\penalty0 177--214,
   2015.
-
-\bibitem[Choi et~al.(2012)Choi, Wolfe, and Airoldi]{choi2012stochastic}
-David~S Choi, Patrick~J Wolfe, and Edoardo~M Airoldi.
-\newblock Stochastic blockmodels with a growing number of classes.
-\newblock \emph{Biometrika}, page asr053, 2012.
-
-\bibitem[Daudin et~al.(2008)Daudin, Picard, and Robin]{daudin2008mixture}
-J-J Daudin, Franck Picard, and St{\'e}phane Robin.
-\newblock A mixture model for random graphs.
-\newblock \emph{Statistics and computing}, 18\penalty0 (2):\penalty0 173--183,
-  2008.
 
 \bibitem[Durante et~al.(2014)Durante, Dunson, and
   Vogelstein]{durante2014nonparametric}
@@ -112,6 +101,11 @@ Xiaoyi Jiang, Andreas M{\"u}unger, and Horst Bunke.
 \newblock \emph{IEEE Transactions on Pattern Analysis and Machine
   Intelligence}, 23\penalty0 (10):\penalty0 1144--1151, 2001.
 
+\bibitem[Karrer and Newman(2011)]{karrer2011stochastic}
+Brian Karrer and Mark~EJ Newman.
+\newblock Stochastic blockmodels and community structure in networks.
+\newblock \emph{Physical Review E}, 83\penalty0 (1):\penalty0 016107, 2011.
+
 \bibitem[Kiar(2016)]{kiar2016graph}
 Gregory Kiar.
 \newblock Gremlin: Graph estimation from mr images leading to inference in
@@ -138,22 +132,6 @@ Christine Leigh~Myers Nickel.
 \newblock \emph{Random dot product graphs: A model for social networks},
   volume~68.
 \newblock 2007.
-
-\bibitem[Pavlovic et~al.(2014)Pavlovic, V{\'e}rtes, Bullmore, Schafer, and
-  Nichols]{pavlovic2014stochastic}
-Dragana~M Pavlovic, Petra~E V{\'e}rtes, Edward~T Bullmore, William~R Schafer,
-  and Thomas~E Nichols.
-\newblock Stochastic blockmodeling of the modules and core of the
-  caenorhabditis elegans connectome.
-\newblock \emph{PloS one}, 9\penalty0 (7):\penalty0 e97584, 2014.
-
-\bibitem[Picard et~al.(2009)Picard, Miele, Daudin, Cottret, and
-  Robin]{picard2009deciphering}
-Franck Picard, Vincent Miele, Jean-Jacques Daudin, Ludovic Cottret, and
-  St{\'e}phane Robin.
-\newblock Deciphering the connectivity structure of biological networks using
-  mixnet.
-\newblock \emph{BMC bioinformatics}, 10\penalty0 (6):\penalty0 1, 2009.
 
 \bibitem[Qin and Priebe(2013)]{qin2013maximum}
 Yichen Qin and Carey~E Priebe.
@@ -200,28 +178,11 @@ G.~V. Trunk.
 \newblock \emph{Pattern Analysis and Machine Intelligence, IEEE Transactions
   on}, \penalty0 (3):\penalty0 306--307, 1979.
 
-\bibitem[Wolfe and Olhede(2013)]{wolfe2013nonparametric}
-Patrick~J Wolfe and Sofia~C Olhede.
-\newblock Nonparametric graphon estimation.
-\newblock \emph{arXiv preprint arXiv:1309.5936}, 2013.
-
 \bibitem[Young and Scheinerman(2007)]{young2007random}
 Stephen~J Young and Edward~R Scheinerman.
 \newblock Random dot product graph models for social networks.
 \newblock In \emph{Algorithms and models for the web-graph}, pages 138--149.
   Springer, 2007.
-
-\bibitem[Zanghi et~al.(2008)Zanghi, Ambroise, and Miele]{zanghi2008fast}
-Hugo Zanghi, Christophe Ambroise, and Vincent Miele.
-\newblock Fast online graph clustering via erd{\H{o}}s--r{\'e}nyi mixture.
-\newblock \emph{Pattern Recognition}, 41\penalty0 (12):\penalty0 3592--3599,
-  2008.
-
-\bibitem[Zanghi et~al.(2010)Zanghi, Volant, and Ambroise]{zanghi2010clustering}
-Hugo Zanghi, Stevenn Volant, and Christophe Ambroise.
-\newblock Clustering based on random graph model embedding vertex features.
-\newblock \emph{Pattern Recognition Letters}, 31\penalty0 (9):\penalty0
-  830--836, 2010.
 
 \bibitem[Zhu and Ghodsi(2006)]{zhu2006automatic}
 Mu~Zhu and Ali Ghodsi.
