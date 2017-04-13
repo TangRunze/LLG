@@ -131,11 +131,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
 pp[[1]]=gg
 
 ggsave("../../Draft/corr_data_MSE_jhu_poster.pdf",
-<<<<<<< HEAD
-  plot=gg+theme(text=element_text(size=10,family="Times")),
-=======
   plot=gg+theme(text=element_text(size=10,family="CM Roman")),
->>>>>>> TangRunze/master
     width=5.5,height=2.5)
 
 
@@ -267,11 +263,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
 pp[[2]]=gg
 
 ggsave("../../Draft/corr_data_MSE_desikan_poster.pdf",
-<<<<<<< HEAD
-  plot=gg+theme(text=element_text(size=10,family="Times")),
-=======
   plot=gg+theme(text=element_text(size=10,family="CM Roman")),
->>>>>>> TangRunze/master
     width=5.5,height=2.5)
 
 ################## CPAC200 #########################
@@ -402,11 +394,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
 pp[[3]]=gg
 
 ggsave("../../Draft/corr_data_MSE_CPAC200_poster.pdf",
-<<<<<<< HEAD
-  plot=gg+theme(text=element_text(size=10,family="Times")),
-=======
   plot=gg+theme(text=element_text(size=10,family="CM Roman")),
->>>>>>> TangRunze/master
     width=5.5,height=2.5)
 
 source("function_collection.R")
