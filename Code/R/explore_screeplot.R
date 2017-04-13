@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
+# setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 # setwd("E:/GitHub/LLG/Code/R")
 # setwd("/cis/home/rtang/LLG/Code/R")
 
@@ -22,7 +22,7 @@ for (iData in 1:length(dataNameVec)) {
   rm(tmpList)
   Abar = add(A_all)/M
   AbarDiagAug = diag_aug(Abar)
-  eigenResult = eigen(AbarDiagAug)$values
+  eigenResult = eigen(AbarDiagAug)$values^2
   eigenResult = 1 - cumsum(sort(abs(eigenResult), decreasing = T))/sum(abs(eigenResult))
   
   yMax = max(eigenResult)
@@ -56,7 +56,7 @@ for (iData in 1:length(dataNameVec)) {
   } else {
     Ahat <- A.ase[[3]][,1:dHat] %*% diag(A.ase[[1]][1:dHat]) %*% t(A.ase[[2]][,1:dHat])
   }
-  eigenResult = eigen(Ahat)$values
+  eigenResult = eigen(Ahat)$values^2
   eigenResult = 1 - cumsum(sort(abs(eigenResult), decreasing = T))/sum(abs(eigenResult))
   
   yMax = max(eigenResult)
@@ -79,3 +79,4 @@ for (iData in 1:length(dataNameVec)) {
          width=2, height=2)
   
 }
+

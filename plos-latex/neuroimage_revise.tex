@@ -581,7 +581,7 @@ As a result, $\mathrm{RE}(\bar{A},\hat{P})$ will increase as $M$ increases for f
 Indeed, for large $M$ we could have $\mathrm{RE}(\bar{A},\hat{P})\geq 1$ since we cannot guarantee that $\hat{P}$ will choose the optimal dimension.
 The lack of gaps in the eigenvalues of the mean graph makes dimension reduction quite dangerous.
 In an extreme case, the low-rank assumption will be most violated when all eigenvalues of the mean graph are almost equal. This leads to a certain type of structure, which is close to a constant times the identity matrix. However we don't see such structure in connectomics.
-We will discuss it more in Section \ref{sec:corr_data} when applying our estimator to the CoRR dataset.
+We will discuss this further in Section \ref{sec:corr_data} when applying our estimator to the CoRR dataset.
 \end{remark}
 
 \subsection{Finite Sample Toy Model Simulations}\label{sec:sbm_sim}
@@ -661,7 +661,8 @@ Further details of the dataset are provided in Section~\ref{section:data}.
 
 Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. Although the CoRR dataset contains $454$ brain scans, it is still a sample of size $454$ rather than the entire population. So the mean graph $P$ does not equal to the entry-wise mean of $454$ graphs. However, in order to compare different estimators, we are still going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
 
-As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}). In particular, this relative error of the rank-$d$ approximation happens to be the sum of absolute values of the smallest $N - d$ eigenvalues of $P$ divided by the sum of absolute values of all eigenvalues of $P$.
+{\color{red} DLS: This will have to be updated ....}
+As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}). 
 For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank. If $P$ actually has the low-rank property, the relative error plot will look like Figure~\ref{fig:screeplot_lowrank}, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. Since we are using the entry-wise sample mean graph of 454 observations as $P$, it is possible that the true but unknown population mean has the low-rank property but the entry-wise sample mean graph fails to capture it. And it is also possible that the population mean $P$ is actually high-rank. No matter which one is true, the low-rank assumption is violated, which makes this real data experiment setting preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
 
 \begin{figure}[!htbp]
@@ -670,8 +671,11 @@ For all three atlases, the relative error is large unless $d$ is close to $N$, w
 \includegraphics[height=.2\textheight]{screeplot_ratio_desikan.pdf} 
 \includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200.pdf}
 \caption{{\bf Relative error of the rank-$d$ approximation of the population mean.}
-These plots show the relative error of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases. In particular, this relative error of the rank-$d$ approximation happens to be the sum of absolute values of the smallest $N - d$ eigenvalues of $P$ divided by the sum of absolute values of all eigenvalues of $P$.
-For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank.}
+These plots show the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases. 
+% DLS: I commented this out because I I think the above interpretation is clearer.
+% In particular, this relative error of the rank-$d$ approximation happens to be the sum of absolute values of the smallest $N - d$ eigenvalues of $P$ divided by the sum of absolute values of all eigenvalues of $P$.
+For all three atlases, the relative error decays relatively slowly is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank.
+In particular note }
 \label{fig:screeplot}
 \end{figure}
 
