@@ -288,7 +288,7 @@ An example SBM is illustrated in Fig.~\ref{fig:SBM_example}.
 We consider a 5-block SBM and plot the corresponding probability matrix and one adjacency matrix generated from it with 200 vertices. We omit the details of the parameter setting of this example for conciseness. From the top two panels of the figure, we can clearly see the structure of 25 blocks in both the probability matrix and the adjacency matrix as a result of 5 different blocks among vertices.
 
 \begin{remark}
-To get back to RDPG we allow for DC and MM.
+As we mentioned, under the SBM, all vertices in the same block have identical latent positions. Rather than allowing vertices differ from each other as RDPG, SBM presumes all nodes within the same block have the same expected degree. To better describe complex networks in some situations, a bunch of generalizations of the SBM have been explored in order to incorporate the local variation of vertices to the block structure. \citet{airoldi2008mixed} proposed mixed membership stochastic blockmodels, which associates each vertex with multiple blocks with a probability vector rather than a single block as SBM requires. Also, in order to model variation of the expected degrees of different vertices within the same block, \citet{karrer2011stochastic} proposed degree-corrected SBM, which assigns additional parameters to each vertex to adjust the expected degree relatively. All these generalizations are trying to drag SBM towards RDPG a little bit so that the model can capture variations among vertices while keeping the community structure.
 \end{remark}
 
 
@@ -581,7 +581,7 @@ As a result, $\mathrm{RE}(\bar{A},\hat{P})$ will increase as $M$ increases for f
 Indeed, for large $M$ we could have $\mathrm{RE}(\bar{A},\hat{P})\geq 1$ since we cannot guarantee that $\hat{P}$ will choose the optimal dimension.
 The lack of gaps in the eigenvalues of the mean graph makes dimension reduction quite dangerous.
 In an extreme case, the low-rank assumption will be most violated when all eigenvalues of the mean graph are almost equal. This leads to a certain type of structure, which is close to a constant times the identity matrix. However we don't see such structure in connectomics.
-We will check this in Section \ref{sec:corr_data} when applying our estimator to the CoRR dataset.
+We will discuss it more in Section \ref{sec:corr_data} when applying our estimator to the CoRR dataset.
 \end{remark}
 
 \subsection{Finite Sample Toy Model Simulations}\label{sec:sbm_sim}
@@ -659,17 +659,34 @@ We used three atlases, the JHU atlas with 48 vertices, the Desikan atlas with 70
 An edge exists between two vertices whenever there is at least one white-matter tract connecting the corresponding two regions of the brain. 
 Further details of the dataset are provided in Section~\ref{section:data}.
 
-As discussed in Remark \ref{remark:low_rank}, we first check if the dataset has the low-rank property. In Fig.~\ref{fig:screeplot}, we plot the eigenvalues of the mean graph of all 454 graphs (with diagonal augmentation) in decreasing algebraic order for three different atlases. For all three atlases, the eigenvalues first decrease dramatically and then stay around 0. In addition, we also plot the histograms in Fig.~\ref{fig:histogram}. From the figures we can see many eigenvalues are around zero, with a few large eigenvalues. So the information is mostly contained in the first few dimensions. Such quasi low-rank property could be used by $\hat{P}$ to improve $\bar{A}$.
+Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. Although the CoRR dataset contains $454$ brain scans, it is still a sample of size $454$ rather than the entire population. So the mean graph $P$ does not equal to the entry-wise mean of $454$ graphs. However, in order to compare different estimators, we are still going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
+
+As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}). In particular, this relative error of the rank-$d$ approximation happens to be the sum of absolute values of the smallest $N - d$ eigenvalues of $P$ divided by the sum of absolute values of all eigenvalues of $P$.
+For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank. If $P$ actually has the low-rank property, the relative error plot will look like Figure~\ref{fig:screeplot_lowrank}, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. Since we are using the entry-wise sample mean graph of 454 observations as $P$, it is possible that the true but unknown population mean has the low-rank property but the entry-wise sample mean graph fails to capture it. And it is also possible that the population mean $P$ is actually high-rank. No matter which one is true, the low-rank assumption is violated, which makes this real data experiment setting preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
+
 \begin{figure}[!htbp]
 \centering
-\includegraphics[height=.2\textheight]{screeplot_JHU.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_desikan.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_CPAC200.pdf}
-\caption{{\bf Screeplot of the population mean.}
-These screeplots show the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation in decreasing algebraic order for three atlases. Many eigenvalues are around zero, which lead to a quasi low-rank structure.
-}
+\includegraphics[height=.2\textheight]{screeplot_ratio_JHU.pdf} 
+\includegraphics[height=.2\textheight]{screeplot_ratio_desikan.pdf} 
+\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200.pdf}
+\caption{{\bf Relative error of the rank-$d$ approximation of the population mean.}
+These plots show the relative error of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases. In particular, this relative error of the rank-$d$ approximation happens to be the sum of absolute values of the smallest $N - d$ eigenvalues of $P$ divided by the sum of absolute values of all eigenvalues of $P$.
+For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank.}
 \label{fig:screeplot}
 \end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[height=.2\textheight]{screeplot_ratio_JHU_lowrank.pdf} 
+\includegraphics[height=.2\textheight]{screeplot_ratio_desikan_lowrank.pdf} 
+\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200_lowrank.pdf} 
+\caption{{\bf Relative error of the rank-$d$ approximation of the low-rank population mean.}
+For all three atlases, we revise $P$ to be low-rank by only keeping a few large eigenvalues. The dimensions we keep are selected by the Zhu and Ghodis method.
+These plots show the relative error of using a rank-$d$ approximation of the revised $P$ for three different atlases.}
+\label{fig:screeplot_lowrank}
+\end{figure}
+
+In addition, by plotting the histograms of the eigenvalues of $P$ in Fig.~\ref{fig:histogram}, we see that there are a bunch of negative eigenvalues, which indicates that the positive semi-definiteness is also violated in this real data experiment. This makes it even harder for $\hat{P}$ to outperform $\bar{A}$. However, we are still going to assess the performance of $\hat{P}$ in this challenging setting.
 
 \begin{figure}[!htbp]
 \centering
@@ -681,6 +698,22 @@ These figures show the histograms of the eigenvalues of the mean graph of all 45
 }
 \label{fig:histogram}
 \end{figure}
+
+
+%As discussed in Remark \ref{remark:low_rank}, we first check if the dataset has the low-rank property. In Fig.~\ref{fig:screeplot}, we plot the eigenvalues of the mean graph of all 454 graphs (with diagonal augmentation) in decreasing algebraic order for three different atlases. For all three atlases, the eigenvalues first decrease dramatically and then stay around 0. In addition, we also plot the histograms in Fig.~\ref{fig:histogram}. From the figures we can see many eigenvalues are around zero, with a few large eigenvalues. So the information is mostly contained in the first few dimensions. Such quasi low-rank property could be used by $\hat{P}$ to improve $\bar{A}$.
+
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[height=.2\textheight]{screeplot_JHU.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_desikan.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_CPAC200.pdf}
+%\caption{{\bf Screeplot of the population mean.}
+%These screeplots show the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation in decreasing algebraic order for three atlases. Many eigenvalues are around zero, which lead to a quasi low-rank structure.
+%}
+%\label{fig:screeplot}
+%\end{figure}
+
+
 
 In order to evaluate the performance of the two estimators, we used a cross validation on the 454 graphs of each size. 
 Specifically, for a given atlas, each Monte Carlo replicate corresponds to sampling $M$ graphs out of the 454 and computing the low-rank estimator $\hat{P}$ and the sample mean $\bar{A}$ using the $M$ selected graphs.
