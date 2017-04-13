@@ -33,7 +33,7 @@ for (iData in 1:length(dataNameVec)) {
   pp_scree[[iData]] <- ggplot(df,aes(x=k,y=eval))+
     geom_line()+
     scale_linetype_manual(name="",values=c("longdash","dotted","dotdash"))+
-    xlab("order in algebraic") + ylab("ratio")+
+    xlab("dimension d") + ylab("relative error")+
     theme(panel.grid.major = element_line(colour="grey95"),
           panel.grid.minor = element_blank())+
     theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
@@ -67,7 +67,7 @@ for (iData in 1:length(dataNameVec)) {
   pp_scree[[iData]] <- ggplot(df,aes(x=k,y=eval))+
     geom_line()+
     scale_linetype_manual(name="",values=c("longdash","dotted","dotdash"))+
-    xlab("order in algebraic") + ylab("ratio")+
+    xlab("dimension d") + ylab("relative error")+
     theme(panel.grid.major = element_line(colour="grey95"),
           panel.grid.minor = element_blank())+
     theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
