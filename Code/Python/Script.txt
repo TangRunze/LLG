@@ -1,0 +1,5 @@
+This code requires Python2.7 with the following packages installed: pyvtk, numpy, nibabel, argparse, dipy.
+
+The script was run from within the containing directory with the following command:
+
+python eigen_surface.py data/desikan.nii.gz output/ data/eigenvector_dim2.csv
