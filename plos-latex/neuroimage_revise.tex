@@ -25,6 +25,8 @@
 
 
 \usepackage{bm}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \newtheorem{fact}{Fact}[section]
 \newtheorem{lemma}[fact]{Lemma}
@@ -659,49 +661,6 @@ We used three atlases, the JHU atlas with 48 vertices, the Desikan atlas with 70
 An edge exists between two vertices whenever there is at least one white-matter tract connecting the corresponding two regions of the brain. 
 Further details of the dataset are provided in Section~\ref{section:data}.
 
-Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. However, in order to compare different estimators, we are going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$, which is preferable to $\bar{A}$ compared to $\hat{P}$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
-
-As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}). 
-For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank. If $P$ actually has the low-rank property, the relative error plot will look like Figure~\ref{fig:screeplot_lowrank}, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. Since we are using the entry-wise sample mean graph of 454 observations as $P$, it is possible that the true but unknown population mean has the low-rank property but the entry-wise sample mean graph fails to capture it. And it is also possible that the population mean $P$ is actually high-rank. No matter which one is true, the low-rank assumption is violated, which makes this real data experiment setting preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[height=.2\textheight]{screeplot_ratio_JHU.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_ratio_desikan.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200.pdf}
-\caption{{\bf Relative error of the rank-$d$ approximation of the population mean.}
-These plots show the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases.
-The relative error 
-The relative error decays relatively slowly is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank.
-In particular note }
-\label{fig:screeplot}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[height=.2\textheight]{screeplot_ratio_JHU_lowrank.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_ratio_desikan_lowrank.pdf} 
-\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200_lowrank.pdf} 
-\caption{{\bf Relative error of the rank-$d$ approximation of the low-rank population mean.}
-For all three atlases, we revise $P$ to be low-rank by only keeping a few large eigenvalues. The dimensions we keep are selected by the Zhu and Ghodis method.
-These plots show the relative error of using a rank-$d$ approximation of the revised $P$ for three different atlases.}
-\label{fig:screeplot_lowrank}
-\end{figure}
-
-In addition, by plotting the histograms of the eigenvalues of $P$ in Fig.~\ref{fig:histogram}, we see that there are a bunch of negative eigenvalues, which indicates that the positive semi-definiteness is also violated in this real data experiment. This makes it even harder for $\hat{P}$ to outperform $\bar{A}$. However, we are still going to assess the performance of $\hat{P}$ in this challenging setting.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[height=.2\textheight]{hist_JHU.pdf} 
-\includegraphics[height=.2\textheight]{hist_desikan.pdf} 
-\includegraphics[height=.2\textheight]{hist_CPAC200.pdf}
-\caption{{\bf Histogram of the population mean.}
-These figures show the histograms of the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation. Many eigenvalues are around zero, which lead to a quasi low-rank structure.
-}
-\label{fig:histogram}
-\end{figure}
-
-
 %As discussed in Remark \ref{remark:low_rank}, we first check if the dataset has the low-rank property. In Fig.~\ref{fig:screeplot}, we plot the eigenvalues of the mean graph of all 454 graphs (with diagonal augmentation) in decreasing algebraic order for three different atlases. For all three atlases, the eigenvalues first decrease dramatically and then stay around 0. In addition, we also plot the histograms in Fig.~\ref{fig:histogram}. From the figures we can see many eigenvalues are around zero, with a few large eigenvalues. So the information is mostly contained in the first few dimensions. Such quasi low-rank property could be used by $\hat{P}$ to improve $\bar{A}$.
 
 %\begin{figure}[!htbp]
@@ -744,15 +703,6 @@ When $M$ is 1 or 5, $\bar{A}$ has large variance which leads to large $\hat{\mat
 Additionally, we see that there is a large range of dimensions where the performance for $\hat{P}$ is superior to $\bar{A}$. 
 With a larger $M$, the performance of $\bar{A}$ improves so that its performance is frequently superior but nearly identical to $\hat{P}$.
 
-For a more specific comparison of the performance of $\hat{P}$ and $\bar{A}$ in the most realistic situation where the rank $d$ must be chosen based on data, Table~\ref{tab:corr_re} shows estimated relative efficiencies of $\hat{P}$ versus $\bar{A}$.
-For each atlas and each sample size, we compare the Zhu and Ghodsi method \citep{zhu2006automatic} with the USVT method \citep{chatterjee2015matrix} and note that both perform reasonably well relative to the full-dimensional $\bar{A}$.
-We omit confidence intervals for the estimated relative efficiencies since all confidence intervals had lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
-
-Again we can see that the largest improvements using $\hat{P}$ occur when $M$ is small and $N$ is large. 
-On the other hand, once $M=10$, $\bar{A}$ tends to do nearly as well or better than $\hat{P}$. 
-Nonetheless, when applied to subgroups inference, such as all females between the age of 21 and 25, $\hat{P}$ can be really helpful for better exploring differences between groups compared to $\bar{A}$ due to a small sample size of each subgroup.
-In addition, $\hat{P}$ offers certain advantages, especially since low-rank estimates can often be more easily interpretable by considering the latent position representation described in Section~\ref{section:sbm_rdpg}.
-
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=.99\textwidth]{corr_data_MSE_jhu.pdf}\\
@@ -767,56 +717,80 @@ These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$
 \label{fig:realdata}
 \end{figure}
 
+For a more specific comparison of the performance of $\hat{P}$ and $\bar{A}$ in the most realistic situation where the rank $d$ must be chosen based on data, Fig.~\ref{fig:corr_re} shows estimated relative efficiencies of $\hat{P}$ versus $\bar{A}$.
 
-\begin{table}[!tb]
-    \centering
-\begin{tabular}{lcccc}\toprule
-        % & $m=1$  & $m=5$  & $m=10$ \\\toprule
-\multicolumn{1}{l}{\textbf{JHU}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
-ZG      & 0.053 & 0.004 & -0.002 \\
-USVT    & 0.051 & 0.004 & -0.001 \\\midrule
-\multicolumn{1}{l}{\textbf{Desikan}} & $M=1$  & $M=5$  & $M=10$ \\ \midrule
-ZG      & 0.053 & 0.004 & -0.002 \\
-USVT    & 0.056 & 0.004 & -0.001 \\\midrule
-\multicolumn{1}{l}{\textbf{CPAC200}} & $M=1$  & $M=5$  & $M=10$  \\\midrule
-ZG      & 0.037 & 0.005 & 0.001 \\
-USVT    & 0.036 & 0.003 & 0.000 \\\bottomrule
-\end{tabular}
-    \caption{{\bf Difference between $\hat{\mathrm{MSE}}$ of $\bar{A}$ and $\hat{\mathrm{MSE}}$ of $\hat{P}$ for three atlases at four sample sizes for the CoRR data.}
-    To give concrete numbers of the experiment results displayed in Fig.~\ref{fig:realdata}, we list $\hat{\mathrm{MSE}}$ of $\bar{A}$ minus $\hat{\mathrm{MSE}}$ of $\hat{P}$ in the table. A positive number means $\hat{P}$ outperforms $\bar{A}$.
-     We compared different sample sizes $M$ and different dimension selection procedures, ZG and USVT.
-    Confidence intervals all had lengths less than $0.015$, and hence we omitted them for clarity.
-    Overall, the relative efficiencies are greater for smaller sample sizes $M$ and larger number of vertices $N$. 
-    } 
-    \label{tab:corr_mse}
-\end{table}
+For each atlas and each sample size, we compare the Zhu and Ghodsi method \citep{zhu2006automatic} with the USVT method \citep{chatterjee2015matrix} and note that both perform reasonably well relative to the full-dimensional $\bar{A}$.
+We omit confidence intervals for the estimated relative efficiencies since all confidence intervals had lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
 
+Again we can see that the largest improvements using $\hat{P}$ occur when $M$ is small and $N$ is large, where the RE are smaller than 1.
+On the other hand, once $M=10$, $\bar{A}$ tends to do nearly as well or better than $\hat{P}$. 
+Nonetheless, when applied to subgroups inference, such as all females between the age of 21 and 25, $\hat{P}$ can be really helpful for better exploring differences between groups compared to $\bar{A}$ due to a small sample size of each subgroup.
+In addition, $\hat{P}$ offers certain advantages, especially since low-rank estimates can often be more easily interpretable by considering the latent position representation described in Section~\ref{section:sbm_rdpg}.
+
+\begin{figure}
+\begin{center}
+  \includegraphics[width=1\linewidth]{corr_data_REdiff.pdf}
+\end{center}
+\caption{{\bf Relative efficiencies of $\bar{A}$ versus $\hat{P}$ for the CoRR data set.}
+For each atlas, JHU, Desikan, and CPAC 200, we sampled graphs which we used to compute $\bar{A}$ and $\hat{P}$.
+We compared different sample sizes $M$ and different dimension selection procedures, ZG and USVT.
+For each of the two methods for computing $\hat{P}$, we estimated their relative efficiencies with respect to the sample mean $\bar{A}$.
+Confidence intervals all had lengths less than $0.015$, and hence we omitted them for clarity.
+Overall, the relative efficiencies are greater for smaller sample sizes $M$ and larger number of vertices $N$.} 
+\label{fig:corr_re}
+\end{figure}
 
 
 
-\begin{table}[!tb]
-    \centering
-\begin{tabular}{lcccc}\toprule
-        % & $m=1$  & $m=5$  & $m=10$ \\\toprule
-\multicolumn{1}{l}{\textbf{JHU}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
-ZG      & 0.54 & 0.81 & 1.14  \\
-USVT    & 0.57 & 0.85 & 1.12 \\\midrule
-\multicolumn{1}{l}{\textbf{Desikan}} & $M=1$  & $M=5$  & $M=10$ \\ \midrule
-ZG      & 0.53 & 0.81 & 1.15 \\
-USVT    & 0.50 & 0.81 & 1.09 \\\midrule
-\multicolumn{1}{l}{\textbf{CPAC200}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
-ZG      & 0.52 & 0.69 & 0.90 \\
-USVT    & 0.53 & 0.80 & 0.99 \\\bottomrule
-\end{tabular}
-    \caption{{\bf Relative efficiencies of $\bar{A}$ versus $\hat{P}$ for the CoRR data set.}
-    For each atlas, JHU, Desikan, and CPAC 200, we sampled graphs which we used to compute $\bar{A}$ and $\hat{P}$.
-     We compared different sample sizes $M$ and different dimension selection procedures, ZG and USVT.
-    For each of the two methods for computing $\hat{P}$, we estimated their relative efficiencies with respect to the sample mean $\bar{A}$.
-    Confidence intervals all had lengths less than $0.015$, and hence we omitted them for clarity.
-    Overall, the relative efficiencies are greater for smaller sample sizes $M$ and larger number of vertices $N$.
-    } 
-    \label{tab:corr_re}
-\end{table}
+%\begin{table}[!tb]
+%    \centering
+%\begin{tabular}{lcccc}\toprule
+%        % & $m=1$  & $m=5$  & $m=10$ \\\toprule
+%\multicolumn{1}{l}{\textbf{JHU}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
+%ZG      & 0.053 & 0.004 & -0.002 \\
+%USVT    & 0.051 & 0.004 & -0.001 \\\midrule
+%\multicolumn{1}{l}{\textbf{Desikan}} & $M=1$  & $M=5$  & $M=10$ \\ \midrule
+%ZG      & 0.053 & 0.004 & -0.002 \\
+%USVT    & 0.056 & 0.004 & -0.001 \\\midrule
+%\multicolumn{1}{l}{\textbf{CPAC200}} & $M=1$  & $M=5$  & $M=10$  \\\midrule
+%ZG      & 0.037 & 0.005 & 0.001 \\
+%USVT    & 0.036 & 0.003 & 0.000 \\\bottomrule
+%\end{tabular}
+%    \caption{{\bf Difference between $\hat{\mathrm{MSE}}$ of $\bar{A}$ and $\hat{\mathrm{MSE}}$ of $\hat{P}$ for three atlases at four sample sizes for the CoRR data.}
+%    To give concrete numbers of the experiment results displayed in Fig.~\ref{fig:realdata}, we list $\hat{\mathrm{MSE}}$ of $\bar{A}$ minus $\hat{\mathrm{MSE}}$ of $\hat{P}$ in the table. A positive number means $\hat{P}$ outperforms $\bar{A}$.
+%     We compared different sample sizes $M$ and different dimension selection procedures, ZG and USVT.
+%    Confidence intervals all had lengths less than $0.015$, and hence we omitted them for clarity.
+%    Overall, the relative efficiencies are greater for smaller sample sizes $M$ and larger number of vertices $N$. 
+%    } 
+%    \label{tab:corr_mse}
+%\end{table}
+
+
+
+
+%\begin{table}[!tb]
+%    \centering
+%\begin{tabular}{lcccc}\toprule
+%        % & $m=1$  & $m=5$  & $m=10$ \\\toprule
+%\multicolumn{1}{l}{\textbf{JHU}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
+%ZG      & 0.54 & 0.81 & 1.14  \\
+%USVT    & 0.57 & 0.85 & 1.12 \\\midrule
+%\multicolumn{1}{l}{\textbf{Desikan}} & $M=1$  & $M=5$  & $M=10$ \\ \midrule
+%ZG      & 0.53 & 0.81 & 1.15 \\
+%USVT    & 0.50 & 0.81 & 1.09 \\\midrule
+%\multicolumn{1}{l}{\textbf{CPAC200}} & $M=1$  & $M=5$  & $M=10$ \\\midrule
+%ZG      & 0.52 & 0.69 & 0.90 \\
+%USVT    & 0.53 & 0.80 & 0.99 \\\bottomrule
+%\end{tabular}
+%    \caption{{\bf Relative efficiencies of $\bar{A}$ versus $\hat{P}$ for the CoRR data set.}
+%    For each atlas, JHU, Desikan, and CPAC 200, we sampled graphs which we used to compute $\bar{A}$ and $\hat{P}$.
+%     We compared different sample sizes $M$ and different dimension selection procedures, ZG and USVT.
+%    For each of the two methods for computing $\hat{P}$, we estimated their relative efficiencies with respect to the sample mean $\bar{A}$.
+%    Confidence intervals all had lengths less than $0.015$, and hence we omitted them for clarity.
+%    Overall, the relative efficiencies are greater for smaller sample sizes $M$ and larger number of vertices $N$.
+%    } 
+%    \label{tab:corr_re}
+%\end{table}
 
 
 
@@ -863,7 +837,66 @@ Red edges indicate that $\hat{P}$ overestimate $P$ while blue means that $\hat{P
 \label{fig:Diff_between_desikan}
 \end{figure}
 
-We plot the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas, as in Fig.~\ref{fig:P_hist_desikan}. Clearly we can see more edge probabilities are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly. For these edges, MLE $\bar{A}$ always recover the probability 1 exactly even with only 1 observation, while $\hat{P}$ will give a less accurate estimate because of the smoothing effect. So the CoRR dataset we consider is highly preferable to $\bar{A}$ compared to $\hat{P}$. However, even in this situation, $\hat{P}$ still outperforms $\bar{A}$ when the sample size is relatively small.
+
+While our estimator $\hat{P}$ performs well when the sample size $M$ is small and the number of vertices $N$ is large, the CoRR dataset itself is pretty challenging for our low-rank method.
+
+%Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. However, in order to compare different estimators, we are going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$, which is preferable to $\bar{A}$ compared to $\hat{P}$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
+
+As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) as solid curves. 
+For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank. If $P$ actually has the low-rank property, the relative error plot will look like the dashed curves, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. 
+Thus the CoRR dataset is actually high-rank, which violates the low-rank assumption of our results and make this real data experiment preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
+%Since we are using the entry-wise sample mean graph of 454 observations as $P$, it is possible that the true but unknown population mean has the low-rank property but the entry-wise sample mean graph fails to capture it. And it is also possible that the population mean $P$ is actually high-rank. No matter which one is true, the low-rank assumption is violated, which makes this real data experiment setting preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.6\textheight]{screeplot_ratio_all.pdf} 
+\caption{{\bf Relative error of the rank-$d$ approximation of the population mean.}
+The solid curves show the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases.
+The relative error decays relatively slowly when $d$ is close to $N$, which indicates that $P$ is not low-rank.
+Also, if $P$ actually has the low-rank property, the relative error plot will look like the dashed curves, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. }
+\label{fig:screeplot}
+\end{figure}
+
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[height=.2\textheight]{screeplot_ratio_JHU.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_ratio_desikan.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200.pdf}
+%\caption{{\bf Relative error of the rank-$d$ approximation of the population mean.}
+%These plots show the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) for three different atlases.
+%The relative error 
+%The relative error decays relatively slowly is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank.
+%In particular note }
+%\label{fig:screeplot}
+%\end{figure}
+
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[height=.2\textheight]{screeplot_ratio_JHU_lowrank.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_ratio_desikan_lowrank.pdf} 
+%\includegraphics[height=.2\textheight]{screeplot_ratio_CPAC200_lowrank.pdf} 
+%\caption{{\bf Relative error of the rank-$d$ approximation of the low-rank population mean.}
+%For all three atlases, we revise $P$ to be low-rank by only keeping a few large eigenvalues. The dimensions we keep are selected by the Zhu and Ghodis method.
+%These plots show the relative error of using a rank-$d$ approximation of the revised $P$ for three different atlases.}
+%\label{fig:screeplot_lowrank}
+%\end{figure}
+
+In addition, by plotting the histograms of the eigenvalues of $P$ in Fig.~\ref{fig:histogram}, we see that there are a bunch of negative eigenvalues, which indicates that the positive semi-definiteness is also violated in this real data experiment. This makes it even harder for $\hat{P}$ to outperform $\bar{A}$. 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[height=.2\textheight]{hist_JHU.pdf} 
+\includegraphics[height=.2\textheight]{hist_desikan.pdf} 
+\includegraphics[height=.2\textheight]{hist_CPAC200.pdf}
+\caption{{\bf Histogram of the population mean.}
+These figures show the histograms of the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation. A bunch of negative eigenvalues indicate that $P$ is not positive semi-definite.
+}
+\label{fig:histogram}
+\end{figure}
+
+
+Moreover, by the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas, as in Fig.~\ref{fig:P_hist_desikan}, we can clearly see more edge probabilities are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly. For these edges, MLE $\bar{A}$ always recover the probability 1 exactly even with only 1 observation, while $\hat{P}$ will give a less accurate estimate because of the smoothing effect. So the CoRR dataset we consider is highly preferable to $\bar{A}$ compared to $\hat{P}$. 
+%However, even in this situation, $\hat{P}$ still outperforms $\bar{A}$ when the sample size is relatively small.
 
 \begin{figure}[!htbp]
 \centering
@@ -873,7 +906,7 @@ This figure shows the histogram of $P$, i.e. the entry-wise mean of all 454 grap
 \label{fig:P_hist_desikan}
 \end{figure}
 
-These results demonstrate that for small sample sizes, such as $M=1$ or $M=5$, and for the atlases with a larger number of vertices, $\hat{P}$ gives a better estimate than $\bar{A}$ for the CoRR dataset.
+With all these challenges mentioned above, our results show that when the sample size is relatively small, such as $M=1$ or $M=5$, and for the atlases with a larger number of vertices, $\hat{P}$ still gives a better estimate than $\bar{A}$ for the CoRR dataset.
 Importantly, this improvement is robust to the embedding dimension provided the dimension is not underestimated.
 We should note that though the total error for $\hat{P}$ is smaller in this case, for certain entries $\bar{A}$ does perform better.
 For example, there are some pairs of vertices that are adjacent for all samples in the population and for these pairs $\bar{A}$ will always perform better than $\hat{P}$. 
@@ -933,6 +966,13 @@ For example, there are some pairs of vertices that are adjacent for all samples 
 %\end{figure}
 
 
+
+
+
+
+
+
+
 \subsection{Synthetic Data Analysis for Full Rank IEM}\label{sec:sim_iem}
 
 While the theory we have developed is based on the assumption that the mean graph is low rank, as we have seen in Section~\ref{sec:corr_data}, $\hat{P}$ often performs well even when this assumption is false. 
@@ -979,27 +1019,88 @@ Similarly, \citet{durante2014nonparametric} used low-rank deviations from a full
 
 We also note that low-rank methods can often be more easily interpreted.
 By representing a low-rank matrix in terms of the latent position, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors (see Section~\ref{section:sbm_rdpg}), one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
-Now we take the CoRR dataset experiment as an example and consider the same sample of size $M=5$ based on the Desikan atlas as discussed in Section~\ref{sec:corr_data}. Our estimator $\hat{P}$ is based on the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d=11$ is the dimension selected by the Zhu and Ghodsi's method. Now we plot the heat map of $\hat{X}$ in Fig.~\ref{fig:eigenvector}, with each row to be the estimated latent position for the corresponding vertex. From the second column, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. To have a more direct understanding of how they distinguish the two hemispheres, we color the brain using the 2nd dimension of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain}. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
+Now we take the CoRR dataset experiment as an example and consider the same sample of size $M=5$ based on the Desikan atlas as discussed in Section~\ref{sec:corr_data}. Our estimator $\hat{P}$ is based on the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d=11$ is the dimension selected by the Zhu and Ghodsi's method. 
+We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain} respectively. By the figure of the second dimension, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
 
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=.7\textwidth]{eigenvector.pdf}
-\caption{{\bf Heat map of $\hat{X}$.}
-Heat map of $\hat{X}$ with each row to be the estimated latent position for the corresponding vertex. From the second column, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension.}
-\label{fig:eigenvector}
-\end{figure}
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[width=.7\textwidth]{eigenvector.pdf}
+%\caption{{\bf Heat map of $\hat{X}$.}
+%Heat map of $\hat{X}$ with each row to be the estimated latent position for the corresponding vertex. From the second column, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension.}
+%\label{fig:eigenvector}
+%\end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}	
+	\centering
+\begin{subfigure}[t]{.7\textwidth}
+\caption{1st dimension}
+\vspace*{-15pt}
 \begin{center}
-  \includegraphics[height=.4\linewidth]{desikan2a.png}\hspace{-40pt}
-  \includegraphics[height=.4\linewidth]{desikan2b.png}\hspace{-40pt}
-  \includegraphics[height=.4\linewidth]{desikan2c.png}
+  \includegraphics[height=.35\linewidth]{desikan1a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan1b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan1c.png}
 \end{center}
-\caption{{\bf Brain colored by the 2nd dimension of $\hat{X}$.}
-We plot the brain using the 2nd dimension of $\hat{X}$. From the figure, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension.}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{2nd dimension}
+\vspace*{-15pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan2a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan2b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan2c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{3rd dimension}
+\vspace*{-15pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan3a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan3b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan3c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{4th dimension}
+\vspace*{-15pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan4a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan4b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan4c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{5th dimension}
+\vspace*{-15pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan5a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan5b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan5c.png}
+\end{center}
+\end{subfigure}\\
+\caption{{\bf Brain plots colored by the first 5 dimensions of $\hat{X}$ for the Desikan atlas respectively.}
+We plot the brain using the first 5 dimensions of $\hat{X}$. From the figure, we can see the embeddings have their own neuro-meaning, for example there is a clear distinction of the left and right hemisphere as conveyed in the second dimension. Also, the first dimension provides an average level of the entire brain.}
 \label{fig:eigenvector_brain}
 \end{figure}
+
+
+
+
+
+%\begin{figure}[!htbp]
+%\begin{center}
+%  \includegraphics[height=.4\linewidth]{desikan2a.png}\hspace{-40pt}
+%  \includegraphics[height=.4\linewidth]{desikan2b.png}\hspace{-40pt}
+%  \includegraphics[height=.4\linewidth]{desikan2c.png}
+%\end{center}
+%\caption{{\bf Brain colored by the 2nd dimension of $\hat{X}$.}
+%We plot the brain using the 2nd dimension of $\hat{X}$. From the figure, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension.}
+%\label{fig:eigenvector_brain}
+%\end{figure}
 
 
 % \subsection{Future Work}
