@@ -84,7 +84,7 @@ gg <- ggplot(error_by_dim_df,aes(x=m,y=re,linetype=factor(which),shape=factor(wh
   geom_line()+
   # geom_hline(yintercept = 0, linetype="dashed")+
   # geom_hline(yintercept = 0)+
-  xlab("m")+ylab("RE")+
+  xlab("M")+ylab("RE")+
   theme(panel.grid.major = element_line(colour="grey95"),
         panel.grid.minor = element_blank())+
   theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+

@@ -85,7 +85,7 @@ gg <- ggplot(error_by_dim_df,aes(x=m,y=mse,linetype=factor(which),shape=factor(w
   geom_line()+
   # geom_hline(yintercept = 0, linetype="dashed")+
   # geom_hline(yintercept = 0)+
-  xlab("m")+ylab("improvement in terms of MSE")+
+  xlab("M")+ylab("improvement in terms of MSE")+
   theme(panel.grid.major = element_line(colour="grey95"),
         panel.grid.minor = element_blank())+
   theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
