@@ -1,0 +1,16 @@
+Vertices selected based on embeddings
+Dimension 1:
+Smallest 5 vertices, lh-unknown -1.13430729832342, rh-unknown -1.09787999759255, rh-precuneus -1.08616240384863, rh-isthmuscingulate -1.08054071419669, lh-precuneus -1.06589989954153
+Largest 5 vertices, rh-frontalpole -0.164543293196713, lh-frontalpole -0.169673081510298, rh-parsorbitalis -0.304806768069561, rh-temporalpole -0.37461222111887, rh-transversetemporal -0.456837787522606
+Dimension 2:
+Smallest 5 vertices, lh-transversetemporal -0.670921508939639, lh-superiortemporal -0.627500373698121, lh-parsopercularis -0.605647106346207, lh-inferiortemporal -0.601319980127849, lh-fusiform -0.589987866039622
+Largest 5 vertices, rh-inferiortemporal 0.73626572056578, rh-middletemporal 0.705427638745206, rh-parstriangularis 0.70008468710813, rh-rostralmiddlefrontal 0.674174204293771, rh-lateralorbitofrontal 0.668461204049236
+Dimension 3:
+Smallest 5 vertices, rh-cuneus -0.578151993504236, rh-superiorparietal -0.512206134224988, rh-paracentral -0.492948581320616, lh-cuneus -0.429083014841437, rh-posteriorcingulate -0.39935479896497
+Largest 5 vertices, lh-medialorbitofrontal 0.663572804292788, lh-rostralanteriorcingulate 0.605721145681657, rh-lateralorbitofrontal 0.59417611258262, lh-lateralorbitofrontal 0.574706206751681, lh-rostralmiddlefrontal 0.553391877101946
+Dimension 4:
+Smallest 5 vertices, rh-lingual -0.553607017166319, rh-lateraloccipital -0.536533060156864, lh-lateraloccipital -0.526758947445068, rh-pericalcarine -0.52400994722529, lh-pericalcarine -0.475774343910034
+Largest 5 vertices, rh-caudalmiddlefrontal 0.438290536827094, lh-postcentral 0.429065162025787, rh-transversetemporal 0.422020981199312, rh-precentral 0.415032428757264, lh-caudalmiddlefrontal 0.409558266135343
+Dimension 5:
+Smallest 5 vertices, lh-transversetemporal -0.461191098702011, lh-bankssts -0.413021341925985, lh-middletemporal -0.326454474902887, rh-parsorbitalis -0.314719597478471, lh-superiortemporal -0.280218205506381
+Largest 5 vertices, rh-posteriorcingulate 0.532806134757923, lh-frontalpole 0.455182298850077, lh-medialorbitofrontal 0.390854843058697, rh-frontalpole 0.389004698169278, rh-caudalanteriorcingulate 0.365115441078976

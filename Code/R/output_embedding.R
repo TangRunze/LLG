@@ -48,5 +48,20 @@ for (j in 1:5) {
   write(s,file=paste0("../../Result/eigenvector_dim", j, ".csv"))
 }
 
-
-
+nameVec <- read.table("../../Data/desikan.txt")
+fileName <- "../../Result/eigenvector_vertex_name.csv"
+write("Vertices selected based on embeddings", file=fileName)
+for (j in 1:5) {
+  write(paste0("Dimension ", j, ":"), file=fileName, append = TRUE)
+  tmp <- order(xHat[,j])
+  s <- paste0("Smallest 5 vertices")
+  for (i in 1:5) {
+    s = paste0(s, ", ", nameVec[tmp[i], 1], " ", xHat[tmp[i], j])
+  }
+  write(s, file=fileName, append = TRUE)
+  s <- paste0("Largest 5 vertices")
+  for (i in 1:5) {
+    s = paste0(s, ", ", nameVec[tmp[n - i + 1], 1], " ", xHat[tmp[n - i + 1], j])
+  }
+  write(s,file=fileName, append = TRUE)
+}
