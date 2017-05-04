@@ -1,16 +1,16 @@
 Vertices selected based on embeddings
 Dimension 1:
-Smallest 5 vertices, lh-unknown -1.13430729832342, rh-unknown -1.09787999759255, rh-precuneus -1.08616240384863, rh-isthmuscingulate -1.08054071419669, lh-precuneus -1.06589989954153
-Largest 5 vertices, rh-frontalpole -0.164543293196713, lh-frontalpole -0.169673081510298, rh-parsorbitalis -0.304806768069561, rh-temporalpole -0.37461222111887, rh-transversetemporal -0.456837787522606
+Smallest 5 vertices, lh-unknown -1.1493375173808, rh-unknown -1.1259618622429, rh-isthmuscingulate -1.09482577509652, lh-isthmuscingulate -1.08266967713981, lh-precuneus -1.07802996592261
+Largest 5 vertices, rh-frontalpole -0.199452034013315, lh-frontalpole -0.250295969806502, rh-parsorbitalis -0.292833991583729, lh-parsorbitalis -0.41302587473467, rh-temporalpole -0.416513608051225
 Dimension 2:
-Smallest 5 vertices, lh-transversetemporal -0.670921508939639, lh-superiortemporal -0.627500373698121, lh-parsopercularis -0.605647106346207, lh-inferiortemporal -0.601319980127849, lh-fusiform -0.589987866039622
-Largest 5 vertices, rh-inferiortemporal 0.73626572056578, rh-middletemporal 0.705427638745206, rh-parstriangularis 0.70008468710813, rh-rostralmiddlefrontal 0.674174204293771, rh-lateralorbitofrontal 0.668461204049236
+Smallest 5 vertices, lh-middletemporal -0.653886462580835, lh-inferiortemporal -0.651669411918832, lh-bankssts -0.584345842721085, lh-fusiform -0.565323767363785, lh-superiortemporal -0.561517370566183
+Largest 5 vertices, rh-inferiortemporal 0.750789219117086, rh-middletemporal 0.724925689421623, rh-superiortemporal 0.697197193369209, rh-lateralorbitofrontal 0.624512308342253, rh-rostralmiddlefrontal 0.619163246103904
 Dimension 3:
-Smallest 5 vertices, rh-cuneus -0.578151993504236, rh-superiorparietal -0.512206134224988, rh-paracentral -0.492948581320616, lh-cuneus -0.429083014841437, rh-posteriorcingulate -0.39935479896497
-Largest 5 vertices, lh-medialorbitofrontal 0.663572804292788, lh-rostralanteriorcingulate 0.605721145681657, rh-lateralorbitofrontal 0.59417611258262, lh-lateralorbitofrontal 0.574706206751681, lh-rostralmiddlefrontal 0.553391877101946
+Smallest 5 vertices, rh-cuneus -0.593940020683756, rh-superiorparietal -0.592491465563551, lh-cuneus -0.520614250570429, rh-inferiorparietal -0.441841705254339, rh-paracentral -0.406769956162525
+Largest 5 vertices, lh-lateralorbitofrontal 0.605632820114037, lh-medialorbitofrontal 0.59504293602855, lh-rostralanteriorcingulate 0.58808648933383, rh-lateralorbitofrontal 0.556808621186525, rh-medialorbitofrontal 0.521656499539309
 Dimension 4:
-Smallest 5 vertices, rh-lingual -0.553607017166319, rh-lateraloccipital -0.536533060156864, lh-lateraloccipital -0.526758947445068, rh-pericalcarine -0.52400994722529, lh-pericalcarine -0.475774343910034
-Largest 5 vertices, rh-caudalmiddlefrontal 0.438290536827094, lh-postcentral 0.429065162025787, rh-transversetemporal 0.422020981199312, rh-precentral 0.415032428757264, lh-caudalmiddlefrontal 0.409558266135343
+Smallest 5 vertices, lh-lateraloccipital -0.58429943438048, rh-pericalcarine -0.539191463022083, lh-pericalcarine -0.531150949006556, lh-lingual -0.525822204164166, rh-lingual -0.519092565140297
+Largest 5 vertices, rh-postcentral 0.548586172745013, lh-postcentral 0.511569723709418, rh-posteriorcingulate 0.493463824529132, rh-paracentral 0.482614010711352, rh-supramarginal 0.433071311650848
 Dimension 5:
-Smallest 5 vertices, lh-transversetemporal -0.461191098702011, lh-bankssts -0.413021341925985, lh-middletemporal -0.326454474902887, rh-parsorbitalis -0.314719597478471, lh-superiortemporal -0.280218205506381
-Largest 5 vertices, rh-posteriorcingulate 0.532806134757923, lh-frontalpole 0.455182298850077, lh-medialorbitofrontal 0.390854843058697, rh-frontalpole 0.389004698169278, rh-caudalanteriorcingulate 0.365115441078976
+Smallest 5 vertices, rh-temporalpole -0.648555586002875, rh-entorhinal -0.578322167194747, lh-temporalpole -0.52615712802241, lh-entorhinal -0.414921918313642, rh-medialorbitofrontal -0.365964998163353
+Largest 5 vertices, rh-transversetemporal 0.407551600939836, rh-bankssts 0.348303497630517, lh-transversetemporal 0.275897993275367, rh-parstriangularis 0.272110556545862, lh-bankssts 0.267592199883931

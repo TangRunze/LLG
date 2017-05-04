@@ -4,7 +4,6 @@ setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 # setwd("/cis/home/rtang/LLG/Code/R")
 
 isSVD = 0
-m = 5
 dataName = "desikan"
 set.seed(12345)
 
@@ -24,8 +23,7 @@ A_sum = add(A_all)
 source("getElbows.R")
 source("USVT.R")
 
-sampleVec = sample.int(M, m)
-A_bar = add(A_all[sampleVec])/m
+A_bar = add(A_all)/M
 
 A_bar_diag_aug = diag_aug(A_bar)
 
@@ -37,6 +35,8 @@ dZG = getElbows(evalVec, n=nElbow, plot=F)[[nElbow]]
 A.ase = ase(A_bar_diag_aug, dZG, isSVD)
 d = dZG
 
+print(dZG)
+
 xHat <- A.ase[[3]] %*% diag(sqrt(A.ase[[1]]))
 
 for (j in 1:5) {
@@ -46,6 +46,7 @@ for (j in 1:5) {
   }
   s = substr(s,2,nchar(s))
   write(s,file=paste0("../../Result/eigenvector_dim", j, ".csv"))
+  write(s,file=paste0("../Python/data/eigenvector_dim", j, ".csv"))
 }
 
 nameVec <- read.table("../../Data/desikan.txt")
