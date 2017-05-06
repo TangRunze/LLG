@@ -320,6 +320,119 @@ dim_brute3 <- function(M, m, dVec, A_all, A_sum, isSVD=1) {
 }
 
 
+dim_brute_reorder <- function(M, m, dVec, A_all, A_sum, isSVD=1) {
+  source("getElbows.R")
+  source("USVT.R")
+  
+  result = rep(NaN, nD+1)
+  
+  sampleVec = sample.int(M, m)
+  A_bar = add(A_all[sampleVec])
+  P_bar = (A_sum - A_bar)/(M - m)
+  #   P_bar = A_sum/M
+  A_bar = A_bar/m
+  result[1] = norm(P_bar - A_bar, "F")/n/(n-1)
+  
+  dMax = max(dVec)
+  nD = length(dVec)
+  
+  A_bar_diag_aug = diag_aug(A_bar)
+  
+  # ZG
+  nElbow = 3
+  evalVec = ase(A_bar_diag_aug, ceiling(n*3/5), isSVD)[[1]]
+  dZG = getElbows(evalVec, n=nElbow, plot=F)[[nElbow]]
+  
+  # USVT
+  dUSVT = length(usvt(A_bar_diag_aug, 1, m)$d)
+  
+  for (iD in 1:nD) {
+    Ahat = A_all[sampleVec]
+    d = dVec[iD]
+    for (i in 1:m) {
+      A.ase = ase(diag_aug(A_all[[sampleVec[i]]]), dMax, isSVD)
+      if (d == 1)
+        Ahat[[i]] = A.ase[[1]] * A.ase[[3]] %*% t(A.ase[[2]])
+      else
+        Ahat[[i]] <- A.ase[[3]][,1:d] %*% diag(A.ase[[1]][1:d]) %*% t(A.ase[[2]][,1:d])
+    }
+    P_hat = regularize(add(Ahat)/m)
+    result[iD+1] = norm(P_bar - P_hat, "F")/n/(n-1)
+  }
+  
+  result[nD+2] = dZG
+  result[nD+3] = dUSVT
+  
+  return(result)
+}
+
+
+dim_brute_reorder2 <- function(M, m, dVec, A_all, A_sum, isSVD=1) {
+  source("getElbows.R")
+  source("USVT.R")
+  
+  result = rep(NaN, 2*(nD+3))
+  
+  sampleVec = sample.int(M, m)
+  
+  A_bar = add(A_all[sampleVec])
+  P_bar = (A_sum - A_bar)/(M - m)
+  A_bar = A_bar/m
+  result[1] = norm(P_bar - A_bar, "F")/n/(n-1)
+  result[nD+3 + 1] = norm(P_bar - A_bar, "F")/n/(n-1)
+  
+  dMax = max(dVec)
+  nD = length(dVec)
+  
+  A_bar_diag_aug = diag_aug(A_bar)
+  
+  # ZG
+  nElbow = 3
+  evalVec = ase(A_bar_diag_aug, ceiling(n*3/5), isSVD)[[1]]
+  dZG = getElbows(evalVec, n=nElbow, plot=F)[[nElbow]]
+  
+  # USVT
+  dUSVT = length(usvt(A_bar_diag_aug, 1, m)$d)
+  
+  # Original
+  A.ase = ase(diag_aug(A_bar), dMax, isSVD)
+  for (iD in 1:nD) {
+    d = dVec[iD]
+    if (d == 1)
+      Ahat = A.ase[[1]] * A.ase[[3]] %*% t(A.ase[[2]])
+    else
+      Ahat <- A.ase[[3]][,1:d] %*% diag(A.ase[[1]][1:d]) %*% t(A.ase[[2]][,1:d])
+    P_hat = regularize(Ahat)
+    result[iD+1] = norm(P_bar - P_hat, "F")/n/(n-1)
+  }
+  
+  
+  # Reorder
+  for (iD in 1:nD) {
+    Ahat = A_all[sampleVec]
+    d = dVec[iD]
+    for (i in 1:m) {
+      A.ase = ase(diag_aug(A_all[[sampleVec[i]]]), dMax, isSVD)
+      if (d == 1)
+        Ahat[[i]] = A.ase[[1]] * A.ase[[3]] %*% t(A.ase[[2]])
+      else
+        Ahat[[i]] <- A.ase[[3]][,1:d] %*% diag(A.ase[[1]][1:d]) %*% t(A.ase[[2]][,1:d])
+    }
+    P_hat = regularize(add(Ahat)/m)
+    result[nD+3+iD+1] = norm(P_bar - P_hat, "F")/n/(n-1)
+  }
+  
+  result[nD+2] = dZG
+  result[nD+3] = dUSVT
+  result[nD+3+nD+2] = dZG
+  result[nD+3+nD+3] = dUSVT
+  
+  return(result)
+}
+
+
+
+
 
 dim_brute_robust <- function(M, m, dVec, A_all, A_all_unlist, isSVD=1) {
   result = rep(NaN, nD+1)
