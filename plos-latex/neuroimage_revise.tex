@@ -261,6 +261,69 @@ These properties lead us to our proposed estimator.
 %Note that $\mathrm{rank}(P) = \mathrm{rank}(X)$.
 
 
+Low-rank methods can often be more easily interpreted. In particular, in the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
+Now we take the CoRR brain graphs with Desikan atlases as an example. More details about this dataset are given in Section \ref{sec:corr_data} and Section \ref{section:data}. By embedding the mean graph $P$ which is the average of all 454 graphs, we get the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d = 8$ is the dimension selected by the Zhu and Ghodsi's method.
+We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain} respectively. By the figure of the second dimension, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
+
+\begin{figure}	
+	\centering
+\begin{subfigure}[t]{.7\textwidth}
+\caption{1st dimension}
+\vspace*{-16pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan1a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan1b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan1c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{2nd dimension}
+\vspace*{-16pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan2a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan2b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan2c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{3rd dimension}
+\vspace*{-16pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan3a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan3b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan3c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{4th dimension}
+\vspace*{-16pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan4a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan4b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan4c.png}
+\end{center}
+\end{subfigure}\\
+\vspace*{5pt}
+\begin{subfigure}[t]{.7\textwidth}
+\caption{5th dimension}
+\vspace*{-16pt}
+\begin{center}
+  \includegraphics[height=.35\linewidth]{desikan5a.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan5b.png}\hspace{-10pt}
+  \includegraphics[height=.35\linewidth]{desikan5c.png}
+\end{center}
+\end{subfigure}\\
+\caption{{\bf Brain plots colored by the first 5 dimensions of $\hat{X}$ for the Desikan atlas respectively.}
+We plot the brain using the first 5 dimensions of $\hat{X}$. From the figure, we can see the embeddings have their own neuro-meaning, for example there is a clear distinction of the left and right hemisphere as conveyed in the second dimension. Also, the first dimension provides an average level of the entire brain.}
+\label{fig:eigenvector_brain}
+\end{figure}
+
+
+
+
 
 \subsection{Stochastic Blockmodel as a Random Dot Product Graph}
 \label{section:sbm_rdpg}
@@ -674,7 +737,7 @@ Further details of the dataset are provided in Section~\ref{section:data}.
 %\label{fig:screeplot}
 %\end{figure}
 
-
+\subsubsection{Experiment Results}
 
 In order to evaluate the performance of the two estimators, we used a cross validation on the 454 graphs of each size. 
 Specifically, for a given atlas, each Monte Carlo replicate corresponds to sampling $M$ graphs out of the 454 and computing the low-rank estimator $\hat{P}$ and the sample mean $\bar{A}$ using the $M$ selected graphs.
@@ -682,45 +745,16 @@ We then compared these estimates to the sample mean for the remaining $454-M$ ad
 While we cannot interpret this mean graph as the probability matrix for an IEM distribution (see Section~\ref{sec:sim_iem}), the sample mean for the remaining graphs does give the proportion of times each pair of vertices are adjacent in the population from which the graphs were sampled.
 
 While in previous sections we evaluated the mean squared error for either an individual entry or for an entire block in the SBM, in this section and the next section we will focus on the overall error for estimating the mean graph.
-In particular we will use the average of the mean squared error across all pairs of vertices and we define $\mathrm{MSE}(\bar{A}) = \binom{N}{2}^{-1} \sum_{i<j}\Ex[\bar{A}_{ij}-P_{ij}]$ and similarly for $\mathrm{MSE}(\hat{P})$.
+In particular we will use the average of the mean squared error across all pairs of vertices and we define $\mathrm{MSE}(\bar{A}) = \binom{N}{2}^{-1} \sum_{i<j}\Ex[\bar{A}_{ij}-P_{ij}]$ and similarly for $\mathrm{MSE}(\hat{P})$, which are also used for the relative efficiency.
 As in the previous section, we will not use analytical evaluations of the MSE and instead estimate the MSE and relative efficiencies via Monte Carlo simulations.
 % By observing 454 graphs generated by the atlas being picked, we use $\hat{P}$ to estimate the mean graph $P$, which is the proportions of the existence of a white-matter tract connecting different parts of the brain. Since $P$ is unknown in practice, we perform a cross-validation study to compare $\bar{A}$ and $\hat{P}$. For each Monte Carlo replicate, we first fix the sample size $M$ and randomly sample $M$ graphs from the total 454 graphs in the dataset. We assure $M$ to be relatively small such that the entry-wise mean of the remaining $(454 - M)$ graphs is a valid approximation of the true probability matrix $P$ we are estimating. Then we can calculate $\bar{A}$ and $\hat{P}$ based on the $M$ samples and compare their performance based on the estimated probability matrix.
 
-We ran 1000 simulations on each of the three atlases for sample size $M=5, 10$. For $M=1$, we only have 454 different possibilities. So instead of running 1000 simulations, we looked through all 454 possible sample with size 1.
-We also considered all possible dimensions for $\hat{P}$ by ranging $d$ from 1 to $N$ in order to investigate the impact of the dimension selection procedures.
-We plot $\hat{\mathrm{MSE}}$ of $\bar{A}$ and $\hat{P}$ in Fig.~\ref{fig:realdata}.
-The horizontal axis gives dimension $d$, which only impacts $\hat{P}$, which is why estimated MSE of $\bar{A}$ is shown as flat.
-
-When $d$ is small, $\hat{P}$ underestimates the dimension and throws away important information, which leads to relatively poor performance. When $d=N$, $\hat{P}$ is equal to $\bar{A}$, so that the curve for $\hat{\mathrm{MSE}}$ for $\hat{P}$ ends at $\hat{\mathrm{MSE}}(\bar{A})$. 
+We ran 1000 simulations on each of the three atlases for sample size $M=5, 10$. For $M=1$, we only have 454 different possibilities. So instead of running 1000 simulations, we looked through all 454 possible sample with size 1. As long as we determine which dimension to embed, the two estimates $\bar{A}$ and $\hat{P}$ can be calculated based on the sample.
 In practice, we use algorithms like Zhu and Ghodsi's method or USVT to select the dimension $d$. These methods are neither computationally advanced nor requiring sophisticated algorithms. Details are discussed in Section~\ref{section:dim_select}. 
-In the figure, we denote the 3rd elbow found by the Zhu and Ghodsi method by a triangle, and denote the dimension selected by USVT with threshold 0.7 by a square. 
-% (with largest 95\% confidence interval length to be $3.5$)
-% (with largest 95\% confidence interval length to be $0.7$) 
-Both dimension selection algorithms tend to select dimensions which nearly minimize the mean squared error.
-% The standard error for the Zhu and Ghodsi and the USVT methods are about $0.9$ and $0.17$ respectively.
-
-When $M$ is 1 or 5, $\bar{A}$ has large variance which leads to large $\hat{\mathrm{MSE}}$. Meanwhile, $\hat{P}$ reduces the variance by taking advantages of inherent low-rank structure of the mean graph. Such smoothing effect is especially obvious while we only have 1 observation. When $M = 1$, all weights of the graph are either 0 or 1, leading to a very bumpy estimate $\bar{A}$. In this case, $\hat{P}$ smooths the connectomes estimate and improves the performance.
-Additionally, we see that there is a large range of dimensions where the performance for $\hat{P}$ is superior to $\bar{A}$. 
-With a larger $M$, the performance of $\bar{A}$ improves so that its performance is frequently superior but nearly identical to $\hat{P}$.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=.99\textwidth]{corr_data_MSE_jhu.pdf}\\
-\includegraphics[width=.99\textwidth]{corr_data_MSE_desikan.pdf}\\
-\includegraphics[width=.99\textwidth]{corr_data_MSE_CPAC200.pdf}
-\caption{{\bf Comparison of $\hat{\mathrm{MSE}}$ of $\hat{P}$ and $\bar{A}$ for three atlases at four sample sizes for the CoRR data.}
-These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$ (dashed line) for three dataset (JHU, Desikan, and CPAC200) while embedding the graphs into different dimensions and with different sample sizes $M$. The average dimensions chosen by the 3rd elbow of Zhu and Ghodsi is denoted by a triangle
- % (with largest 95\% confidence interval length to be $3.5$), 
- and those chosen by USVT with threshold equaling 0.7 is denoted by a square.
-% (with largest 95\% confidence interval length to be $0.7$). 
- Vertical intervals, visible mainly in the $N=48,70$ and $M=1$ plots, represent the 95\% confidence interval for the mean squared errors.  When $M$ is small, $\hat{P}$ outperforms $\bar{A}$ with a flexible range of the embedding dimension including the average of the dimensions selected by Zhu and Ghodsi and USVT.}
-\label{fig:realdata}
-\end{figure}
-
-For a more specific comparison of the performance of $\hat{P}$ and $\bar{A}$ in the most realistic situation where the rank $d$ must be chosen based on data, Fig.~\ref{fig:corr_re} shows estimated relative efficiencies of $\hat{P}$ versus $\bar{A}$.
+We plot the estimated relative efficiencies between $\bar{A}$ and $\hat{P}$ in Fig.~\ref{fig:corr_re}.
 
 For each atlas and each sample size, we compare the Zhu and Ghodsi method \citep{zhu2006automatic} with the USVT method \citep{chatterjee2015matrix} and note that both perform reasonably well relative to the full-dimensional $\bar{A}$.
-We omit confidence intervals for the estimated relative efficiencies since all confidence intervals had lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
+We omit confidence intervals for the estimated relative efficiencies since all confidence intervals have lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
 
 Again we can see that the largest improvements using $\hat{P}$ occur when $M$ is small and $N$ is large, where the RE are smaller than 1.
 On the other hand, once $M=10$, $\bar{A}$ tends to do nearly as well or better than $\hat{P}$. 
@@ -837,6 +871,39 @@ Red edges indicate that $\hat{P}$ overestimate $P$ while blue means that $\hat{P
 \label{fig:Diff_between_desikan}
 \end{figure}
 
+\subsubsection{Exploration of Dimension Selection Procedures}
+
+To further investigate the impact of the dimension selection procedures, we also considered all possible dimensions for $\hat{P}$ by ranging $d$ from 1 to $N$ in order to investigate the impact of the dimension selection procedures.
+We plot $\hat{\mathrm{MSE}}$ of $\bar{A}$ and $\hat{P}$ in Fig.~\ref{fig:realdata}.
+The horizontal axis gives dimension $d$, which only impacts $\hat{P}$, which is why estimated MSE of $\bar{A}$ is shown as flat.
+
+When $d$ is small, $\hat{P}$ underestimates the dimension and throws away important information, which leads to relatively poor performance. When $d=N$, $\hat{P}$ is equal to $\bar{A}$, so that the curve for $\hat{\mathrm{MSE}}$ for $\hat{P}$ ends at $\hat{\mathrm{MSE}}(\bar{A})$. 
+
+In the figure, we denote the 3rd elbow found by the Zhu and Ghodsi method by a triangle, and denote the dimension selected by USVT with threshold 0.7 by a square. 
+% (with largest 95\% confidence interval length to be $3.5$)
+% (with largest 95\% confidence interval length to be $0.7$) 
+Both dimension selection algorithms tend to select dimensions which nearly minimize the mean squared error.
+% The standard error for the Zhu and Ghodsi and the USVT methods are about $0.9$ and $0.17$ respectively.
+
+When $M$ is 1 or 5, $\bar{A}$ has large variance which leads to large $\hat{\mathrm{MSE}}$. Meanwhile, $\hat{P}$ reduces the variance by taking advantages of inherent low-rank structure of the mean graph. Such smoothing effect is especially obvious while we only have 1 observation. When $M = 1$, all weights of the graph are either 0 or 1, leading to a very bumpy estimate $\bar{A}$. In this case, $\hat{P}$ smooths the connectomes estimate and improves the performance.
+Additionally, we see that there is a large range of dimensions where the performance for $\hat{P}$ is superior to $\bar{A}$. 
+With a larger $M$, the performance of $\bar{A}$ improves so that its performance is frequently superior but nearly identical to $\hat{P}$.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.99\textwidth]{corr_data_MSE_jhu.pdf}\\
+\includegraphics[width=.99\textwidth]{corr_data_MSE_desikan.pdf}\\
+\includegraphics[width=.99\textwidth]{corr_data_MSE_CPAC200.pdf}
+\caption{{\bf Comparison of $\hat{\mathrm{MSE}}$ of $\hat{P}$ and $\bar{A}$ for three atlases at four sample sizes for the CoRR data.}
+These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$ (dashed line) for three dataset (JHU, Desikan, and CPAC200) while embedding the graphs into different dimensions and with different sample sizes $M$. The average dimensions chosen by the 3rd elbow of Zhu and Ghodsi is denoted by a triangle
+ % (with largest 95\% confidence interval length to be $3.5$), 
+ and those chosen by USVT with threshold equaling 0.7 is denoted by a square.
+% (with largest 95\% confidence interval length to be $0.7$). 
+ Vertical intervals, visible mainly in the $N=48,70$ and $M=1$ plots, represent the 95\% confidence interval for the mean squared errors.  When $M$ is small, $\hat{P}$ outperforms $\bar{A}$ with a flexible range of the embedding dimension including the average of the dimensions selected by Zhu and Ghodsi and USVT.}
+\label{fig:realdata}
+\end{figure}
+
+\subsubsection{Challenges of the CoRR Dataset}
 
 While our estimator $\hat{P}$ performs well when the sample size $M$ is small and the number of vertices $N$ is large, the CoRR dataset itself is pretty challenging for our low-rank method.
 
@@ -900,7 +967,7 @@ Moreover, by the histogram of $P$, i.e. the entry-wise mean of all 454 graphs ba
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=1\textwidth]{P_hist_desikan.pdf}
+\includegraphics[width=0.8\textwidth]{P_hist_desikan.pdf}
 \caption{{\bf Histogram of $P$ for Desikan atlas.}
 This figure shows the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas. More edge probabilities of $P$ are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly.}
 \label{fig:P_hist_desikan}
@@ -1017,11 +1084,6 @@ However, even in large scale studies the low-rank methods will be useful for est
 Using the element-wise sample mean for such small strata, which may have fewer than ten subjects, will frequently result in a degradation of performance.
 Similarly, \citet{durante2014nonparametric} used low-rank deviations from a full rank population mean to model collections of graphs and our methods could be easily adapted to those ideas.
 
-We also note that low-rank methods can often be more easily interpreted.
-By representing a low-rank matrix in terms of the latent position, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors (see Section~\ref{section:sbm_rdpg}), one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
-Now we take the CoRR dataset experiment as an example and consider the same sample of size $M=5$ based on the Desikan atlas as discussed in Section~\ref{sec:corr_data}. Our estimator $\hat{P}$ is based on the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d=11$ is the dimension selected by the Zhu and Ghodsi's method. 
-We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain} respectively. By the figure of the second dimension, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
-
 
 %\begin{figure}[!htbp]
 %\centering
@@ -1030,65 +1092,6 @@ We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig
 %Heat map of $\hat{X}$ with each row to be the estimated latent position for the corresponding vertex. From the second column, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension.}
 %\label{fig:eigenvector}
 %\end{figure}
-
-\begin{figure}	
-	\centering
-\begin{subfigure}[t]{.7\textwidth}
-\caption{1st dimension}
-\vspace*{-15pt}
-\begin{center}
-  \includegraphics[height=.35\linewidth]{desikan1a.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan1b.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan1c.png}
-\end{center}
-\end{subfigure}\\
-\vspace*{5pt}
-\begin{subfigure}[t]{.7\textwidth}
-\caption{2nd dimension}
-\vspace*{-15pt}
-\begin{center}
-  \includegraphics[height=.35\linewidth]{desikan2a.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan2b.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan2c.png}
-\end{center}
-\end{subfigure}\\
-\vspace*{5pt}
-\begin{subfigure}[t]{.7\textwidth}
-\caption{3rd dimension}
-\vspace*{-15pt}
-\begin{center}
-  \includegraphics[height=.35\linewidth]{desikan3a.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan3b.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan3c.png}
-\end{center}
-\end{subfigure}\\
-\vspace*{5pt}
-\begin{subfigure}[t]{.7\textwidth}
-\caption{4th dimension}
-\vspace*{-15pt}
-\begin{center}
-  \includegraphics[height=.35\linewidth]{desikan4a.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan4b.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan4c.png}
-\end{center}
-\end{subfigure}\\
-\vspace*{5pt}
-\begin{subfigure}[t]{.7\textwidth}
-\caption{5th dimension}
-\vspace*{-15pt}
-\begin{center}
-  \includegraphics[height=.35\linewidth]{desikan5a.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan5b.png}\hspace{-10pt}
-  \includegraphics[height=.35\linewidth]{desikan5c.png}
-\end{center}
-\end{subfigure}\\
-\caption{{\bf Brain plots colored by the first 5 dimensions of $\hat{X}$ for the Desikan atlas respectively.}
-We plot the brain using the first 5 dimensions of $\hat{X}$. From the figure, we can see the embeddings have their own neuro-meaning, for example there is a clear distinction of the left and right hemisphere as conveyed in the second dimension. Also, the first dimension provides an average level of the entire brain.}
-\label{fig:eigenvector_brain}
-\end{figure}
-
-
-
 
 
 %\begin{figure}[!htbp]
