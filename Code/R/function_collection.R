@@ -65,6 +65,37 @@ read_data <- function(dataName, threshold=0, DA=T, newGraph=F) {
 }
 
 
+read_data1 <- function(dataName, threshold=0) {
+  fileName = paste("../../Data/data_HNU1_", dataName, ".RData", sep="")
+  if (file.exists(fileName)) {
+    load(fileName)
+    return(list(A_all, n, M))
+  } else {
+    require(igraph)
+    subjectsID = 25427:25456
+    g = read_graph(paste("../../Data/HNU1_", dataName, "/HNU1_00", subjectsID[1], 
+                         "_", 1, "_DTI_", dataName, ".graphml",sep=""), format = "graphml")
+    n = vcount(g)
+    
+    M = 30*10;
+    A_all = list()
+    for (sub in 1:30) {
+      for (session in 1:10) {
+        g = read_graph(paste("../../Data/HNU1_", dataName, "/HNU1_00", subjectsID[sub], 
+                             "_", session, "_DTI_", dataName, ".graphml",sep=""), format = "graphml")
+        A = as_adj(g, attr="weight", type="both", sparse=FALSE)
+        A[A <= threshold] = 0;
+        A[A > threshold] = 1;
+        A_all[[(sub-1)*10 + session]] = A;
+      }
+    }
+    
+    save(A_all, n, M, file=fileName)
+    return(list(A_all, n, M))
+  }  
+}
+
+
 
 ase_diag_aug <- function(A, m, d=0, isSVD=0) {
   require(Matrix)

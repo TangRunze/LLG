@@ -1,7 +1,9 @@
 
-setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
+# args <- commandArgs(trailingOnly = TRUE)
+
+# setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 # setwd("E:/GitHub/LLG/Code/R")
-# setwd("/cis/home/rtang/LLG/Code/R")
+setwd("/cis/home/rtang/LLG/Code/R")
 
 # m = as.numeric(args[1])
 # m = 1
@@ -15,17 +17,19 @@ for (m in mVec) {
     
     print(c(m, isSVD))
     
-    nIter = 2
-    nCores = 2
+    nIter = 500
+    nCores = 24
     
-    # dataName = "CPAC200"
-    # dataName = "desikan"
-    # dataName = "JHU"
-    dataName = "Talairach"
+    #     dataName = "CPAC200"
+    dataName = "desikan"
+    #         dataName = "JHU"
+    #     dataName = "slab907"
+    #     dataName = "slab1068"
+    #     dataName = "Talairach"
     
     
     source("function_collection.R")
-    tmpList = read_data(dataName, DA=F, newGraph=T)
+    tmpList = read_data1(dataName)
     A_all = tmpList[[1]]
     n = tmpList[[2]]
     M = tmpList[[3]]
@@ -105,9 +109,9 @@ for (m in mVec) {
     # }
     
     if (isSVD) {
-      fileName = paste("../../Result/result_", dataName, "_P1_brute_", "m_", m, "_svd.RData", sep="")
+      fileName = paste("../../Result/result_HNU1_", dataName, "_brute_", "m_", m, "_svd.RData", sep="")
     } else {
-      fileName = paste("../../Result/result_", dataName, "_P1_brute_", "m_", m, "_eig.RData", sep="")
+      fileName = paste("../../Result/result_HNU1_", dataName, "_brute_", "m_", m, "_eig.RData", sep="")
     }
     
     save(error_A_bar, error_P_hat, error_P_hat_ZG, error_P_hat_USVT, 

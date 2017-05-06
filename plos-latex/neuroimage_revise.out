@@ -1,20 +1,23 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Models}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Independent Edge Model}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Random Dot Product Graph}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Stochastic Blockmodel as a Random Dot Product Graph}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Independent\040Edge\040Model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Random\040Dot\040Product\040Graph}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Stochastic\040Blockmodel\040as\040a\040Random\040Dot\040Product\040Graph}{section.2}% 5
 \BOOKMARK [1][-]{section.3}{Estimators}{}% 6
-\BOOKMARK [2][-]{subsection.3.1}{Element-wise sample mean}{section.3}% 7
-\BOOKMARK [2][-]{subsection.3.2}{Low-Rank Estimator}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Element-wise\040sample\040mean}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Low-Rank\040Estimator}{section.3}% 8
 \BOOKMARK [1][-]{section.4}{Results}{}% 9
-\BOOKMARK [2][-]{subsection.4.1}{Asymptotic Theory}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.2}{Finite Sample Toy Model Simulations}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.3}{CoRR Brain Graphs: Cross-Validation}{section.4}% 12
-\BOOKMARK [2][-]{subsection.4.4}{Synthetic Data Analysis for Full Rank IEM}{section.4}% 13
-\BOOKMARK [1][-]{section.5}{Discussion}{}% 14
-\BOOKMARK [1][-]{section.6}{Methods}{}% 15
-\BOOKMARK [2][-]{subsection.6.1}{Choosing Dimension}{section.6}% 16
-\BOOKMARK [2][-]{subsection.6.2}{Graph Diagonal Augmentation}{section.6}% 17
-\BOOKMARK [2][-]{subsection.6.3}{Dataset Description}{section.6}% 18
-\BOOKMARK [2][-]{subsection.6.4}{Outline for the Proof of the Theorems}{section.6}% 19
-\BOOKMARK [1][-]{appendix.A}{Proofs for Theory Results}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{Asymptotic\040Theory}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.2}{Finite\040Sample\040Toy\040Model\040Simulations}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.3}{CoRR\040Brain\040Graphs:\040Cross-Validation}{section.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Experiment\040Results}{subsection.4.3}% 13
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Exploration\040of\040Dimension\040Selection\040Procedures}{subsection.4.3}% 14
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Challenges\040of\040the\040CoRR\040Dataset}{subsection.4.3}% 15
+\BOOKMARK [2][-]{subsection.4.4}{Synthetic\040Data\040Analysis\040for\040Full\040Rank\040IEM}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 17
+\BOOKMARK [1][-]{section.6}{Methods}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Choosing\040Dimension}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Graph\040Diagonal\040Augmentation}{section.6}% 20
+\BOOKMARK [2][-]{subsection.6.3}{Dataset\040Description}{section.6}% 21
+\BOOKMARK [2][-]{subsection.6.4}{Outline\040for\040the\040Proof\040of\040the\040Theorems}{section.6}% 22
+\BOOKMARK [1][-]{appendix.A}{Proofs\040for\040Theory\040Results}{}% 23
