@@ -78,7 +78,7 @@ gg <- ggplot(error_by_dim_df,aes(x=m,y=re,linetype=factor(which),shape=factor(wh
   geom_point(data=error_by_dim_df,size=1.5)+
   scale_linetype_manual(name="",values=c(0,0,1),
                         labels=c("ZG 3rd","USVT c=0.7",expression(bar(A))))+
-  scale_shape_manual(name="",values=c(15,17,-1),
+  scale_shape_manual(name="",values=c(17,15,-1),
                      labels=c("ZG 3rd","USVT c=0.7",expression(bar(A))))+
   scale_x_continuous(breaks=mVec)+
   geom_line()+
