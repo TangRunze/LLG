@@ -408,7 +408,7 @@ library(plyr)
 library(dplyr)
 library(reshape2)
 
-mVec <- c(1)
+mVec <- c(1, 5, 10)
 
 for (iM in 1:length(mVec)) {
   m = mVec[iM]
