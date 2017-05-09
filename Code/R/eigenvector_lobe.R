@@ -1,0 +1,75 @@
+
+setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
+# setwd("E:/GitHub/LLG/Code/R")
+# setwd("/cis/home/rtang/LLG/Code/R")
+
+isSVD = 0
+dataName = "desikan"
+
+
+source("function_collection.R")
+tmpList = read_data(dataName, DA=F, newGraph=F)
+A_all = tmpList[[1]]
+n = tmpList[[2]]
+M = tmpList[[3]]
+rm(tmpList)
+
+A_sum = add(A_all)
+
+source("getElbows.R")
+source("USVT.R")
+
+A_bar = add(A_all)/M
+
+A_bar_diag_aug = diag_aug(A_bar)
+
+# ZG
+nElbow = 3
+evalVec = ase(A_bar, ceiling(n*3/5), isSVD)[[1]]
+dZG = getElbows(evalVec, n=nElbow, plot=F)[[nElbow]]
+
+A.ase = ase(A_bar_diag_aug, dZG, isSVD)
+d = dZG
+
+xHat <- A.ase[[3]] %*% diag(sqrt(A.ase[[1]]))
+
+
+data <- read.csv("../../Data/desikan_lobe.csv", header = F)
+clName <- data[(n + 1):dim(data)[1],][, 1]
+vertexName <- data[1:n, 1]
+cl <- data[1:n, 2]
+cl0 <- cl
+cl[36:70] <- cl[36:70] + 10
+nv <- order(cl)
+
+require(ggplot2)
+
+# df <- data.frame(value=c(xHat),
+#                  v=rep(sapply(1:n, function(i) {if (i < 10) {return(paste0("0", i))} else {return(paste0(i))}}), times=d),
+#                  d=rep(sapply(1:d, function(i) {if (i < 10) {return(paste0("0", i))} else {return(paste0(i))}}), each=n))
+df <- data.frame(value=c(xHat[nv, ]),
+                 v=rep(sapply(1:n, function(i) {
+                   if (cl[nv[i]] < 10) {
+                     return(paste0("lh, ", clName[cl0[nv[i]]], ", ", vertexName[nv[i]]))
+                   } else {
+                     return(paste0("rh, ", clName[cl0[nv[i]]], ", ", vertexName[nv[i]]))
+                   }
+                 }), times=d),
+                 d=rep(sapply(1:d, function(i) {
+                   if (i < 10) {
+                     return(paste0("0", i))
+                   } else {
+                     return(paste0(i))
+                   }
+                 }), each=n))
+
+gg <- ggplot(df, aes(d, v)) + 
+  geom_tile(aes(fill = value), colour = "white") +
+  # scale_fill_gradient(low = "white", high = "steelblue")
+  scale_fill_gradient(low = "white", high = "grey10") + 
+  xlab("dimension") + ylab("vertex")
+
+ggsave("../../Draft/eigenvector.pdf",
+       plot=gg+theme(text=element_text(size=10,family="Times")),
+       width=6,height=10)
+
