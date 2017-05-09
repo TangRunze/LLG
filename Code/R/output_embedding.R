@@ -39,7 +39,7 @@ print(dZG)
 
 xHat <- A.ase[[3]] %*% diag(sqrt(A.ase[[1]]))
 
-for (j in 1:5) {
+for (j in 1:8) {
   s = ""
   for (i in 1:n) {
     s = paste0(s,",",xHat[i,j])
@@ -52,7 +52,7 @@ for (j in 1:5) {
 nameVec <- read.table("../../Data/desikan.txt")
 fileName <- "../../Result/eigenvector_vertex_name.csv"
 write("Vertices selected based on embeddings", file=fileName)
-for (j in 1:5) {
+for (j in 1:8) {
   write(paste0("Dimension ", j, ":"), file=fileName, append = TRUE)
   tmp <- order(xHat[,j])
   s <- paste0("Smallest 5 vertices")

@@ -14,3 +14,12 @@ Largest 5 vertices, rh-postcentral 0.548586172745013, lh-postcentral 0.511569723
 Dimension 5:
 Smallest 5 vertices, rh-temporalpole -0.648555586002875, rh-entorhinal -0.578322167194747, lh-temporalpole -0.52615712802241, lh-entorhinal -0.414921918313642, rh-medialorbitofrontal -0.365964998163353
 Largest 5 vertices, rh-transversetemporal 0.407551600939836, rh-bankssts 0.348303497630517, lh-transversetemporal 0.275897993275367, rh-parstriangularis 0.272110556545862, lh-bankssts 0.267592199883931
+Dimension 6:
+Smallest 5 vertices, rh-caudalanteriorcingulate -0.607965620514775, lh-caudalanteriorcingulate -0.407307447652474, rh-posteriorcingulate -0.349655146288717, rh-cuneus -0.31855496233807, lh-rostralanteriorcingulate -0.23053804477554
+Largest 5 vertices, rh-inferiortemporal 0.34625629361567, rh-temporalpole 0.31337279473679, lh-supramarginal 0.304681712727413, rh-parsorbitalis 0.302750647318829, lh-bankssts 0.279675235688345
+Dimension 7:
+Smallest 5 vertices, rh-frontalpole -0.689076615818044, lh-frontalpole -0.595521821562077, lh-medialorbitofrontal -0.349534950283263, rh-medialorbitofrontal -0.302960796488442, rh-superiorfrontal -0.28891381712015
+Largest 5 vertices, rh-caudalanteriorcingulate 0.349938788056305, lh-caudalanteriorcingulate 0.329623814230519, rh-temporalpole 0.250432442316684, lh-caudalmiddlefrontal 0.184539664650783, lh-temporalpole 0.171438289692484
+Dimension 8:
+Smallest 5 vertices, lh-transversetemporal -0.333289898452506, lh-bankssts -0.298533862418651, rh-parsorbitalis -0.277655637064899, rh-rostralanteriorcingulate -0.272720147087171, rh-lateralorbitofrontal -0.270415819424403
+Largest 5 vertices, lh-temporalpole 0.390471165526982, rh-transversetemporal 0.372911177139496, rh-supramarginal 0.287042502930215, rh-postcentral 0.284568170003267, rh-bankssts 0.266955016098945
