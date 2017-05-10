@@ -73,3 +73,41 @@ ggsave("../../Draft/eigenvector.pdf",
        plot=gg+theme(text=element_text(size=10,family="Times")),
        width=6,height=10)
 
+
+
+
+
+
+xHatLobe <- matrix(rep(0, length(unique(cl))*d), ncol = d)
+i <- 0
+for (c in unique(cl)) {
+  i <- i + 1
+  nv <- (cl == c)
+  xHatLobe[i, ] <- colMeans(xHat[nv, ])
+}
+
+df <- data.frame(value=c(xHatLobe),
+                 v=rep(sapply(unique(cl), function(i) {
+                   if (i < 10) {
+                     return(paste0("lh, ", clName[i]))
+                   } else {
+                     return(paste0("rh, ", clName[i - 10]))
+                   }
+                 }), times=d),
+                 d=rep(sapply(1:d, function(i) {
+                   if (i < 10) {
+                     return(paste0("0", i))
+                   } else {
+                     return(paste0(i))
+                   }
+                 }), each=length(unique(cl))))
+
+gg <- ggplot(df, aes(d, v)) + 
+  geom_tile(aes(fill = value), colour = "white") +
+  # scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_fill_gradient(low = "white", high = "grey10") +
+  xlab("dimension") + ylab("vertex")
+
+ggsave("../../Draft/eigenvector_lobe.pdf",
+       plot=gg+theme(text=element_text(size=10,family="Times")),
+       width=6,height=6)
