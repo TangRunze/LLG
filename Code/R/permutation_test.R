@@ -29,7 +29,7 @@ set.seed(12345)
 
 
 indDim <- 1:8
-nIter <- 100
+nIter <- 1000
 switchVec <- 1:10
 
 isSVD <- 0
@@ -112,7 +112,7 @@ for (switchID in 1:length(switchVec)) {
 
 
 # df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
-df <- data.frame(value=c(rep(t0, 3), t(tVec)), flip=c(rep(0, 3), rep(switchVec, each=nIter)))
+df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
 # gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
 #   geom_boxplot(aes(fill=factor(flip)), notch = T)+
 #   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
@@ -120,11 +120,12 @@ df <- data.frame(value=c(rep(t0, 3), t(tVec)), flip=c(rep(0, 3), rep(switchVec, 
 # ggsave(paste0("../../Draft/boxplot_flip_2norm^2_", min(indDim), "_", max(indDim), ".pdf"),
 #        plot=gg+theme(text=element_text(size=10,family="Times")),
 #        width=6, height=4)
-gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
-  geom_violin(aes(fill=factor(flip)))+
+gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
+  geom_violin(draw_quantiles = T)+
+  geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
        x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
-ggsave(paste0("../../Draft/boxplot_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
+ggsave(paste0("../../Draft/violinplot_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
        plot=gg+theme(text=element_text(size=10,family="Times")),
        width=6, height=4)
 
