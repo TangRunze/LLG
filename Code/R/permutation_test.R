@@ -1,3 +1,21 @@
+test1 <- function(xHat, cl) {
+  diffWithin <- c()
+  diffCross <- c()
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      if (cl[i] == cl[j]) {
+        # diffWithin <- c(diffWithin, norm(xHat[i, ] - xHat[j, ], "2")^2)
+        diffWithin <- c(diffWithin, norm(xHat[i, ] - xHat[j, ], "2"))
+      } else {
+        # diffCross <- c(diffCross, norm(xHat[i, ] - xHat[j, ], "2")^2)
+        diffCross <- c(diffCross, norm(xHat[i, ] - xHat[j, ], "2"))
+      }
+    }
+  }
+  return(mean(diffWithin) - mean(diffCross))
+}
+
+
 
 setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 # setwd("E:/GitHub/LLG/Code/R")
@@ -5,12 +23,13 @@ setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 
 source("function_collection.R")
 source("getElbows.R")
+require(ggplot2)
 
 set.seed(12345)
 
 
 indDim <- 1:8
-nIter <- 1000
+nIter <- 100
 switchVec <- 1:10
 
 isSVD <- 0
@@ -92,7 +111,8 @@ for (switchID in 1:length(switchVec)) {
 }
 
 
-df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
+# df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
+df <- data.frame(value=c(rep(t0, 3), t(tVec)), flip=c(rep(0, 3), rep(switchVec, each=nIter)))
 # gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
 #   geom_boxplot(aes(fill=factor(flip)), notch = T)+
 #   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
@@ -101,7 +121,7 @@ df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
 #        plot=gg+theme(text=element_text(size=10,family="Times")),
 #        width=6, height=4)
 gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
-  geom_boxplot(aes(fill=factor(flip)), notch = T)+
+  geom_violin(aes(fill=factor(flip)))+
   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
        x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
 ggsave(paste0("../../Draft/boxplot_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
@@ -110,19 +130,3 @@ ggsave(paste0("../../Draft/boxplot_flip_2norm_", min(indDim), "_", max(indDim), 
 
 
 
-test1 <- function(xHat, cl) {
-  diffWithin <- c()
-  diffCross <- c()
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      if (cl[i] == cl[j]) {
-        # diffWithin <- c(diffWithin, norm(xHat[i, ] - xHat[j, ], "2")^2)
-        diffWithin <- c(diffWithin, norm(xHat[i, ] - xHat[j, ], "2"))
-      } else {
-        # diffCross <- c(diffCross, norm(xHat[i, ] - xHat[j, ], "2")^2)
-        diffCross <- c(diffCross, norm(xHat[i, ] - xHat[j, ], "2"))
-      }
-    }
-  }
-  return(mean(diffWithin) - mean(diffCross))
-}
