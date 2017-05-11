@@ -6,6 +6,8 @@ setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 isSVD = 0
 dataName = "desikan"
 
+# colorVec <- c("#af8dc3", "#f7f7f7", "#7fbf7b")
+colorVec <- c("#d8b365", "#f5f5f5", "#5ab4ac")
 
 source("function_collection.R")
 tmpList = read_data(dataName, DA=F, newGraph=F)
@@ -69,11 +71,9 @@ df <- data.frame(value=c(xHat[nv, ]),
 #   scale_fill_gradient(low = "white", high = "grey10") + 
 #   xlab("dimension") + ylab("vertex")
 
-
-gs.pal <- colorRampPalette(c("#d8b365", "#f5f5f5", "#5ab4ac"),bias=.1,space="rgb")
 gg <- ggplot(df, aes(d, v)) + 
   geom_tile(aes(fill = value), colour = "white") +
-  scale_fill_gradient2(low = "#d8b365", mid = "#f5f5f5", high = "#5ab4ac") + 
+  scale_fill_gradient2(low = colorVec[1], mid = colorVec[2], high = colorVec[3]) + 
   xlab("dimension") + ylab("vertex")
 
 ggsave("../../Draft/eigenvector.pdf",
@@ -115,10 +115,9 @@ gg <- ggplot(df, aes(d, v)) +
   scale_fill_gradient(low = "white", high = "grey10") +
   xlab("dimension") + ylab("vertex")
 
-gs.pal <- colorRampPalette(c("#d8b365", "#f5f5f5", "#5ab4ac"),bias=.1,space="rgb")
 gg <- ggplot(df, aes(d, v)) + 
   geom_tile(aes(fill = value), colour = "white") +
-  scale_fill_gradient2(low = "#d8b365", mid = "#f5f5f5", high = "#5ab4ac") + 
+  scale_fill_gradient2(low = colorVec[1], mid = colorVec[2], high = colorVec[3]) + 
   xlab("dimension") + ylab("vertex")
 
 ggsave("../../Draft/eigenvector_lobe.pdf",
