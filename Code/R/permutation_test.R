@@ -137,7 +137,10 @@ for (i in 1:length(switchVec)) {
 }
 df <- data.frame(value=pVec, flip=switchVec)
 gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
-  geom_point()+
+  geom_point(size=2)+
   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
   labs(title = paste0(""),
        x = "number of flips", y = "p-value", fill = "")
+ggsave(paste0("../../Draft/pvalue_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
+       plot=gg+theme(text=element_text(size=10,family="Times")),
+       width=6, height=4)
