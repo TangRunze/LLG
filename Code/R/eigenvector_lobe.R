@@ -6,8 +6,8 @@ setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 isSVD = 0
 dataName = "desikan"
 
-# colorVec <- c("#af8dc3", "#f7f7f7", "#7fbf7b")
-colorVec <- c("#d8b365", "#f5f5f5", "#5ab4ac")
+colorVec <- c("#af8dc3", "#f7f7f7", "#7fbf7b")
+# colorVec <- c("#d8b365", "#f5f5f5", "#5ab4ac")
 
 source("function_collection.R")
 tmpList = read_data(dataName, DA=F, newGraph=F)
@@ -96,9 +96,9 @@ for (c in unique(cl)) {
 df <- data.frame(value=c(xHatLobe),
                  v=rep(sapply(unique(cl), function(i) {
                    if (i < 10) {
-                     return(paste0("lh, ", clName[i]))
+                     return(paste0(clName[i], ", lh"))
                    } else {
-                     return(paste0("rh, ", clName[i - 10]))
+                     return(paste0(clName[i - 10], ", rh"))
                    }
                  }), times=d),
                  d=rep(sapply(1:d, function(i) {
