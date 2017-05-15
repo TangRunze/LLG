@@ -46,6 +46,7 @@ nv <- order(cl)
 
 require(ggplot2)
 
+xHat <- sign(xHat)
 xHatLobe <- matrix(rep(0, length(unique(cl))*d), ncol = d)
 i <- 0
 for (c in unique(cl)) {
