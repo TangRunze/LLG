@@ -41,26 +41,41 @@ clName <- data[(n + 1):dim(data)[1],][, 1]
 vertexName <- data[1:n, 1]
 cl <- data[1:n, 2]
 cl0 <- cl
-cl[36:70] <- cl[36:70] + 10
+# cl[36:70] <- cl[36:70] + 10
+cl[1:35] <- cl[1:35]*2 - 1
+cl[36:70] <- cl[36:70]*2
 nv <- order(cl)
 
 require(ggplot2)
 
 xHat <- sign(xHat)
 xHatLobe <- matrix(rep(0, length(unique(cl))*d), ncol = d)
-i <- 0
-for (c in unique(cl)) {
-  i <- i + 1
-  nv <- (cl == c)
+for (i in 1:10) {
+  nv <- (cl == i)
   xHatLobe[i, ] <- colMeans(xHat[nv, ])
 }
 
+# df <- data.frame(value=c(xHatLobe),
+#                  v=rep(sapply(unique(cl), function(i) {
+#                    if (i < 10) {
+#                      return(paste0("lh, ", clName[i]))
+#                    } else {
+#                      return(paste0("rh, ", clName[i - 10]))
+#                    }
+#                  }), times=d),
+#                  d=rep(sapply(1:d, function(i) {
+#                    if (i < 10) {
+#                      return(paste0("0", i))
+#                    } else {
+#                      return(paste0(i))
+#                    }
+#                  }), each=length(unique(cl))))
 df <- data.frame(value=c(xHatLobe),
-                 v=rep(sapply(unique(cl), function(i) {
-                   if (i < 10) {
-                     return(paste0("lh, ", clName[i]))
+                 v=rep(sapply(1:10, function(i) {
+                   if (i %% 2 == 1) {
+                     return(paste0(clName[(i + 1)/2], ", lh"))
                    } else {
-                     return(paste0("rh, ", clName[i - 10]))
+                     return(paste0(clName[i/2], ", rh"))
                    }
                  }), times=d),
                  d=rep(sapply(1:d, function(i) {
