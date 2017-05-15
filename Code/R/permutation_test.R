@@ -111,8 +111,8 @@ for (switchID in 1:length(switchVec)) {
 }
 
 
-# df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
 df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
+# df <- data.frame(value=c(t0, t0 + 1e-2, t0 - 1e-2, t(tVec)), flip=c(0, 0, 0, rep(switchVec, each=nIter)))
 # gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
 #   geom_boxplot(aes(fill=factor(flip)), notch = T)+
 #   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
@@ -122,7 +122,7 @@ df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
 #        width=6, height=4)
 gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
   geom_violin(draw_quantiles = T)+
-  geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
+  # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
        x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
 ggsave(paste0("../../Draft/violinplot_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
@@ -130,4 +130,14 @@ ggsave(paste0("../../Draft/violinplot_flip_2norm_", min(indDim), "_", max(indDim
        width=6, height=4)
 
 
-
+pVec <- rep(0, length(switchVec))
+for (i in 1:length(switchVec)) {
+  pfun <- ecdf(tVec[i, ])
+  pVec[i] <- pfun(t0)
+}
+df <- data.frame(value=pVec, flip=switchVec)
+gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
+  geom_point()+
+  # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
+  labs(title = paste0(""),
+       x = "number of flips", y = "p-value", fill = "")
