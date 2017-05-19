@@ -117,11 +117,13 @@ for (switchID in 1:length(switchVec)) {
       n3 <- nList[[1]]
       n4 <- nList[[2]]
       
-      cl[n2] <- c1
-      cl[n3] <- c2
+      if ((n1 != n3) | (n2 != n4)) {
+        cl[n2] <- c1
+        cl[n3] <- c2
+      }
     }
     cl[(n/2 + 1):n] = cl[(n/2 + 1):n] + 10
-    tVec[switchID, iIter] <- test1(xHat, cl)
+    tVec[switchID, iIter] <- test1(xHat0, cl)
   }
 }
 
@@ -138,6 +140,7 @@ df <- data.frame(value=c(t0, t(tVec)), flip=c(0, rep(switchVec, each=nIter)))
 gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
   geom_violin(draw_quantiles = T)+
   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
+  stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
        x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
 ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
