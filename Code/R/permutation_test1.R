@@ -87,7 +87,8 @@ for (switchID in 1:length(switchVec)) {
     
     ###### Switch the vertices ######
     cl <- cl0
-    for (iSwitch in 1:nSwitch) {
+    iSwitch <- 1
+    while (iSwitch <= nSwitch) {
       tmpA <- matrix(1, n, n)
       for (c in unique(cl)) {
         nv <- (cl == c)
@@ -105,21 +106,24 @@ for (switchID in 1:length(switchVec)) {
       nv1 <- (cl == c1)
       nv2 <- (cl == c2)
       A1[nv1, nv2] <- A0[nv1, nv2]
-      # A1[n1, ] <- 0
-      # A1[, n2] <- 0
+      A1[n1, ] <- 0
+      A1[, n2] <- 0
       tmpA <- matrix(1, n, n)
       for (c in unique(cl)) {
         nv <- (cl == c)
         tmpA[nv, nv] <- 0
       }
       tmpA <- tmpA*A1
-      nList <- uniform_select(tmpA)
-      n3 <- nList[[1]]
-      n4 <- nList[[2]]
-      
-      if ((n1 != n3) | (n2 != n4)) {
-        cl[n2] <- c1
-        cl[n3] <- c2
+      if (sum(tmpA) > 0) {
+        nList <- uniform_select(tmpA)
+        n3 <- nList[[1]]
+        n4 <- nList[[2]]
+        
+        if ((n1 != n3) | (n2 != n4)) {
+          cl[n2] <- c1
+          cl[n3] <- c2
+        }
+        iSwitch <- iSwitch + 1
       }
     }
     cl[(n/2 + 1):n] = cl[(n/2 + 1):n] + 10
