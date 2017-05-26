@@ -979,6 +979,43 @@ We should note that though the total error for $\hat{P}$ is smaller in this case
 For example, there are some pairs of vertices that are adjacent for all samples in the population and for these pairs $\bar{A}$ will always perform better than $\hat{P}$. 
 
 
+
+\subsubsection{Lobe Structure behind the Low-rank Methods}
+\label{section:lobe_structure}
+In previous sections, we have shown that how the low-rank methods help us improve the accuracy of estimation while providing convenient interpretations simultaneously. Certainly there is more behind it. In this section, we focus on the lobe structure in particular.
+
+The lobes of the brain is an anatomical classification, which has been shown to be related to different brain functions. Basically, there are 4 different lobes for each hemisphere, i.e. Frontal, Parietal, Occipital, and Temporal.
+For the Desikan atlas, there are 70 different regions (35 regions for each hemisphere). Each region belongs to one lobe. However, 8 regions of the Desikan atlas (Unknown, Banks of Superior Temporal Sulcus, and Corpus Callosum, for both hemispheres) do not have obvious lobe assignment. So we cluster them into a new lobe category named ``other'' to resolve this issue.
+
+Generally, the regions within the same lobe should be more similar compared to the regions across the lobes. In order to see whether the embedded latent positions preserve this property or not, we propose a permutation test. We define the test statistics $T$ to be the average differences between vertices within the same lobe minus the average differences between vertices across different lobes, i.e.
+\[
+T(X, l) = \frac{\sum_{i \ne j, l(i) = l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) = l(j)} 1} -
+\frac{\sum_{i \ne j, l(i) \ne l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) \ne l(j)} 1},
+\]
+where $l(i)$ represents the lobe assignment for vertex $i$. A small test statistic $T(X, l)$ indicates that latent positions of the regions within the same lobe are closer compared to the ones across the lobes, which is evidence that the low-rank methods preserves the lobe structure.
+
+If the latent positions $X$ and the lobe assignment $l$ are independent, then we expect $T(X, l)$ to be close to zero. However, we are more interested in the case that $X$ and $l$ are independent in a way that the number of regions in each lobe remain the same and are still spatially connected after permutations. In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. To permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval. We also calculate the corresponding p-value as in Fig.~\ref{fig:pvalue}. From the figure, we can see that when the number of flips is larger than 7, the p-value is less than 0.5, which suggests that the latent positions based on the low-rank methods preserves the lobe structure.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=1\textwidth]{violinplot_new_flip_2norm_1_8.pdf}
+\caption{{\bf Violin plot of the permutation test.}
+We run 1000 simulations for each number of flips. Dashed line represents the situation based on true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval.}
+\label{fig:violin_plot}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{pvalue_new_flip_2norm_1_8.pdf}
+\caption{{\bf P-value of the permutation test.}
+This figure shows the p-value of the permutation test based on different number of flips. When the number of flips is larger than 7, the p-value is less than 0.5, which suggests that the latent positions based on the low-rank methods preserves the lobe structure.}
+\label{fig:pvalue}
+\end{figure}
+
+
+
+
+
 %\begin{figure}[!htbp]
 %\centering
 %\includegraphics[width=1\textwidth]{JHU.png}
@@ -1378,6 +1415,34 @@ Since $\hat{P}_{ij} = \hat{X}_i^{\top} \hat{X}_j$ is asymptotically unbiased for
 % \end{proof}
 
 The proof for Theorem~\ref{thm:ARE} is now a simple application of the above lemmas to the ratio of the mean squared errors for $\bar{A}$ and $\hat{P}$.
+
+
+
+\section{Flipping Procedure in the Hypothesis Testing for Lobe Structure behind the Low-rank Methods}
+\label{section:testing}
+
+Here we discuss the details of the flipping procedure in the hypothesis testing mentioned in Section~\ref{section:lobe_structure}.
+
+As mentioned before, we have 10 lobes and 70 vertices according to the Desikan atlas. The 70 vertices are connected spatially in some way. Let the adjacency matrix of these 70 vertices to be $A$. $A_{ij} = 1$ means vertex $i$ and vertex $j$ are spatially connected. We say vertex $j$ is a neighbor of vertex $i$ if $A_{ij} = 1$. We define $l_i$ be the lobe i.d. for vertex $i$.
+
+Define a uniform $1$-flip to be:
+\begin{itemize}
+\item Select a pair of adjacent vertices (vertex $i_1$ and vertex $j_1$) across the boundary of lobes uniformly, i.e. $A_{i_1 j_1} = 1$ and $l(i_1) \ne l(j_1)$;
+\item Uniformly select another pair of adjacent vertices (vertex $i_2$ and vertex $j_2$ where $i_1 \ne i_2$ and $j_1 \ne j_2$) across the same boundary of lobes uniformly, i.e. $A_{i_2 j_2} = 1$ and $l(i_1) = l(i_2)$ and $l(j_1) = l(j_2)$;
+\item Reassign vertex $j_1$ to lobe $l_{i_1}$ and reassign vertex $i_2$ to lobe $l_{j_2}$.
+\end{itemize}
+
+By the definition, after a uniform $1$-flip, the number of vertices in each lobe keeps the same, where only two vertices are changed to a different lobe.
+
+Define a uniform $k$-flip to be:
+\begin{itemize}
+\item Sequentially run the uniform $1$-flip $k$ times.
+\end{itemize}
+
+Note that after a uniform $k$-flip, the number of vertices in each lobe still keeps the same.
+
+In the permutation test, we apply a uniform $k$-flip and calculate the test statistic $T(X, l)$ based on the lobe assignment after flipping.
+
 
 \end{document}
 
