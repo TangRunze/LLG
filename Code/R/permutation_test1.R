@@ -153,7 +153,7 @@ df0 <- data.frame(yi = t0)
 gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
   geom_violin(draw_quantiles = T)+
   geom_hline(data = df0, aes(yintercept = yi, linetype = factor(yi)), show.legend = TRUE) +
-  scale_linetype_manual(name = "true lobe assigment", values = "dashed", labels = "") +
+  scale_linetype_manual(name = "true lobe assignment", values = "dashed", labels = "") +
   guides(fill=guide_legend(title="number of flips"))+
   theme(legend.position="bottom")+
   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
