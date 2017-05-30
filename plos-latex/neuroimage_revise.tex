@@ -987,14 +987,21 @@ In previous sections, we have shown that how the low-rank methods help us improv
 The lobes of the brain is an anatomical classification, which has been shown to be related to different brain functions. Basically, there are 4 different lobes for each hemisphere, i.e. Frontal, Parietal, Occipital, and Temporal.
 For the Desikan atlas, there are 70 different regions (35 regions for each hemisphere). Each region belongs to one lobe. However, 8 regions of the Desikan atlas (Unknown, Banks of Superior Temporal Sulcus, and Corpus Callosum, for both hemispheres) do not have obvious lobe assignment. So we cluster them into a new lobe category named ``other'' to resolve this issue.
 
-Generally, the regions within the same lobe should be more similar compared to the regions across the lobes. In order to see whether the embedded latent positions preserve this property or not, we propose a permutation test. We define the test statistics $T$ to be the average differences between vertices within the same lobe minus the average differences between vertices across different lobes, i.e.
+Generally, the regions within the same lobe should be more similar compared to the regions across the lobes. In order to see whether the embedded latent positions $X$ preserve this property or not, we propose a test statistics $T$ to be the average differences between vertices within the same lobe minus the average differences between vertices across different lobes, i.e.
 \[
 T(X, l) = \frac{\sum_{i \ne j, l(i) = l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) = l(j)} 1} -
 \frac{\sum_{i \ne j, l(i) \ne l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) \ne l(j)} 1},
 \]
-where $l(i)$ represents the lobe assignment for vertex $i$. A small test statistic $T(X, l)$ indicates that latent positions of the regions within the same lobe are closer compared to the ones across the lobes, which is evidence that the low-rank methods preserves the lobe structure.
+where $l(i)$ represents the lobe assignment for vertex $i$. If the latent positions $X$ and the lobe assignment $l$ are independent, then we expect $T(X, l)$ to be close to zero. A small test statistic $T(X, l)$ indicates that latent positions of the regions within the same lobe are closer compared to the ones across the lobes, which is evidence that the low-rank methods preserves the lobe structure.
 
-If the latent positions $X$ and the lobe assignment $l$ are independent, then we expect $T(X, l)$ to be close to zero. However, we are more interested in the case that $X$ and $l$ are independent in a way that the number of regions in each lobe remain the same and are still spatially connected after permutations. In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. To permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval. We also calculate the corresponding p-value as in Fig.~\ref{fig:pvalue}. From the figure, we can see that when the number of flips is larger than 7, the p-value is less than 0.5, which suggests that the latent positions based on the low-rank methods preserves the lobe structure.
+However, the anatomical geometry might contribute to the dependence between $X$ and $l$ and we do not want to be distracted by this factor. So instead of testing the dependence between $X$ and $l$, we are more interested in the following hypothesis test:
+
+$H_0$: $X$ and $l$ are conditionally independent given anatomical geometry.
+
+$H_A$: $X$ and $l$ are conditionally dependent given anatomical geometry.
+
+In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. Note that this test is significantly underpowered compared to the test on a unconditional independence.
+To test under the anatomical geometry conditions, we permute the lobe assignment $l$ in a way that the number of regions in each lobe remain the same and the regions within the same lobe are still spatially connected. In order to permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe, and do it several times. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval. We also calculate the corresponding p-values and labeled them in the figure. We can see that when the number of flips is larger than 7, the p-value is less than 0.05, which suggests that the latent positions based on the low-rank methods preserves the lobe structure regardless of the anatomical geometry.
 
 \begin{figure}[!htbp]
 \centering
@@ -1004,13 +1011,13 @@ We run 1000 simulations for each number of flips. Dashed line represents the sit
 \label{fig:violin_plot}
 \end{figure}
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{pvalue_new_flip_2norm_1_8.pdf}
-\caption{{\bf P-value of the permutation test.}
-This figure shows the p-value of the permutation test based on different number of flips. When the number of flips is larger than 7, the p-value is less than 0.5, which suggests that the latent positions based on the low-rank methods preserves the lobe structure.}
-\label{fig:pvalue}
-\end{figure}
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[width=0.8\textwidth]{pvalue_new_flip_2norm_1_8.pdf}
+%\caption{{\bf P-value of the permutation test.}
+%This figure shows the p-value of the permutation test based on different number of flips. When the number of flips is larger than 7, the p-value is less than 0.5, which suggests that the latent positions based on the low-rank methods preserves the lobe structure.}
+%\label{fig:pvalue}
+%\end{figure}
 
 
 
