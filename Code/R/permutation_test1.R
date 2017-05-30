@@ -209,4 +209,4 @@ gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
 
 ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
        plot=gg+theme(text=element_text(size=10,family="Times")),
-       width=8, height=6)
+       width=7, height=6)
