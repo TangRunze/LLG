@@ -148,22 +148,41 @@ for (switchID in 1:length(switchVec)) {
 #   labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
 #        x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
 
-df <- data.frame(value=c(t(tVec)), flip=rep(switchVec, each=nIter))
-df0 <- data.frame(yi = t0)
-gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
-  geom_violin(draw_quantiles = T)+
-  geom_hline(data = df0, aes(yintercept = yi, linetype = factor(yi)), show.legend = TRUE) +
-  scale_linetype_manual(name = "true lobe assignment", values = "dashed", labels = "") +
-  guides(fill=guide_legend(title="number of flips"))+
-  theme(legend.position="bottom")+
-  # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
-  # stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
-  # labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
-  #      x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
-  labs(title = "", x = "number of flips", y = "T(X, l)", fill = "")
-ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
-       plot=gg+theme(text=element_text(size=10,family="Times")),
-       width=6, height=6)
+# df <- data.frame(value=c(t(tVec)), flip=rep(switchVec, each=nIter))
+# df0 <- data.frame(yi = t0)
+# gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
+#   geom_violin(draw_quantiles = T)+
+#   geom_hline(data = df0, aes(yintercept = yi, linetype = factor(yi)), show.legend = TRUE) +
+#   scale_linetype_manual(name = "true lobe assignment", values = "dashed", labels = "") +
+#   guides(fill=guide_legend(title="number of flips"))+
+#   theme(legend.position="bottom")+
+#   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
+#   # stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
+#   # labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
+#   #      x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
+#   labs(title = "", x = "number of flips", y = "T(X, l)", fill = "")
+# ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
+#        plot=gg+theme(text=element_text(size=10,family="Times")),
+#        width=6, height=6)
+
+
+# pVec <- rep(0, length(switchVec))
+# for (i in 1:length(switchVec)) {
+#   pfun <- ecdf(tVec[i, ])
+#   pVec[i] <- pfun(t0)
+# }
+# df <- data.frame(value=pVec, flip=switchVec)
+# gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
+#   geom_point(size=2)+
+#   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
+#   labs(title = paste0(""),
+#        x = "number of flips", y = "p-value", fill = "")
+# ggsave(paste0("../../Draft/pvalue_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
+#        plot=gg+theme(text=element_text(size=10,family="Times")),
+#        width=6, height=4)
+
+
+
 
 
 pVec <- rep(0, length(switchVec))
@@ -171,12 +190,23 @@ for (i in 1:length(switchVec)) {
   pfun <- ecdf(tVec[i, ])
   pVec[i] <- pfun(t0)
 }
-df <- data.frame(value=pVec, flip=switchVec)
-gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
-  geom_point(size=2)+
+pVec = round(pVec*100)/100
+
+df <- data.frame(value=c(t(tVec)), flip=rep(switchVec, each=nIter))
+df0 <- data.frame(yi = t0)
+gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
+  geom_violin(draw_quantiles = T)+
+  geom_hline(data = df0, aes(yintercept = yi, linetype = factor(yi)), show.legend = TRUE) +
+  scale_linetype_manual(name = "true lobe assignment", values = "dashed", labels = "") +
+  guides(fill=guide_legend(title="number of flips"))+
+  scale_fill_discrete(labels = paste0(1:length(switchVec), ", p-value=", pVec))+
+  theme(legend.position="bottom")+
   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
-  labs(title = paste0(""),
-       x = "number of flips", y = "p-value", fill = "")
-ggsave(paste0("../../Draft/pvalue_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
+  # stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
+  # labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
+  #      x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
+  labs(title = "", x = "number of flips", y = "T(X, l)", fill = "")
+
+ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
        plot=gg+theme(text=element_text(size=10,family="Times")),
-       width=6, height=4)
+       width=6, height=6)
