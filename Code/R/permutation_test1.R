@@ -195,16 +195,19 @@ pVec = round(pVec*100)/100
 df <- data.frame(value=c(t(tVec)), flip=rep(switchVec, each=nIter))
 df0 <- data.frame(yi = t0)
 gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
-  geom_violin(draw_quantiles = T)+
+  # geom_violin(draw_quantiles = T, lty="blank", show.legend = FALSE)+
+  geom_violin(draw_quantiles = T, show.legend = FALSE)+
   geom_hline(data = df0, aes(yintercept = yi, linetype = factor(yi)), show.legend = TRUE) +
   scale_linetype_manual(name = "true lobe assignment", values = "dashed", labels = "") +
-  guides(fill=guide_legend(title="number of flips"))+
-  scale_fill_discrete(labels = paste0(1:length(switchVec), ", p-value=", pVec))+
+  # guides(fill=guide_legend(title="number of flips"))+
+  guides(fill=FALSE)+
+  # scale_fill_discrete(labels = paste0(1:length(switchVec), ", p-value=", pVec))+
   theme(legend.position="bottom")+
   # geom_boxplot(aes(fill=factor(flip)), notch = T, width = 0.2)+
   # stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
   # labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
   #      x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
+  annotate("text", x = 1:length(switchVec), y = -0.22, label = paste0("p=", pVec))+
   labs(title = "", x = "number of flips", y = "T(X, l)", fill = "")
 
 ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
