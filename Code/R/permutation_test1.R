@@ -207,7 +207,7 @@ gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
   # stat_summary(fun.y=mean, geom="point", size=2, show.legend = F)+
   # labs(title = paste0("dimension ", min(indDim), " to dimension ", max(indDim)),
   #      x = "number of flips", y = "within lobes - cross lobes, 2-norm", fill = "")
-  annotate("text", x = 1:length(switchVec), y = -0.22, label = paste0("p=", pVec))+
+  annotate("text", x = 1:length(switchVec), y = -0.355, label = paste0("p=", pVec))+
   labs(title = "", x = "number of flips", y = "T(X, l)", fill = "")
 
 ggsave(paste0("../../Draft/violinplot_new_flip_2norm_", min(indDim), "_", max(indDim), ".pdf"),
