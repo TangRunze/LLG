@@ -194,7 +194,7 @@ pVec = round(pVec*100)/100
 
 df <- data.frame(value=c(t(tVec)), flip=rep(switchVec, each=nIter))
 df0 <- data.frame(yi = t0)
-gg <- ggplot(data = df, aes(x=factor(flip), y=value, fill="grey10"))+
+gg <- ggplot(data = df, aes(x=factor(flip), y=value))+
   # ggplot(data = df, aes(x=factor(flip), y=value, fill=factor(flip)))+
   # geom_violin(draw_quantiles = T, lty="blank", show.legend = FALSE)+
   geom_violin(draw_quantiles = T, show.legend = FALSE)+
