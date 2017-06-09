@@ -24,6 +24,7 @@ import nibabel as nib
 import os
 import vtk
 import csv
+import math
 
 from dipy.viz import window, actor
 from argparse import ArgumentParser
@@ -62,11 +63,13 @@ def visualize(atlasfile, outdir, intensityfile):
     for i in range(len(faces)):
         # Initialize renderer
         renderer = window.Renderer()
-
+        
+        renderer.background((1, 1, 1))
+        
         # Set camera orientation properties
         # TODO: allow this as an argument
         renderer.set_camera(position=faces[i])  # args are: position=(), focal_point=(), view_up=()
-
+        
         # Add streamlines to viz session
         renderer.add(atlas_volume)
 
@@ -84,6 +87,9 @@ def load_atlas(path, intensities, signs):
     nifti_reader = vtk.vtkNIFTIImageReader()
     nifti_reader.SetFileName(path)
     nifti_reader.Update()
+
+
+    # intensities = intensities/math.sqrt(np.mean(intensities**2))
 
     # The following class is used to store transparencyv-values for later
     # retrival. In our case, we want the value 0 to be completly opaque
