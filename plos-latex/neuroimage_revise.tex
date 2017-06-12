@@ -261,7 +261,8 @@ These properties lead us to our proposed estimator.
 %Note that $\mathrm{rank}(P) = \mathrm{rank}(X)$.
 
 
-Low-rank methods can often be more easily interpreted. In particular, in the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
+Low-rank methods can often be more easily interpreted {\color{red} in a vertexy way}.
+ In particular, in the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
 Now we take the CoRR brain graphs with Desikan atlases as an example. More details about this dataset are given in Section \ref{sec:corr_data} and Section \ref{section:data}. By embedding the mean graph $P$ which is the average of all 454 graphs, we get the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d = 8$ is the dimension selected by the Zhu and Ghodsi's method.
 We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain} respectively. By the figure of the second dimension, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
 
@@ -905,13 +906,15 @@ These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$
 
 \subsubsection{Challenges of the CoRR Dataset}
 
-While our estimator $\hat{P}$ performs well when the sample size $M$ is small and the number of vertices $N$ is large, the CoRR dataset itself is pretty challenging for our low-rank method.
+While our estimator $\hat{P}$ performs well when the sample size $M$ is small and the number of vertices $N$ is large, the CoRR dataset itself does not strictly adhere to the low-rank assumptions of our theory.
 
 %Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. However, in order to compare different estimators, we are going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$, which is preferable to $\bar{A}$ compared to $\hat{P}$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
 
-As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) as solid curves. 
-For all three atlases, the relative error is large unless $d$ is close to $N$, which indicates that $P$ is not low-rank. If $P$ actually has the low-rank property, the relative error plot will look like the dashed curves, where we revised $P$ to be low-rank by only keeping a few large eigenvalues. 
-Thus the CoRR dataset is actually high-rank, which violates the low-rank assumption of our results and make this real data experiment preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
+As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) as solid curves.
+The rate at which this curve tends to zero provides an indication of the relative performance of using $\hat{P}_d$ as compared to $\bar{A}$ when $M$ is large. 
+For all three atlases, while these error rates do tend to zero relatively quickly, substantial errors remain for any low-rank approximation.
+This can be compared to the dashed lines which show how these errors would behave if $P$ was truly low-rank.
+As can be expected, the CoRR dataset is actually high-rank, which violates the low-rank assumption.
 %Since we are using the entry-wise sample mean graph of 454 observations as $P$, it is possible that the true but unknown population mean has the low-rank property but the entry-wise sample mean graph fails to capture it. And it is also possible that the population mean $P$ is actually high-rank. No matter which one is true, the low-rank assumption is violated, which makes this real data experiment setting preferable to the entry-wise sample mean $\bar{A}$ compared to the low-rank estimator $\hat{P}$.
 
 \begin{figure}[!htbp]
@@ -948,35 +951,41 @@ Also, if $P$ actually has the low-rank property, the relative error plot will lo
 %\label{fig:screeplot_lowrank}
 %\end{figure}
 
-In addition, by plotting the histograms of the eigenvalues of $P$ in Fig.~\ref{fig:histogram}, we see that there are a bunch of negative eigenvalues, which indicates that the positive semi-definiteness is also violated in this real data experiment. This makes it even harder for $\hat{P}$ to outperform $\bar{A}$. 
+% In addition, by plotting the histograms of the eigenvalues of $P$ in Fig.~\ref{fig:histogram}, we see that there are a bunch of negative eigenvalues, which indicates that the positive semi-definiteness is also violated in this real data experiment. This makes it even harder for $\hat{P}$ to outperform $\bar{A}$. 
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[height=.2\textheight]{hist_JHU.pdf} 
-\includegraphics[height=.2\textheight]{hist_desikan.pdf} 
-\includegraphics[height=.2\textheight]{hist_CPAC200.pdf}
-\caption{{\bf Histogram of the population mean.}
-These figures show the histograms of the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation. A bunch of negative eigenvalues indicate that $P$ is not positive semi-definite.
-}
-\label{fig:histogram}
-\end{figure}
+% \begin{figure}[!htbp]
+% \centering
+% \includegraphics[height=.2\textheight]{hist_JHU.pdf} 
+% \includegraphics[height=.2\textheight]{hist_desikan.pdf} 
+% \includegraphics[height=.2\textheight]{hist_CPAC200.pdf}
+% \caption{{\bf Histogram of the population mean.}
+% These figures show the histograms of the eigenvalues of the mean graph of all 454 graphs with diagonal augmentation. A bunch of negative eigenvalues indicate that $P$ is not positive semi-definite.
+% }
+% \label{fig:histogram}
+% \end{figure}
+
+Two other parts of this dataset provide challenges for our low-rank methods.
+First, there are a large number of negative eigenvalues which $\hat{P}$ will not capture.
+We can adapt our low-rank methods by including large negative eigenvalues as well however we found that for low sample sizes excluding negative eigenvalues improved performance.
+Second, approximately 12.8\% of the entries of $P$ are exactly equal to 1.
+For these edges, $\bar{A}$ will always have zero error, while $\hat{P}$ will necessarily give a less accurate estimate. 
 
 
-Moreover, by the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas, as in Fig.~\ref{fig:P_hist_desikan}, we can clearly see more edge probabilities are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly. For these edges, MLE $\bar{A}$ always recover the probability 1 exactly even with only 1 observation, while $\hat{P}$ will give a less accurate estimate because of the smoothing effect. So the CoRR dataset we consider is highly preferable to $\bar{A}$ compared to $\hat{P}$. 
+% Moreover, by the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas, as in Fig.~\ref{fig:P_hist_desikan}, we can clearly see more edge probabilities are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly. For these edges, MLE $\bar{A}$ always recover the probability 1 exactly even with only 1 observation, while $\hat{P}$ will give a less accurate estimate because of the smoothing effect. So the CoRR dataset we consider is highly preferable to $\bar{A}$ compared to $\hat{P}$. 
 %However, even in this situation, $\hat{P}$ still outperforms $\bar{A}$ when the sample size is relatively small.
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{P_hist_desikan.pdf}
-\caption{{\bf Histogram of $P$ for Desikan atlas.}
-This figure shows the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas. More edge probabilities of $P$ are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly.}
-\label{fig:P_hist_desikan}
-\end{figure}
+% \begin{figure}[!htbp]
+% \centering
+% \includegraphics[width=0.8\textwidth]{P_hist_desikan.pdf}
+% \caption{{\bf Histogram of $P$ for Desikan atlas.}
+% This figure shows the histogram of $P$, i.e. the entry-wise mean of all 454 graphs based on the Desikan atlas. More edge probabilities of $P$ are concentrated on both sides, i.e. close to 0 or 1. In particular, 12.8\% of the edges has probability equals to 1 exactly.}
+% \label{fig:P_hist_desikan}
+% \end{figure}
 
-With all these challenges mentioned above, our results show that when the sample size is relatively small, such as $M=1$ or $M=5$, and for the atlases with a larger number of vertices, $\hat{P}$ still gives a better estimate than $\bar{A}$ for the CoRR dataset.
+Despite all these challenges, our results show that when the sample size is relatively small, such as $M=1$ or $M=5$, and for the atlases with a larger number of vertices, $\hat{P}$ still gives a better estimate than $\bar{A}$ for the CoRR dataset.
 Importantly, this improvement is robust to the embedding dimension provided the dimension is not underestimated.
-We should note that though the total error for $\hat{P}$ is smaller in this case, for certain entries $\bar{A}$ does perform better.
-For example, there are some pairs of vertices that are adjacent for all samples in the population and for these pairs $\bar{A}$ will always perform better than $\hat{P}$. 
+% We should note that though the total error for $\hat{P}$ is smaller in this case, for certain entries $\bar{A}$ does perform better.
+% For example, there are some pairs of vertices that are adjacent for all samples in the population and for these pairs $\bar{A}$ will always perform better than $\hat{P}$. 
 
 
 
@@ -1427,24 +1436,28 @@ The proof for Theorem~\ref{thm:ARE} is now a simple application of the above lem
 
 \section{Flipping Procedure in the Hypothesis Testing for Lobe Structure behind the Low-rank Methods}
 \label{section:testing}
+% 
+Here we describe the details of the flipping procedure for the permutation test mentioned in Section~\ref{section:lobe_structure}.
 
-Here we discuss the details of the flipping procedure in the hypothesis testing mentioned in Section~\ref{section:lobe_structure}.
-
-As mentioned before, we have 10 lobes and 70 regions based on the Desikan atlas. And these 70 regions are adjacent to each other in some way according to their spatial positions in the brain. Note that we say two regions are adjacent when they have a common boundary. We denote such spatial adjacency by an adjacency matrix $S$ for the 70 regions. $S_{ij} = 1$ means region $i$ and region $j$ are spatially adjacent. If this is true, then we say region $j$ is a neighbor of region $i$. Also we denote the lobe i.d. for region $i$ by $l_i$.
+As mentioned before, there are 10 lobes and 70 regions based on the Desikan atlas. 
+We say two regions are adjacent if they share a common boundary. We denote such spatial adjacency by an adjacency matrix $S$ for the 70 regions, where $S_{ij} = 1$ means region $i$ and region $j$ are contain a pair of voxels, $v_i$ and $v_j$, which are spatially adjacent.
+If this is true, then we say region $j$ is a neighbor of region $i$.
+We denote the lobe i.d. for region $i$ by $l_i$.
 
 Now we define a uniform $1$-flip to be:
-\begin{itemize}
+\begin{enumerate}
 \item Select a pair of adjacent regions (region $i_1$ and region $j_1$) across the boundary of lobes uniformly, i.e. $S_{i_1 j_1} = 1$ and $l(i_1) \ne l(j_1)$;
 \item Uniformly select another pair of adjacent regions (region $i_2$ and region $j_2$ where $i_1 \ne i_2$ and $j_1 \ne j_2$) across the same boundary of lobes uniformly, i.e. $S_{i_2 j_2} = 1$ and $l(i_1) = l(i_2)$ and $l(j_1) = l(j_2)$;
 \item Reassign region $j_1$ to lobe $l_{i_1}$ and reassign region $i_2$ to lobe $l_{j_2}$.
-\end{itemize}
+\end{enumerate}
 
-By the definition, after a uniform $1$-flip, the number of regions in each lobe keeps the same, where only two regions are changed to a different lobe.
+By the definition, after a uniform $1$-flip, the number of regions in each lobe stays the same, where only two regions are changed to a different lobe.
 
-Then we can define a uniform $k$-flip naturally as sequentially running the uniform $1$-flip $k$ times.
+Then we can define a uniform $k$-flip naturally as sequentially performing uniform $1$-flip $k$ times.
 Note that after a uniform $k$-flip, the number of regions in each lobe still keeps the same.
 
 In the permutation test, we apply a uniform $k$-flip and calculate the test statistic $T(X, l)$ based on the lobe assignment after flipping.
+The $p$-value is computed as the proportion of uniform $k$-flips with a $T$ value smaller than the $T$ value for the true lobe assignments.
 
 
 \end{document}
