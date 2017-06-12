@@ -261,33 +261,36 @@ These properties lead us to our proposed estimator.
 %Note that $\mathrm{rank}(P) = \mathrm{rank}(X)$.
 
 
-Low-rank methods can often be more easily interpreted {\color{red} in a vertexy way}.
- In particular, in the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
-Now we take the CoRR brain graphs with Desikan atlases as an example. More details about this dataset are given in Section \ref{sec:corr_data} and Section \ref{section:data}. By embedding the mean graph $P$ which is the average of all 454 graphs, we get the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d = 8$ is the dimension selected by the Zhu and Ghodsi's method.
+Low-rank methods can often be more easily interpreted from a vertex-level perspective.
+In particular, in the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, one can analyze and visualize the geometry of these vectors in order to interpret how each vertex is behaving in the context of the larger graph. 
+As an examples, we consider the CoRR brain graphs with Desikan atlases.
+More details about this dataset are given in Section \ref{sec:corr_data} and Section \ref{section:data}. 
+By embedding the mean graph $P$, the average of all 454 graphs, we obtain estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d = 8$ is the dimension selected by the Zhu and Ghodsi's method.
 We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig:eigenvector_brain} respectively. By the figure of the second dimension, we can see a clear distinction of the left and right hemisphere as conveyed in the second dimension. Additionally, such a representation allows the use of techniques from multivariate analysis to further study the estimated population mean.
+In section~\ref{section:lobe_structure} we analyze the structure of these latent positions as they relate to the lobe-structure of the brain.
 
 \begin{figure}	
 	\centering
-\begin{subfigure}[t]{.7\textwidth}
+\begin{subfigure}[t]{.48\textwidth}
 \caption{1st dimension}
 \vspace*{-16pt}
 \begin{center}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan1a.png}\hspace{-9pt}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan1b.png}\hspace{-9pt}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan1c.png}
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan1a.png}\hspace{-9pt}\\
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan1b.png}\hspace{-9pt}
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan1c.png}
 \end{center}
-\end{subfigure}\\
-\vspace*{5pt}
-\begin{subfigure}[t]{.7\textwidth}
+\end{subfigure}
+% \vspace*{5pt}
+\begin{subfigure}[t]{.48\textwidth}
 \caption{2nd dimension}
 \vspace*{-16pt}
 \begin{center}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan2a.png}\hspace{-10pt}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan2b.png}\hspace{-10pt}
-  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan2c.png}
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan2a.png}\hspace{-10pt}\\
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan2b.png}\hspace{-10pt}
+  \includegraphics[trim={5cm 5cm  4cm  4cm },clip,width=.48\linewidth]{desikan2c.png}
 \end{center}
 \end{subfigure}\\
-\vspace*{5pt}
+% \vspace*{5pt}
 \begin{subfigure}[t]{.7\textwidth}
 \caption{3rd dimension}
 \vspace*{-16pt}
@@ -297,7 +300,7 @@ We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig
   \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan3c.png}
 \end{center}
 \end{subfigure}\\
-\vspace*{5pt}
+% \vspace*{5pt}
 \begin{subfigure}[t]{.7\textwidth}
 \caption{4th dimension}
 \vspace*{-16pt}
@@ -307,7 +310,7 @@ We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig
   \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan4c.png}
 \end{center}
 \end{subfigure}\\
-\vspace*{5pt}
+% \vspace*{5pt}
 \begin{subfigure}[t]{.7\textwidth}
 \caption{5th dimension}
 \vspace*{-16pt}
@@ -317,8 +320,12 @@ We color the brain using the first 5 dimensions of $\hat{X}$ as in Fig.~\ref{fig
   \includegraphics[trim={5cm 5cm  4cm  4cm },clip,height=.35\linewidth]{desikan5c.png}
 \end{center}
 \end{subfigure}\\
-\caption{{\bf Brain plots colored by the first 5 dimensions of $\hat{X}$ for the Desikan atlas respectively.}
-We plot the brain using the first 5 dimensions of $\hat{X}$. From the figure, we can see the embeddings have their own neuro-meaning, for example there is a clear distinction of the left and right hemisphere as conveyed in the second dimension. Also, the first dimension provides an average level of the entire brain.}
+\caption{{\bf Brain plots colored by the first 5 dimensions of $\hat{X}$ for the Desikan atlas.}
+% Bright red corresponds to large negative v
+From the figure, we can see the embeddings reflect some well known structure.
+For example, the second dimension displays a clear distinction of the left and right hemispheres.
+% Also, the first dimension provides an average level of the entire brain.
+In section~\ref{section:lobe_structure} we investigate how these latent positions correlate with lobe-structure, as can be seen in the 3rd and 4th dimensions where th red areas correspond to the {\color{red} blank and blank} lobes, respectively.}
 \label{fig:eigenvector_brain}
 \end{figure}
 
@@ -910,7 +917,7 @@ While our estimator $\hat{P}$ performs well when the sample size $M$ is small an
 
 %Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. However, in order to compare different estimators, we are going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$, which is preferable to $\bar{A}$ compared to $\hat{P}$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
 
-As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) as solid curves.
+As discussed in Remark \ref{remark:low_rank}, we first check whether the dataset has the low-rank property or not. In Fig.~\ref{fig:screeplot}, we plot the relative error $\|\mathrm{lowrank}_d(P)-P\|_F^2/\|P\|_F^2$ of using a rank-$d$ approximation of $P$ (see Algorithm~\ref{algo:lowrank}) as solid curves {\color{red} for this plot i think we used negative eigenvalues ?}.
 The rate at which this curve tends to zero provides an indication of the relative performance of using $\hat{P}_d$ as compared to $\bar{A}$ when $M$ is large. 
 For all three atlases, while these error rates do tend to zero relatively quickly, substantial errors remain for any low-rank approximation.
 This can be compared to the dashed lines which show how these errors would behave if $P$ was truly low-rank.
@@ -991,16 +998,19 @@ Importantly, this improvement is robust to the embedding dimension provided the 
 
 \subsubsection{Lobe Structure behind the Low-rank Methods}
 \label{section:lobe_structure}
-In previous sections, we have shown that how the low-rank methods help us improve the accuracy of estimation while providing convenient interpretations simultaneously. Certainly there is more behind it. In this section, we focus on the lobe structure in particular.
+In previous sections, we have shown that the low-rank methods help us improve the accuracy of estimation in the small sample size.
+In this section we investigate how the low-rank approximation of $P$, as represented by the embedded latent position, is related to the lobe-structure of the brain.
 
-The lobes of the brain is an anatomical classification, which has been shown to be related to different brain functions. Basically, there are 4 different lobes for each hemisphere, i.e. Frontal, Parietal, Occipital, and Temporal.
-For the Desikan atlas, there are 70 different regions (35 regions for each hemisphere). Each region belongs to one lobe. However, 8 regions of the Desikan atlas (Unknown, Banks of Superior Temporal Sulcus, and Corpus Callosum, for both hemispheres) do not have obvious lobe assignment. So we cluster them into a new lobe category named ``other'' to resolve this issue.
+The lobes of the brain provide an anatomical classification, which has been shown to be related to different brain functions. In each hemisphere, there are four lobes: Frontal, Parietal, Occipital, and Temporal.
+For the Desikan atlas, there are 70 different regions (35 regions for each hemisphere). 
+Most regions belongs to one lobe, however, 8 regions of the Desikan atlas (Unknown, Banks of Superior Temporal Sulcus, and Corpus Callosum, for both hemispheres) do not have obvious lobe assignments, so we cluster them into a lobe category named ``other'' to resolve this issue.
 
-Generally, the regions within the same lobe should be more similar compared to the regions across the lobes. In order to see whether the embedded latent positions $X$ preserve this property or not, we propose a test statistics $T$ to be the average differences between vertices within the same lobe minus the average differences between vertices across different lobes, i.e.
+Generally, the regions within the same lobe should be more similar compared to the regions across the lobes. In order to see whether the embedded latent positions $X$ preserve this property or not, we propose a test statistics $T$ to be the average differences between vertices within the same lobe minus the average differences between vertices across different lobes, i.e. 
 \[
 T(X, l) = \frac{\sum_{i \ne j, l(i) = l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) = l(j)} 1} -
 \frac{\sum_{i \ne j, l(i) \ne l(j)} \|X_i - X_j \|_2}{\sum_{i \ne j, l(i) \ne l(j)} 1},
 \]
+{\color{red} why not ratio? or an F statistic?}
 where $l(i)$ represents the lobe assignment for vertex $i$. If the latent positions $X$ and the lobe assignment $l$ are independent, then we expect $T(X, l)$ to be close to zero. A small test statistic $T(X, l)$ indicates that latent positions of the regions within the same lobe are closer compared to the ones across the lobes, which is evidence that the low-rank methods preserves the lobe structure.
 
 However, the anatomical geometry might contribute to the dependence between $X$ and $l$ and we do not want to be distracted by this factor. So instead of testing the dependence between $X$ and $l$, we are more interested in the following hypothesis test:
@@ -1009,14 +1019,25 @@ $H_0$: $X$ and $l$ are conditionally independent given anatomical geometry.
 
 $H_A$: $X$ and $l$ are conditionally dependent given anatomical geometry.
 
-In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. Note that this test is significantly underpowered compared to the test on a unconditional independence.
-To test under the anatomical geometry conditions, we permute the lobe assignment $l$ in a way that the number of regions in each lobe remain the same and the regions within the same lobe are still spatially connected. In order to permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe, and do it several times. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval. We also calculate the corresponding p-values and labeled them in the figure. We can see that when the number of flips is larger than 7, the p-value is less than 0.05, which suggests that the latent positions based on the low-rank methods preserves the lobe structure regardless of the anatomical geometry.
+In this situation, we can focus on how much of the lobe structure is captured by the low-rank methods, taking into account the inherent spatial relationship.
+Note that this test will have substantially less power as compared to a test with a null hypothesis of unconditional independence.
+
+To test these hypotheses, we randomly permute the lobe assignment for each region, maintaining the number of regions in each lobe and spatially contiguity of the lobes, to get a permuted lobe labeling $l_{perm}$.
+This ensures that the anatomical geometry is preserved when the lobe labels are permuted so that the permuted labels adhere to null hypothesis.
+In order to permute under such constraints, we sequentially flip the labels for two pairs of spatially adjacent regions across lobe boundaries, maintaining spatial contiguity and lobe size. Details of the flipping procedure are provided in Appendix~\ref{section:testing}. 
+
+For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l_{perm})$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l_{true})$ based on the true lobe assignment.
+As the number of flips increases, $T(X, l_{perm})$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. 
+{\color{red} What is this expected value?}
+When the number of flips is greater than 7, the p-value for this test goes below the 0.05 significance level, as calculated by the proportions of permutations with $T(X,l_{perm})<T(X,l_{true})$.
+Overall, this shows that, from the perspective of the random dot product graph model, the lobe structure of the brain is statistically significant for the connectivity structure of the brain.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1\textwidth]{violinplot_new_flip_2norm_1_8.pdf}
-\caption{{\bf Violin plot of the permutation test.}
-We run 1000 simulations for each number of flips. Dashed line represents the situation based on true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval.}
+\caption{{\bf Violin plot for testing lobe structure.}
+We run 1000 simulations for each number of flips of lobe labels. The dashed line represents the value of $T(X,l_{true})$, based on true lobe assignment. 
+As the number of flips increases, $T(X, l_{perm})$ converges to the {\color{red} expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above}. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval.}
 \label{fig:violin_plot}
 \end{figure}
 
