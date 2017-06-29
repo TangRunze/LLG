@@ -1,3 +1,3 @@
-[submodule "neuroimage-latex"]
-	path = neuroimage-latex
+[submodule "neuroimage"]
+	path = neuroimage
 	url = https://git.overleaf.com/10169107vqbndzfvdczx
