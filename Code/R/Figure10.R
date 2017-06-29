@@ -12,6 +12,15 @@ df <- list()
 df_LR <- list()
 pp <- list()
 for (iData in 1:length(dataNameVec)) {
+  
+  if (iData == 1) {
+    strTmp <- "a"
+  } else if (iData == 2) {
+    strTmp <- "b"
+  } else {
+    strTmp <- "c"
+  }
+  
   dataName = dataNameVec[iData]
   tmpList = read_data(dataName, DA=F, newGraph=F)
   A_all = tmpList[[1]]
@@ -61,7 +70,7 @@ for (iData in 1:length(dataNameVec)) {
     theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
     # theme(legend.position="bottom")
     theme(legend.position="none")+
-    ggtitle(dataNameDisplayVec[[iData]])
+    ggtitle(paste0('(', strTmp, ') ', dataNameDisplayVec[[iData]]))
   
 }
 

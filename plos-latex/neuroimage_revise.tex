@@ -41,7 +41,6 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
-
 \usepackage{graphicx}
 
 
@@ -137,7 +136,7 @@ By exploiting a bias-variance trade-off, it is often fruitful to develop estimat
 When these estimators are biased towards low-dimensional structures which well approximate the full dimensional population mean, major improvements can be realized \citep{trunk1979problem}.
 
 
-% In statistical decision theory, we say that a procedure $\delta^{\prime}$ dominates another procedure $\delta$ if the risk of $\delta^{\prime}$ is no bigger than the risk of $\delta$ regardless of the parameter, and strictly less than the risk of $\delta$ for in some situations.
+In statistical decision theory, we say that a procedure $\delta^{\prime}$ dominates another procedure $\delta$ if the risk of $\delta^{\prime}$ is no bigger than the risk of $\delta$ regardless of the parameter, and strictly less than the risk of $\delta$ for in some situations.
 % If there exists a decision procedure $\delta^{\prime}$ which dominates $\delta$, then $\delta$ is said to be inadmissible. So generally, an inadmissible procedure is not preferred since there is another choice which is always ``better'' than it.
 In a striking result, \citet{stein1956inadmissibility} and \citet{james1961estimation} showed that even the arithmetic mean can be dominated by another procedure.
 In particular, James and Stein showed that the sample mean for a multivariate normal distribution with at least three dimensions has strictly higher risk than a procedure that introduces shrinkage, and can be strictly improved by carefully biasing the  estimate towards any given fixed point. 
@@ -163,14 +162,14 @@ To better illustrate the idea, we take the CoRR brain graphs with Desikan atlase
 
 \begin{figure}[!tbp]
 \centering
-\includegraphics[height=.2\textheight]{P_desikan.pdf} \hspace{-35pt}
+\includegraphics[height=.2\textheight]{P_desikan_m5.pdf} \hspace{-35pt}
 \includegraphics[height=.201\textheight]{Abar_desikan_m5.pdf} \hspace{-35pt}
 \includegraphics[height=.205\textheight]{Phat_desikan_m5.pdf}
-\includegraphics[height=.2\textheight]{P_desikan.pdf} \hspace{-35pt}
+\includegraphics[height=.2\textheight]{P_desikan_m1.pdf} \hspace{-35pt}
 \includegraphics[height=.201\textheight]{Abar_desikan_m1.pdf} \hspace{-35pt}
 \includegraphics[height=.205\textheight]{Phat_desikan_m1.pdf}
 \caption{{\bf Heat maps of the population mean $P$, the sample mean $\bar{A}$, and the estimator $\hat{P}$ based on sample sizes $M = 1$ and $M = 5$.}
-The three heat maps in the upper level indicate the population mean for the $454$ graphs (left), sample mean for the 5 sampled graphs (center), and $\hat{P}$ for the same 5 sampled graphs with dimension $d=11$ selected using the Zhu and Ghodsi method (right). Details about how to construct $\hat{P}$ are discussed in Section~\ref{sec:phat}.
+The three heat maps in the upper level indicate the population mean for the $454$ graphs (Panel (a)), sample mean for the 5 sampled graphs (Panel (b)), and $\hat{P}$ for the same 5 sampled graphs with dimension $d=11$ selected using the Zhu and Ghodsi method (Panel (c)). Details about how to construct $\hat{P}$ are discussed in Section~\ref{sec:phat}.
 Darker pixels indicate a higher probability of an edge between the given vertices.
 By calculating the mean squared error based on this sample, we can see that $\hat{P}$ (with mean squared error equals $0.015$) outperforms $\bar{A}$ (with mean squared error equals $0.016$), with a 3\% relative improvement.
 In order to see where the improvements are clearly, in the upper triangular of the heat maps for $\bar{A}$ and $\hat{P}$, we highlight the edges (18 edges highlighted for $\bar{A}$ and 6 for $\hat{P}$) which have absolute estimation error larger than $0.4$.
@@ -182,10 +181,10 @@ In the lower level, we plot three heat maps in the similar way based on sample s
 
 The element-wise sample mean is a reasonable estimator if we consider the general independent edge model (IEM) \citep{bollobas2007phase} without taking any additional structure into account. 
 However, with only a small sample size, such as when the sample size is much less than the number of vertices, it does not perform very well.
-Now take a sample of size $M=5$ in the CoRR dataset example with Desikan atlases mentioned above, then we calculate the entry-wise sample mean $\bar{A}$ and plot it in the top middle panel of Fig.~\ref{fig:Matrix_desikan_m5}. Darker pixels indicate a higher probability of an edge between the given vertices.
+Now take a sample of size $M=5$ in the CoRR dataset example with Desikan atlases mentioned above, then we calculate the entry-wise sample mean $\bar{A}$ and plot it in Panel (b) of Fig.~\ref{fig:Matrix_desikan_m5}. Darker pixels indicate a higher probability of an edge between the given vertices.
 We can see $\bar{A}$ gives a fair estimate of $P$. However, there are still an amount of edges being estimated very inaccurately. In order to see these inaccurate estimates clearly, in the upper triangular of the heat maps for $\bar{A}$, we highlight the 18 edges which have absolute estimation error larger than $0.4$ based on the same color scale.
 When the sample size is small, the performance of $\bar{A}$ degrades due to its high variances. Such phenomenon is most obvious when we decrease the sample size from $M = 5$ to $M = 1$.
-In the bottome middle panel of Fig.~\ref{fig:Matrix_desikan_m5}, we plot the heat map of $\bar{A}$ based on sample size $M = 1$. Since there is only one observed graph, $\bar{A}$ is binary and thus very bumpy. Similarly, we use the same absolute estimation error threshold $0.4$ and highlight 504 edges in the upper triangular.
+In Panel (c) of Fig.~\ref{fig:Matrix_desikan_m5}, we plot the heat map of $\bar{A}$ based on sample size $M = 1$. Since there is only one observed graph, $\bar{A}$ is binary and thus very bumpy. Similarly, we use the same absolute estimation error threshold $0.4$ and highlight 504 edges in the upper triangular.
 Intuitively, an estimator incorporating structure in the distribution of graphs, assuming the estimator is computationally tractable, is preferable to the entry-wise sample mean. 
 In general, we don't have any knowledge about this structure so it can be hard to take advantage of in practice.
 
@@ -198,7 +197,7 @@ One example of an LPM which captures this middle ground is the random dot produc
 % In this paper, we analyze our estimator in terms of RDPG specifically.
 
 Using estimates of the latent positions based on a truncated eigen-decomposition of the adjacency matrix, we propose an estimator which captures the low-rank structure of the mean graph for the RDPG model. Details about this estimator are discussed in Section~\ref{sec:phat}.
-These estimates will improve performance since they will be biased towards the low-rank structure of the RDPG model and will have much lower overall variance than naive element-wise sample means. Here we consider the same random sample of size $M=5$ based on the Desikan atlas in Fig.~\ref{fig:Matrix_desikan_m5} and plot the estimate $\hat{P}$ in the top right panel. Note that compared to the sample mean $\bar{A}$ (with mean squared error equals $0.016$), $\hat{P}$ (with mean squared error equals $0.015$) has a finer gradient of values which in this case leads to a 3\% relative improvement in estimation of the true probability matrix $P$. In order to see where the improvements are clearly, in the upper triangular of the heat map for $\hat{P}$, we also highlight the 6 edges which have absolute estimation error larger than $0.4$, where 18 edges are highlighted for $\bar{A}$ based on the same threshold. 
+These estimates will improve performance since they will be biased towards the low-rank structure of the RDPG model and will have much lower overall variance than naive element-wise sample means. Here we consider the same random sample of size $M=5$ based on the Desikan atlas in Fig.~\ref{fig:Matrix_desikan_m5} and plot the estimate $\hat{P}$ in Panel (c). Note that compared to the sample mean $\bar{A}$ (with mean squared error equals $0.016$), $\hat{P}$ (with mean squared error equals $0.015$) has a finer gradient of values which in this case leads to a 3\% relative improvement in estimation of the true probability matrix $P$. In order to see where the improvements are clearly, in the upper triangular of the heat map for $\hat{P}$, we also highlight the 6 edges which have absolute estimation error larger than $0.4$, where 18 edges are highlighted for $\bar{A}$ based on the same threshold. 
 The smoothing effect is much more obvious when we decrease the sample size from $M = 5$ to $M = 1$. In the lower level of Fig.\ref{fig:Matrix_desikan_m5}, we plot the heat map of $\hat{P}$ based on sample size $M = 1$. From the figure, we can see that $\hat{P}$ smooths the estimate, especially for edges across the two hemispheres, in the lower left and corresponding upper right block (which is not shown in the heat map). Based on the calculations, $\hat{P}$ (with mean squared error equals $0.049$) outperforms $\bar{A}$ (with mean squared error equals $0.104$), with a 53\% relative improvement. Similarly, we use the same absolute estimation error threshold $0.4$ and highlight the 234 edges for $\hat{P}$.
 
 
@@ -208,6 +207,33 @@ In this study, we show via theory, simulations, and real data analysis that the 
 In Section~\ref{section:model}, we outline a nested collection of models which we consider for our theorems and simulations, and in Section~\ref{sec:estimator} we describe the entry-wise sample mean and introduce our specific low-rank estimator, which accounts for the unknown dimension and attempts to correct for other issues found in real world problems.
 Our main results are presented in Section~\ref{sec:result} where we present theorems and simulations for the stochastic blockmodel, an investigation of a connectome dataset, and a synthetic data analysis. 
 We conclude with a discussion of these results in Section~\ref{sec:discussion}  and with details on our proposed method and the data which is analyzed in Section~\ref{sec:method}.
+Finally, Table~\ref{table:notation} presents the major symbols we use in the paper and their definitions.
+
+\begin{table}[!tb]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Symbol	&	Description \\\hline
+$N$	& 	number of vertices \\\hline
+$M$ 	&	number of graphs \\\hline
+$d$	&	dimension of random dot product graph \\\hline
+$K$	& 	number of blocks of a stochastic blockmodel\\\hline
+$G$	& 	random graph\\\hline
+$P$	& 	$n \times n$ probability matrix \\\hline
+$A$, $A^{(m)}$	&	$n \times n$ adjacency matrix (binary) \\\hline
+$\bar{A}$	& 	$n \times n$ matrix of entry-wise sample mean of adjacency matrices\\\hline
+$\hat{P}$	& 	$n \times n$ matrix of our proposed low-rank estimate \\\hline
+$X_i$	& 	$d \times 1$ vector of latent position for the $i$-th vertex \\\hline
+$X$		& 	$n \times d$ matrix of latent positions, where the $i$-th row is $X_i^{\top}$\\\hline
+$B$		& 	$K \times K$ matrix of block probability in a stochastic blockmodel \\\hline
+$\tau$	& 	$n \times 1$ vector of block membership in a stochastic blockmodel \\\hline
+$\nu_k$	& 	$d \times 1$ vector of latent position for the $k$-th block \\\hline
+$\nu$	& 	$K \times d$ matrix of latent positions, where the $i$-th row is $\nu_k^{\top}$\\\hline
+$\rho$	& 	$K \times 1$ vector of block membership probabilities \\\hline
+\end{tabular}
+\caption{{\bf Symbols and definitions.}}
+\label{table:notation}
+\end{table}
 
 
 \section{Models}
@@ -218,6 +244,8 @@ The graphs we consider are undirected and unweighted with no self-loops, so each
 In connectomics, the  brain imaging data for each subject can be processed  to output a graph, where each vertex represents a well-defined anatomical region present in each subject.
 For structural brain imaging, such as diffusion tensor MRI, an edge may represent the presence of anatomical connections between the two regions as estimated based on tractography for diffusion tensor magnetic resonance imaging.
 Similarly, for functional brain imaging, such as fMRI, an edge between two regions may represent the presence of correlated brain activity between the two regions. 
+
+
 
 
 For the purpose of this paper, we also assume that the graphs are sampled independently and identically from some distribution.
@@ -387,10 +415,11 @@ We describe the low-rank aspects of this estimator in this section and present f
   \includegraphics[height=\linewidth]{SBM_Abar.pdf}
 \end{subfigure}
 \caption{{\bf Example illustrating the stochastic blockmodel.}
-The top left figure shows the mean graph $P$ with $K = 5$ blocks and $N=200$ vertices and the top right figure shows an adjacency matrix $A$ sampled according to the probabilities from $P$.
+The detailed parameters are given in Section~\ref{section:SBM_parameters}.
+Panel (a) shows the mean graph $P$ with $K = 5$ blocks and $N=200$ vertices and Panel (b) shows an adjacency matrix $A$ sampled according to the probabilities from $P$.
 While $A$ is a noisy version of $P$, much of the structure of $P$ is preserved in $A$, a property we will exploit in our estimation procedure.
-Based on three graphs sampled independently and identically according to the probability matrix $P$, we construct the element-wise mean $\bar{A}$, shown in the lower right panel (see Section~\ref{sec:abar}).  
-Finally, by taking a rank-5 approximation of $\bar{A}$ and thresholding the values to be between $0$ and $1$, we construct our proposed estimate $\hat{P}$, shown in the lower left panel (see Section~\ref{sec:phat}).
+Based on three graphs sampled independently and identically according to the probability matrix $P$, we construct the element-wise mean $\bar{A}$, shown in Panel (d) (see Section~\ref{sec:abar}).  
+Finally, by taking a rank-5 approximation of $\bar{A}$ and thresholding the values to be between $0$ and $1$, we construct our proposed estimate $\hat{P}$, shown in Panel (c) (see Section~\ref{sec:phat}).
 By visual inspection, it is clear that the low-rank estimate $\hat{P}$ more closely approximates the probability matrix $P$ as compared to $\bar{A}$.
 }
 \label{fig:SBM_example}
@@ -468,7 +497,7 @@ Details are discussed in Section~\ref{section:diag_aug}.
 
 
 Algorithm~\ref{algo:basic} gives the steps involved to compute the low-rank estimate $\hat{P}$.
-The bottom panels of Fig.~\ref{fig:SBM_example} demonstrate the two estimators $\hat{P}$ and $\bar{A}$ for the stochastic blockmodel given by the upper left panel. 
+The bottom panels of Fig.~\ref{fig:SBM_example} demonstrate the two estimators $\hat{P}$ and $\bar{A}$ for the stochastic blockmodel given by Panel (a). 
 The estimates are based on a sample of size $M=3$ and in this instance visual inspection demonstrates that $\hat{P}$ performs much better than $\bar{A}$.
 As we will see in the succeeding sections, this procedure will frequently yield improvements in estimation as compared to using the sample mean $\bar{A}$.
 While this is unsurprising for random dot product graphs, where we are able to show theoretical results to this effect, we also see this effect for connectome data and more general independent edge graphs.
@@ -511,6 +540,7 @@ And
 \end{lemma}
 The first part of this Lemma ensures that the estimator is asymptotically unbiased for $P$,
 and the second part gives the form of the asymptotic variance of $\hat{P}$.
+Note that $\rho_{\tau_i}$ represents the probability that a vertex is assigned to the same block as vertex $i$, i.e.\ $\tau_i$-th block.
 The proof of this lemma is outlined in Section~\ref{section:outline_proof} and is based on results for the variance of the adjacency spectral embedding from \citet{athreya2013limit}. From Lemma \ref{lm:VarPhat}, we can see that the MSE of $\hat{P}_{ij}$ is of order $O(M^{-1}N^{-1})$ approximately. Similar to $\bar{A}$, the estimate will get better as the number of observations $M$ increases. Furthermore, it also benefits from a larger graph because of the use of low-rank structure. That is, $\hat{P}$ will perform better as the number of vertices of the graph $N$ increases.
 
 Moreover, since $\bar{A}_{ij}$ is the sample mean of $M$ independent Bernoulli random variables with parameter $P_{ij}$, we have
@@ -670,7 +700,7 @@ We will discuss this further in Section \ref{sec:corr_data} when applying our es
     \label{fig:RE}
 \end{figure}
 
-In this section, we will illustrate the theoretical results from Section 3.1 regarding the relative efficiency between $\bar{A}$ and $\hat{P}$ via Monte Carlo simulation experiments in an idealized setting.
+In this section, we will illustrate the theoretical results from Section~\ref{section:theoretical_result} regarding the relative efficiency between $\bar{A}$ and $\hat{P}$ via Monte Carlo simulation experiments in an idealized setting.
 These numerical simulations will also allow us to investigate the finite sample performance of the two estimators.
 Note that in Section \ref{sec:sim_iem}, we will break the model assumptions slightly and run experiment in a more realistic setting.
 
@@ -690,7 +720,7 @@ Similarly, when calculating $\hat{P}$, we omit the dimension selection step from
 %\subsubsection{Simulation Results}
 To investigate the finite sample relative efficiency, we first sample 1000 Monte Carlo replicates from the above SBM distribution with different numbers of vertices $N \in \{30, 50, 100, 250, 500, 1000 \}$ and a fixed number of graphs $M = 100$. The relative efficiency $\mathrm{RE}(\bar{A}_{ij}, \hat{P}_{ij})$ can be estimated since $P$ is known for this simulation. Since the relative efficiency only depends on the block memberships of the pair $i,j$, we estimate the relative efficiency for each block pair using
 \[
-    \hat{\mathrm{RE}}_{st}(\bar{A},\hat{P}) = \frac{\sum_{\tau_i=s,\tau_j=t,i \ne j} \hat{\mathrm{MSE}}(\hat{P}_{ij})}{\sum_{\tau_i=s,\tau_j=t,i \ne j} \hat{\mathrm{MSE}}(\bar{A}_{ij})}
+    \hat{\mathrm{RE}}_{st}(\bar{A},\hat{P}) = \frac{\sum_{\{(i, j): \tau_i=s,\tau_j=t,1 \le i < j \le n\}} \hat{\mathrm{MSE}}(\hat{P}_{ij})}{\sum_{\{(i, j): \tau_i=s,\tau_j=t,1 \le i < j \le n\}} \hat{\mathrm{MSE}}(\bar{A}_{ij})}
 \]
 for $s,t\in\{1,2\}$, where $\hat{\mathrm{MSE}}$ denotes the estimated mean squared error based on the Monte Carlo replicates.
 For the remaining simulations and real data analysis, we will always be considering estimated relative efficiency and estimated mean squared error rather than analytic results, and hence we will frequently omit that these are estimated values when it is clear from context.
@@ -755,7 +785,7 @@ In practice, we use algorithms like Zhu and Ghodsi's method or USVT to select th
 We plot the estimated relative efficiencies between $\bar{A}$ and $\hat{P}$ in Fig.~\ref{fig:corr_re}.
 
 For each atlas and each sample size, we compare the Zhu and Ghodsi method \citep{zhu2006automatic} with the USVT method \citep{chatterjee2015matrix} and note that both perform reasonably well relative to the full-dimensional $\bar{A}$.
-We omit confidence intervals for the estimated relative efficiencies since all confidence intervals have lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
+We omit confidence intervals (calculated by assuming a normal distribution) for the estimated relative efficiencies since all confidence intervals have lengths less than $0.015$, indicating that all relative efficiencies, aside from the relative efficiency for the CPAC200 atlas at $M=10$, are very different from 1.
 
 Again we can see that the largest improvements using $\hat{P}$ occur when $M$ is small and $N$ is large, where the RE are smaller than 1.
 On the other hand, once $M=10$, $\bar{A}$ tends to do nearly as well or better than $\hat{P}$. 
@@ -895,7 +925,7 @@ With a larger $M$, the performance of $\bar{A}$ improves so that its performance
 \includegraphics[width=.99\textwidth]{corr_data_MSE_jhu.pdf}\\
 \includegraphics[width=.99\textwidth]{corr_data_MSE_desikan.pdf}\\
 \includegraphics[width=.99\textwidth]{corr_data_MSE_CPAC200.pdf}
-\caption{{\bf Comparison of $\hat{\mathrm{MSE}}$ of $\hat{P}$ and $\bar{A}$ for three atlases at four sample sizes for the CoRR data.}
+\caption{{\bf Comparison of $\hat{\mathrm{MSE}}$ of $\hat{P}$ and $\bar{A}$ for three atlases at three sample sizes for the CoRR data.}
 These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$ (dashed line) for three dataset (JHU, Desikan, and CPAC200) while embedding the graphs into different dimensions and with different sample sizes $M$. The average dimensions chosen by the 3rd elbow of Zhu and Ghodsi is denoted by a triangle
  % (with largest 95\% confidence interval length to be $3.5$), 
  and those chosen by USVT with threshold equaling 0.7 is denoted by a square.
@@ -905,7 +935,7 @@ These plots show the mean squared error for $\bar{A}$ (solid line) and $\hat{P}$
 \end{figure}
 
 \subsubsection{Challenges of the CoRR Dataset}
-
+\label{sec:challenge}
 While our estimator $\hat{P}$ performs well when the sample size $M$ is small and the number of vertices $N$ is large, the CoRR dataset itself does not strictly adhere to the low-rank assumptions of our theory.
 
 %Unlike simulations, for real data, we can never know the true population mean graph $P$ that we are trying to estimate based on a finite observations. However, in order to compare different estimators, we are going to use the entry-wise sample mean of all 454 graphs as the true but unknown mean graph $P$, which is preferable to $\bar{A}$ compared to $\hat{P}$. From now on, if not specified particularly, when we say $P$ it means the entry-wise sample mean of the 454 graphs.
@@ -1009,8 +1039,8 @@ $H_0$: $X$ and $l$ are conditionally independent given anatomical geometry.
 
 $H_A$: $X$ and $l$ are conditionally dependent given anatomical geometry.
 
-In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. Note that this test is significantly underpowered compared to the test on a unconditional independence.
-To test under the anatomical geometry conditions, we permute the lobe assignment $l$ in a way that the number of regions in each lobe remain the same and the regions within the same lobe are still spatially connected. In order to permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe, and do it several times. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval. We also calculate the corresponding p-values and labeled them in the figure. We can see that when the number of flips is larger than 7, the p-value is less than 0.05, which suggests that the latent positions based on the low-rank methods preserves the lobe structure regardless of the anatomical geometry.
+In this situation, we can focus on how much of the lobe structure is really captured by the low-rank methods without affected by the inherent spatial relationship. Note that this test is underpowered compared to the test on a unconditional independence.
+To test under the anatomical geometry conditions, we permute the lobe assignment $l$ in a way that the number of regions in each lobe remain the same and the regions within the same lobe are still spatially connected. In order to permute under such constraints, we define a flip to be a swap of two pairs of vertices which keeps the number of regions in each lobe, and do it several times. Details of the flipping procedure is discussed in Appendix~\ref{section:testing}. For a fixed number of flips, we ran 1000 simulations and calculate the test statistics $T(X, l)$ after the permutation. We vary the number of flips from 1 to 10 and the results are shown in Fig.~\ref{fig:violin_plot}. In this violin plot, we use dashed line to represent the $T(X, l)$ based on the true lobe assignment. As the number of flips increases, $T(X, l)$ converges to the expected value under the assumption that $X$ and $l$ are independent in a constrained way mentioned above. And we can see that the $T(X, l)$ according to the true lobe assignment move away from the 95\% confidence interval based on the permutations. We also calculate the corresponding p-values and labeled them in the figure. We can see that when the number of flips is larger than 7, the p-value is less than 0.05, which suggests that the latent positions based on the low-rank methods preserves the lobe structure regardless of the anatomical geometry.
 
 \begin{figure}[!htbp]
 \centering
@@ -1096,8 +1126,8 @@ We run 1000 simulations for each number of flips. Dashed line represents the sit
 \subsection{Synthetic Data Analysis for Full Rank IEM}\label{sec:sim_iem}
 
 While the theory we have developed is based on the assumption that the mean graph is low rank, as we have seen in Section~\ref{sec:corr_data}, $\hat{P}$ often performs well even when this assumption is false. 
-To further illuminate this point, we performed a synthetic data analysis under a full-rank independent edge model where we used the sample mean of the 454 graphs in the Desikan dataset as the probability matrix $P$.
-As in the previous section, we simulated datasets from the full rank IEM distribution with probability matrix $P$ of size $M=1,5$, and $10$ and used $\bar{A}$ and $\hat{P}$, where we varied the rank of $\hat{P}$ from $1$ to $70$.
+To further illuminate this point, we performed a synthetic data analysis under a full-rank independent edge model. As discussed in Section~\ref{sec:challenge}, the sample mean of the 454 graphs in the Desikan dataset is actually of full rank and will be considered as the probability matrix $P$ in this experiment.
+We generated the synthetic data set of size $M = 1, 5$, and $10$ by sampling graphs independently from the full rank IEM with the probability matrix $P$. Then as in the previous section,  we calculated $\bar{A}$ and $\hat{P}$ of different embedding dimensions.
 
 Fig.~\ref{fig:sim_desikan} shows the resulting estimated MSE for $\bar{A}$ (solid line) and $\hat{P}$ (dashed line) for simulated data based on the full rank probability matrix $P$ shown in the left panel of Fig.~\ref{fig:Matrix_desikan_m5}.
 % Vertical lines at each dimension indicate the 95\% confidence intervals for the MSE.
@@ -1183,6 +1213,11 @@ Both of these analyses lead to very similar results in the cases presented above
 The cross-validation method is most reasonable from a prediction perspective where prediction about new samples is of interest.
 If instead one is interested in learning directly about the mean of a population, especially a finite population, the sub-sampling approach may be the most logical choice.
 
+While in this paper we focus on the estimation of the probability matrix $P$ based on the low-rank structure, a lot of future directions are quite interesting, such as fitting the SBM or clustering the vertices to detect different brain regions.
+For example, \citet{abraham2013extracting} introduced a region-extraction approach based on a sparse penalty with dictionary learning; and \citet{calhoun2001method} used ICA of fMRI data to draw group inferences. In future work, it would be interesting to explore further statistical inferences based on our method.
+
+
+
 \section{Methods}
 \label{sec:method}
 
@@ -1190,7 +1225,21 @@ If instead one is interested in learning directly about the mean of a population
 \label{section:dim_select}
 Often in dimensionality reduction techniques, the choice for dimension $d$, relies on analyzing the set of the ordered eigenvalues, looking for a ``gap'' or ``elbow'' in the scree-plot. \citet{zhu2006automatic} present an automated method for finding this gap in the scree-plot that takes only the ordered eigenvalues as an input and uses Gaussian mixture modeling to find these gaps.
 The mixture modeling results in multiple candidate dimensions or elbows, and our analysis indicated that underestimating the dimension is much more harmful than overestimating the dimension.
-For this reason, we used the 3rd elbow in the experiments performed for this work.
+For this reason, we used the 3rd elbow in the experiments performed for this work. While \citet{zhu2006automatic} only defines the 1st elbow, we define the $s$-th elbow as in Algorithm~\ref{algo:ZG}.
+
+\begin{algorithm}[H]
+\caption{Algorithm to compute the Zhu and Ghodsi's elbow}
+\label{algo:ZG}
+\begin{algorithmic}[1]
+\REQUIRE The number of Zhu and Ghodsi's elbow $s$, with eigenvalues $\lambda_1, \dots, \lambda_N$
+\ENSURE The $s$-th Zhu and Ghodsi's elbow
+\STATE Calculate the 1st elbow $d_1$ based on $\lambda_1, \dots, \lambda_N$ according to \citep{zhu2006automatic}
+\FOR{$i$ = 2 to s}
+	\STATE {Calculate the $i$-th elbow $d_i$ based on $\lambda_{d_{i - 1} + 1}, \dots, \lambda_N$ according to \citep{zhu2006automatic}}
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
 
 Universal Singular Value Thresholding (USVT) is a simple estimation procedure proposed in \citet{chatterjee2015matrix} that can work for any matrix that has ``a little bit of structure''. 
 In our setting, it selects the dimension $d$ as the number of singular values that are greater than a constant $c$ times $\sqrt{N/M}$.
@@ -1283,15 +1332,15 @@ Define $\bar{A} = \frac{1}{M} \sum_{t=1}^M A^{(t)}$. Let $\hat{U} \hat{S} \hat{U
 
 
 
-The proofs presented here will rely on a central limit theorem developed in \citet{athreya2013limit}. 
+The proofs presented here will rely on a central limit theorem developed in \citet{athreya2016limit}. 
 We modify the theorem slightly to account for the multiple graph setting and present it in the special case of the stochastic blockmodel.
 
-\begin{theorem}[Corrolary of Theorem 1 in \citet{athreya2013limit}]\label{thm:clt_ext}
+\begin{theorem}[Corollary of Theorem 1 in \citet{athreya2016limit}]\label{thm:clt_ext}
   In the setting above, let $X=[X_1,\dotsc,X_N]^{\top}\in\Re^{K\times d}$ have row $i$ equal to $X_i=\nu_{\tau_i}$ (recall that $\tau_i$ are drawn from $[K]$ according to the probabilities $\rho$).
 	Then there exists an orthogonal matrix $W$ such that for each row $i$ and $j$ and any $z \in \Re^{d}$, conditioned on $\tau_i=s$ and $\tau_j=t$,
   \begin{equation}
     \label{eq:4}
-    \Pr\left\{\sqrt{n}( W \hat{X}_i - \nu_s ) \leq z, \sqrt{n}( W \hat{X}_j - \nu_t) \leq z'\right\}
+    \Pr\left\{\sqrt{N}( W \hat{X}_i - \nu_s ) \leq z, \sqrt{N}( W \hat{X}_j - \nu_t) \leq z'\right\}
 =  \Phi(z, \Sigma(\nu_s)/M)  \Phi(z', \Sigma(\nu_t)/M) +o(1)
   \end{equation}
   where $\Sigma(x) =\Delta^{-1}\Ex[ X_j X_j^\top(x^\top X_j -(x^\top
@@ -1369,16 +1418,16 @@ Conditioned on $X_i = \nu_k$, we have by Theorem~\ref{thm:clt_ext},
 \]
 and
 \[
-	n \cdot \mathrm{Cov}(W \hat{X}_i, W_n \hat{X}_i) = \Sigma(\nu_k)/M.
+	N \cdot \mathrm{Cov}(W \hat{X}_i, W_n \hat{X}_i) = \Sigma(\nu_k)/M.
 \]
 
 % The results above are actually based on the \href{https://www.overleaf.com/2962543bbfkxq}{extended version of Avanti's CLT}.
 
-Also, Corollary 4.11 in \citet{athreya2013limit} says $\hat{X}_i$ and $\hat{X}_j$ are asymptotically independent. Thus, conditioning on $X_i = \nu_s$ and $X_j = \nu_t$, we have $\lim_{n\to\infty}\Ex[\hat{X}_i^{\top} \hat{X}_j] = \lim_{n\to\infty}\Ex[(W_n \hat{X}_i)^{\top}] \Ex[W_n \hat{X}_j] = \nu_s^{\top} \nu_t = P_{ij}$.
+Also, Corollary 3 in \citet{athreya2016limit} says $\hat{X}_i$ and $\hat{X}_j$ are asymptotically independent. Thus, conditioning on $X_i = \nu_s$ and $X_j = \nu_t$, we have $\lim_{N\to\infty}\Ex[\hat{X}_i^{\top} \hat{X}_j] = \lim_{N\to\infty}\Ex[(W_N \hat{X}_i)^{\top}] \Ex[W_N \hat{X}_j] = \nu_s^{\top} \nu_t = P_{ij}$.
 
-Since $\hat{P}_{ij} = \hat{X}_i^{\top} \hat{X}_j$ is a noisy version of the dot product of $\nu_s^{\top} \nu_t$, combined with Lemma~\ref{lm:mseForm} and the results above, by Equation 5 in Brown and Rutemiller (1977), conditioning on $X_i = \nu_s$ and $X_j = \nu_t$, we have
+Since $\hat{P}_{ij} = \hat{X}_i^{\top} \hat{X}_j$ is a noisy version of the dot product of $\nu_s^{\top} \nu_t$, combined with Lemma~\ref{lm:mseForm} and the results above, by Equation 5 in \citep{brown1977means}, conditioning on $X_i = \nu_s$ and $X_j = \nu_t$, we have
 \[
-	\Ex[\hat{X}_i^{\top} \hat{X}_j] = \Ex[(W_n \hat{X}_i)^{\top}] \Ex[W_n \hat{X}_j] = \nu_s^{\top} \nu_t+o(1) = P_{ij}+o(1)
+	\Ex[\hat{X}_i^{\top} \hat{X}_j] = \Ex[(W_N \hat{X}_i)^{\top}] \Ex[W_N \hat{X}_j] = \nu_s^{\top} \nu_t+o(1) = P_{ij}+o(1)
 \]
 and
 \begin{align*}
@@ -1458,6 +1507,26 @@ Note that after a uniform $k$-flip, the number of regions in each lobe still kee
 
 In the permutation test, we apply a uniform $k$-flip and calculate the test statistic $T(X, l)$ based on the lobe assignment after flipping.
 The $p$-value is computed as the proportion of uniform $k$-flips with a $T$ value smaller than the $T$ value for the true lobe assignments.
+
+
+
+\section{Stochastic Blockmodel Parametere Setting}
+\label{section:SBM_parameters}
+Here we give the parameters in the stochastic blockmodel example depicted in Figure~\ref{fig:SBM_example}.
+It is a 5-block SBM with 
+\begin{equation*}
+B = \begin{bmatrix}
+0.90 & 0.27 & 0.05 & 0.10 & 0.30 \\
+0.27 & 0.67 & 0.02 & 0.26 & 0.14 \\
+0.05 & 0.02 & 0.44 & 0.25 & 0.33 \\
+0.10 & 0.26 & 0.25 & 0.70 & 0.18 \\
+0.30 & 0.14 & 0.33 & 0.18 & 0.58
+\end{bmatrix}
+,\qquad \rho = \begin{bmatrix}
+0.22 & 0.39 & 0.05 & 0.16 & 0.18
+\end{bmatrix}.
+\end{equation*}
+
 
 
 \end{document}

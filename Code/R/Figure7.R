@@ -197,7 +197,7 @@ Diff_A_bar[nv] = 0
 pdf("../../Draft/Diff2_desikan_m5.pdf", family="Times", width=4, height=3.5)
 levelplot(Diff_A_bar[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('$|\\bar{A} - P|$ for Desikan with M=5')),
+          main=list(label=TeX('(a) $|\\bar{A} - P|$ for Desikan with M=5')),
           at=myAt, colorkey=FALSE)
 dev.off()
 
@@ -207,7 +207,7 @@ Diff_P_hat[nv] = 0
 pdf("../../Draft/Diff3_desikan_m5.pdf", family="Times", width=4.5, height=3.5)
 levelplot(Diff_P_hat[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('$|\\hat{P} - P|$ for Desikan with M=5')),
+          main=list(label=TeX('(b) $|\\hat{P} - P|$ for Desikan with M=5')),
           at=myAt, colorkey=FALSE)
 dev.off()
 
@@ -217,7 +217,7 @@ Diff_Between[nv] = 0
 pdf("../../Draft/Diff1_desikan_m5.pdf", family="Times", width=4, height=3.5)
 levelplot(Diff_Between[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('$|\\bar{A} - \\hat{P}|$ for Desikan with M=5')),
+          main=list(label=TeX('(c) $|\\bar{A} - \\hat{P}|$ for Desikan with M=5')),
           at=myAt, colorkey=myCkey)
 dev.off()
 

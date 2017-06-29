@@ -7,7 +7,7 @@ dataName = "desikan"
 
 set.seed(12345)
 
-m = 5
+m = 1
 isSVD = 0
 
 require(Matrix)
@@ -35,7 +35,7 @@ add <- function(x) Reduce("+", x)
 P = add(A_all)/M
 
 
-pdf("../../Draft/P_desikan.pdf", family="Times", width=4, height=3.5)
+pdf("../../Draft/P_desikan_m1.pdf", family="Times", width=4, height=3.5)
 # pdf("../../Draft/P_desikan.pdf", family="CM Roman", width=4, height=3.5)
 # image(Matrix(P),main=list(label=TeX('$P$ for Desikan')),sub="",
 #       xlab=list(cex=0),ylab=list(cex=0),
@@ -43,7 +43,7 @@ pdf("../../Draft/P_desikan.pdf", family="Times", width=4, height=3.5)
 #       at=myAt, lwd=0)
 levelplot(P[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('(a) $P$ for Desikan')),
+          main=list(label=TeX('(d) $P$ for Desikan')),
           at=myAt, colorkey=F, lwd=0)
 dev.off()
 
@@ -113,7 +113,7 @@ A_bar_combine[nv1 & nv2] = 0
 pdf(paste0("../../Draft/Abar_desikan_m", m, ".pdf"), family="Times", width=4, height=3.5)
 levelplot(A_bar_combine[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('(b) $\\bar{A}$ for Desikan with M=5')),
+          main=list(label=TeX('(e) $\\bar{A}$ for Desikan with M=1')),
           at=myAt, colorkey=F, lwd=0)
 dev.off()
 
@@ -153,7 +153,7 @@ P_hat_combine[nv1 & nv2] = 0
 pdf(paste0("../../Draft/Phat_desikan_m", m, ".pdf"), family="Times", width=4.5, height=3.5)
 levelplot(P_hat_combine[1:n,n:1],col.regions=new.palette(nColor),xlab=list(cex=0),
           ylab=list(cex=0),scales=list(x=list(draw=FALSE),y=list(draw=FALSE)),
-          main=list(label=TeX('(c) $\\hat{P}$ for Desikan with M=5')),
+          main=list(label=TeX('(f) $\\hat{P}$ for Desikan with M=1')),
           at=myAt, colorkey=myCkey, lwd=0)
 dev.off()
 print(dHat)
