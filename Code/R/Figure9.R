@@ -130,7 +130,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
         panel.grid.minor = element_blank())+
   theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
   theme(legend.position="none")+
-  ggtitle(paste0(dataName, ", N=", n))
+  ggtitle(paste0("(a) ", dataName, ", N=", n))
 
 pp[[1]]=gg
 
@@ -254,7 +254,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
         panel.grid.minor = element_blank())+
   theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
   theme(legend.position="none")+
-  ggtitle(paste0(dataName, ", N=", n))
+  ggtitle(paste0("(b) ", dataName, ", N=", n))
 
 pp[[2]]=gg
 
@@ -379,7 +379,7 @@ gg <- ggplot(error_by_dim_df,aes(x=d,y=mse,linetype=factor(which),shape=factor(w
         panel.grid.minor = element_blank())+
   theme(panel.background = element_rect(fill = 'white', colour = 'grey70'))+
   theme(legend.position="bottom")+
-  ggtitle(paste0(dataName, ", N=", n))
+  ggtitle(paste0("(c) ", dataName, ", N=", n))
 
 pp[[3]]=gg
 

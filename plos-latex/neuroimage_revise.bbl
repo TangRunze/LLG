@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -9,6 +9,15 @@
 Neurodata’s mri to graphs pipeline.
 \newblock \url{http://m2g.io}.
 \newblock Accessed: 2016-05-23.
+
+\bibitem[Abraham et~al.(2013)Abraham, Dohmatob, Thirion, Samaras, and
+  Varoquaux]{abraham2013extracting}
+Alexandre Abraham, Elvis Dohmatob, Bertrand Thirion, Dimitris Samaras, and Gael
+  Varoquaux.
+\newblock Extracting brain regions from rest fmri with total-variation
+  constrained dictionary learning.
+\newblock In \emph{MICCAI-16th International Conference on Medical Image
+  Computing and Computer Assisted Intervention-2013}. Springer, 2013.
 
 \bibitem[Airoldi et~al.(2008)Airoldi, Blei, Fienberg, and
   Xing]{airoldi2008mixed}
@@ -23,6 +32,13 @@ Avanti Athreya, CE~Priebe, M~Tang, V~Lyzinski, DJ~Marchette, and DL~Sussman.
 \newblock A limit theorem for scaled eigenvectors of random dot product graphs.
 \newblock \emph{Sankhya A}, pages 1--18, 2013.
 
+\bibitem[Athreya et~al.(2016)Athreya, Priebe, Tang, Lyzinski, Marchette, and
+  Sussman]{athreya2016limit}
+Avanti Athreya, Carey~E Priebe, Minh Tang, Vince Lyzinski, David~J Marchette,
+  and Daniel~L Sussman.
+\newblock A limit theorem for scaled eigenvectors of random dot product graphs.
+\newblock \emph{Sankhya A}, 78\penalty0 (1):\penalty0 1--18, 2016.
+
 \bibitem[Bollob{\'a}s et~al.(2007)Bollob{\'a}s, Janson, and
   Riordan]{bollobas2007phase}
 B{\'e}la Bollob{\'a}s, Svante Janson, and Oliver Riordan.
@@ -35,6 +51,13 @@ Gerald~G Brown and Herbert~C Rutemiller.
 \newblock Means and variances of stochastic vector products with applications
   to random linear models.
 \newblock \emph{Management Science}, 24\penalty0 (2):\penalty0 210--216, 1977.
+
+\bibitem[Calhoun et~al.(2001)Calhoun, Adali, Pearlson, and
+  Pekar]{calhoun2001method}
+Vince~D Calhoun, Tulay Adali, Godfrey~D Pearlson, and JJ~Pekar.
+\newblock A method for making group inferences from functional mri data using
+  independent component analysis.
+\newblock \emph{Human brain mapping}, 14\penalty0 (3):\penalty0 140--151, 2001.
 
 \bibitem[Chatterjee(2015)]{chatterjee2015matrix}
 Sourav Chatterjee.
