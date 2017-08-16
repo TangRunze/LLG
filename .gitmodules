@@ -1,3 +1,6 @@
 [submodule "neuroimage"]
 	path = neuroimage
 	url = https://git.overleaf.com/10169107vqbndzfvdczx
+[submodule "neuroimage-response"]
+	path = neuroimage-response
+	url = https://git.overleaf.com/10129430fxcfthdbzkcs
