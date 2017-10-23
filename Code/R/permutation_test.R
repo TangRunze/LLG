@@ -17,7 +17,7 @@ test1 <- function(xHat, cl) {
 
 
 
-setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
+# setwd("/Users/Runze/Documents/GitHub/LLG/Code/R")
 # setwd("E:/GitHub/LLG/Code/R")
 # setwd("/cis/home/rtang/LLG/Code/R")
 
