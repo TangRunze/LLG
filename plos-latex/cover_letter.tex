@@ -132,21 +132,32 @@
 \begin{letter}{%Chair, Faculty Search Committee\\
 \today\\
 \vspace{11pt}
-Peter Bandettini and Editorial Board \\
-NeuroImage: A Journal of Brain Function \\
-Elsevier Publishing
+Tilmann Gneiting and Editorial Board \\
+The Annals of Applied Statistics\\
+Institute of Mathematical Statistics
 }
 
 
-\opening{Dear Peter Bandettini and the Editorial Board of NeuroImage,}
+\opening{Dear STilmann Gneiting and Editorial Board of AoAS,}
 
-We submit to you our manuscript titled, ``Law of Large Graphs'', for publication as a full length article.
+We submit to you our manuscript titled ``Connectome Smoothing via Low-rank Approximations'' for publication as a regular paper.
 
-As neuroscientists, computational biologists, and social scientists estimate increasingly large networks, accurate methods to estimate the mean network (or graph) becomes more important. When confronting high dimensional data, even accurately estimating the mean can require careful statistical thinking. With graph data, the number of parameters for the mean of a population of graphs scales quadratically with the number of vertices and so using the standard sample mean of the adjacency matrices may be suboptimal. The performance can be especially poor in cases with small samples sizes and a large number of vertices. Additionally, even if the number of networks collected in a study is large, researchers will often seek to estimate the mean for smaller subsets of interest. Our goal is to propose a method which will improve the performance for this estimation task in these cases.
+As neuroscientists, computational biologists, and social scientists measure increasingly large networks, tools to accurately estimate the mean network are increasingly important.
+When confronting high-dimensional data, even estimating the mean can require careful statistical thinking, and with graph data the number of parameters for the mean scales quadratically with the number of vertices.
+% and so using the standard sample mean of the adjacency matrices may lead to excessive variance.
+The performance of the standard sample mean can be especially poor in cases with small samples sizes and large number of vertices.
+Additionally, even if the number of networks collected in a study is large, researchers often seek to estimate the mean for smaller subsets of interest.
+The challenge is especially acute for connectomics, the study of brain networks, where accurate measurements of connectivity at the micro- and meso-scales are still in development.
+Our goal is to propose a method which will improve the performance for this estimation task in these cases.
 
-We proposed a novel method motivated by a low-rank statistical model for random networks. We show that this end-to-end method for estimating the mean of a collection of graphs yields improvements over using standard methods, especially when considering small cohorts, as is common practice in clinical studies. These methods offer major improvements in the increasingly common setting where the number of vertices in the graph is large but the number of graphs in the sample is relatively small. We believe scientists in a variety of fields will find these methods useful when confronted with collections graphs and our associated analysis will help practitioners decide on the best estimator for their setting. 
+We proposed a novel method motivated by a low-rank statistical model for random networks.
+We show that this end-to-end method for estimating the mean of a collection of graphs yields improvements over using standard methods.
+This is especially evident when considering small cohorts with large numbers of vertices, as is increasingly common practice in clinical studies.
+% These methods offer substantial improvements in the increasingly common setting where the number of vertices in the graph is large but the number of graphs in the sample is relatively small.
+We also illustrate how the low-rank nature of of our method illuminates relationships between connectivity and anatomical structure that are not as evident from more standard techniques.
+We believe scientists in a variety of fields will find these methods useful when confronted with collections graphs and our associated analysis will help practitioners decide on the best estimator for their setting.
 
-
+Note, this is a revision of a manuscript, entitled ``Law of Large Graphs'', previously submitted to another journal.
 We hope you enjoy reading the manuscript and look forward to your feedback.
 
 \closing{Best,}
