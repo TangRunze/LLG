@@ -104,7 +104,7 @@ contract N66001-14-1-4028. We would also like to acknowledge support from NIH th
 \thanks{M. Ketcha and J. T. Vogelstein are with the Department of Biomedical Engineering,  The Johns Hopkins University, Baltimore, MD}
 \thanks{A. Badea and E. D.~Calabrese are with the Department of Radiology, and Department of Biomedical Engineering, Duke University, Durham, NC}
 \thanks{D. S. Margulies is with Max Planck Research Group for Neuroanatomy \& Connectivity, Max Planck Institute for Human Cognitive and Brain Sciences, Leipzig, Germany}
-\thanks{J. T. Vogelstein is also with Child Mind Institute, New York City, NY}
+% \thanks{J. T. Vogelstein is also with Child Mind Institute, New York City, NY}
 \thanks{D. L. Sussman is with the Department of Mathematics \& Statistics, Boston University, Boston, MA; e-mail: sussman@bu.edu}}
 
 
@@ -265,7 +265,7 @@ Similarly, for functional brain imaging, such as fMRI, an edge between two regio
 For the purpose of this paper, we assume that the graphs are sampled independently and identically from some distribution.
 To this end, the mean graph is the expectation of each adjacency matrix.
 \begin{definition}[Mean Graph]
-Suppose that $A^{(1)},\dotsc,A^{(M)}\stackrel{iid}{\sim} \mathcal{G}$ for some random graph distribution $\mathcal{G}$, with $A^{(m)}\in\{0,1\}^{N\times N}$ for each $m$.
+Suppose $A^{(1)},\dotsc,A^{(M)}\stackrel{iid}{\sim} \mathcal{G}$ for some random graph distribution $\mathcal{G}$, with $A^{(m)}\in\{0,1\}^{N\times N}$ for each $m$.
 The {\em mean graph} is $\Ex[A^{(m)}]$.%, where the graphs are identically distributed $\Ex[A^{(m)}]=\Ex[A^{(m')}]$ for any $m,m'$.
 \end{definition}
 
@@ -305,13 +305,13 @@ Note that the IEM is a generalization of the Erd\H{o}s-R{\'e}nyi random graphs, 
 For this case, the mean graph is $P=\Ex[A^{(m)}]$.
 
 \subsection{Random Dot Product Graph}
-In graphs, the adjacencies between vertices generally depend on properties of the corresponding vertices.
-For example, in a connectomics setting,  two brain regions with similar properties might have similar connectivity patterns. % to other regions of the brain.
-The latent positions model (LPM) proposed by \cite{hoff2002latent} captures such structure, where each vertex $i$ is associated with a latent position $X_i\in \Re^d$ that influences the adjacencies for that vertex.
-Conditioned on the latent positions, the existence of each edge is independent and the probability an edge is present only depends on the latent vectors of the incident vertices through a link function.
-If $d$ is much smaller than the number of vertices $N$ and the link function is known, LPMs are more parsimonious models compared to IEM, requiring only $O(dN)$ parameters rather than $\binom{N}{2}=N(N-1)/2$.
-
-A specific instance of an LPM is the random dot product graph model (RDPG) \cite{young2007random, nickel2007random}, where the probability of an edge being present between two nodes is the dot product of their latent vectors.
+% In graphs, the adjacencies between vertices generally depend on properties of the corresponding vertices.
+% For example, in a connectomics setting,  two brain regions with similar properties might have similar connectivity patterns. % to other regions of the brain.
+% The latent positions model (LPM) proposed by \cite{hoff2002latent} captures such structure, where each vertex $i$ is associated with a latent position $X_i\in \Re^d$ that influences the adjacencies for that vertex.
+% Conditioned on the latent positions, the existence of each edge is independent and the probability an edge is present only depends on the latent vectors of the incident vertices through a link function.
+% If $d$ is much smaller than the number of vertices $N$ and the link function is known, LPMs are more parsimonious models compared to IEM, requiring only $O(dN)$ parameters rather than $\binom{N}{2}=N(N-1)/2$.
+A specific instance of an LPM is 
+The random dot product graph model (RDPG) \cite{young2007random, nickel2007random}, assigns latent positions to each vertex in a graph where the probability of an edge being present between two nodes is the dot product of their latent vectors \cite{hoff2002latent}.
 % The latent position is determined by properties of that vertex, and vertices whose latent positions are close are more likely to have an edge between them than vertices whose latent positions are far from each other.
 %Similarly, the magnitudes of the latent position encode the vertices' overall tendency to form edges, with a larger magnitude leading to more edges incident with the vertex.
 % 
@@ -324,15 +324,14 @@ A random graph $G$ with random adjacency matrix $A$ is said to be an RDPG if for
 
 % In the RDPG model, each vertex $i$ is associated with latent position $X_i$, and conditioned on the latent positions $X$, the entries $A_{ij}$ are distributed independently as $ \text{Bernoulli}(X_i^{\top} X_j)$ for $i<j$.
 Conditioned on the latent positions, the RDPG is an independent edge model with probability matrix given by the outer product of the latent position matrix with itself, $P = X X^{\top}$.
-This imposes two properties on $P$, namely that $P$ is positive-semidefinite and $\mathrm{rank}(P)=\mathrm{rank}(X)\leq d$.
-These properties lead us to our proposed estimator.
-Importantly, even if $P$ is positive semi-definite and low-rank $A$ will always be indefinite, since it has a zero diagonal, and will with high probability have full rank.
-%Note that $\mathrm{rank}(P) = \mathrm{rank}(X)$.
+This imposes that $P$ is positive-semidefinite and $\mathrm{rank}(P)=\mathrm{rank}(X)\leq d$.
+% These properties lead us to our proposed estimator.
+% Importantly, even if $P$ is positive semi-definite and low-rank $A$ will always be indefinite, since it has a zero diagonal, and will with high probability have full rank.
 
 
-In the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, we can analyze and visualize the geometry of these vectors to interpret how each vertex is behaving in the context of the larger graph. 
+
+% In the RDPG model, by representing a low-rank matrix in terms of the latent positions, where each vertex is represented as a vector in $\Re^d$ and the entries of the matrix are given by the inner products of these vectors, we can analyze and visualize the geometry of these vectors to interpret how each vertex is behaving in the context of the larger graph. 
 By using the SWU4 brain graphs as an example (see~Section~\ref{sec:corr_data} and \ref{section:data}) and embedding the mean graph $P$, the average of all 454 graphs, we determined the estimated latent positions $\hat{X} \in \mathbb{R}^{N\times d}$, where $N=70$ is the number of vertices and $d = 8$ is the dimension selected by the Zhu and Ghodsi's method \cite{zhu2006automatic}.
-
 Fig.~\ref{fig:eigenvector_brain} shows the first 4 dimensions of $\hat{X}$ in the brain. The value of $\hat{X}_{ij}$ determines the color of the $i$-th brain region for the $j$-th dimension; i.e.\ the $j$-th element of the estimated latent vector for the $i$-th region. Red represents a positive value while blue represents the negative one, and the darker the color, the smaller the magnitude of the $\hat{X}_{ij}$.
 
 The 1st dimension, depicted in Panel (a) of the figure, shows the average level of connectivity for each vertex. % and is strongly correlated with the vertex degrees. 
@@ -342,11 +341,9 @@ For example, the red color corresponds to the Frontal and Temporal lobes in the 
 
 These ``eigen-connectomes'' demonstrate noteworthy similarity to the structural connectome harmonics of \cite{Atasoy2016-ip}.
 While prior work has established the utility of eigen-connectomes as a basis set for modeling of functional dynamics, the current study demonstrates the correspondence of these dimensions with lobular divisions.
+The connection between eigenvectors corresponding to each dimension and lobes will be explored more rigorously in Section~\ref{section:lobe_structure}.
 Future work integrating the connections between structural features with the modeling of dynamics may provide insight into the spatial distribution of large-scale cortical hierarchies \cite{Margulies2016-jj}.
 Additionally, such representations allow the use of techniques from multivariate analysis to further study the estimated population mean.
-
-
-The connection between eigenvectors corresponding to each dimension and lobes will be explored more rigorously in Section~\ref{section:lobe_structure}.
 
 \begin{figure}
 \begin{subfigure}[t]{0.95\linewidth}
@@ -407,18 +404,11 @@ The SBM is parameterized by the number of blocks $K$ (generally much less than t
 $\tau\in\{1,\dotsc,K\}^N$, where for each $i \in [N]$, $\tau_i = k$ means vertex $i$ is a member of block $k$.
 
 % We will assume each vertex is assigned its block independently according to the probability vector $\rho$, so $\Pr[tau_i = k] = \rho_k$.
-Conditioned on $\tau$, each entry of the adjacency matrix $A_{ij}$ ($i < j$) is independently sampled from the Bernoulli distribution with parameter $B_{\tau_i,\tau_j}$.
-To ensure that the SBM can be considered as an RDPG, we impose that the $B$ matrix for the SBM is positive semidefinite.
-For notational convenience the sub-model of the SBM with positive semidefinite $B$ matrix is referred to  as simply the SBM.
+Conditioned on $\tau$, $A_{ij} \stackrel{ind}{\sim} \mathrm{Bern}(B_{\tau_i,\tau_j}$.
+% each entry of the adjacency matrix $A_{ij}$ ($i < j$) is independently sampled from the Bernoulli distribution with parameter $B_{\tau_i,\tau_j}$.
+To ensure that the SBM can be considered as an RDPG, we always impose that the $B$ matrix for the SBM is positive semidefinite (see Section~\ref{section:outline_proof}).
+% For notational convenience the sub-model of the SBM with positive semidefinite $B$ matrix is referred to  as simply the SBM.
 
-To analyze the estimator $\hat{P}$ motivated by RDPG (Section~\ref{sec:phat} discusses how to construct $\hat{P}$), the SBM can be viewed as an RDPG by
-decomposing $B$ as $\nu \nu^{\top}$, where $\nu \in \Re^{K \times d}$ with rows given by $\nu_1^{\top}, \dotsc, \nu_K^{\top}$ and each row $\nu_k^{\top}$ is the shared latent position for all vertices assigned to block $k$.
-Let $X \in \Re^{N \times d}$ have rows given by $X_1^{\top} = \nu_{\tau_1}^{\top}, X_2^{\top} = \nu_{\tau_2}^{\top}, \dotsc, X_N^{\top} = \nu_{\tau_N}^{\top}$.
-Since $\tau_i$ and $\tau_j$ represent the blocks that vertex $i$ and vertex $j$ belong to respectively:
-\[
-    \Pr[A_{ij} = 1|\tau] = B_{\tau_i, \tau_j} = \nu_{\tau_i}^{\top} \nu_{\tau_j}^{\phantom{\top}} \in [0, 1].
-\]
-The SBM is therefore a special case of  an RDPG where all vertices in the same block have identical latent positions.
 
 % An example SBM is illustrated in Fig.~\ref{fig:SBM_example}.
 % We consider a 5-block SBM and plot the corresponding probability matrix and one adjacency matrix generated from it with 200 vertices. 
@@ -427,12 +417,18 @@ The SBM is therefore a special case of  an RDPG where all vertices in the same b
 % \begin{remark}
 % Rather than allowing vertices to differ from each other as in the RDPG, the SBM presumes all nodes within the same block have the same expected degree.
 % Vertices in the same block are all stochastically equivalent.
+
+
+
 To better describe complex network structures, many
 generalizations of the SBM have been explored to incorporate the local variation of vertices to the block structure. 
-\cite{airoldi2008mixed} proposed mixed membership stochastic blockmodels, which associates each vertex with multiple blocks with a probability vector rather than a single block as SBM requires.
-To model variation of the expected degrees of different vertices within the same block, \cite{karrer2011stochastic} proposed degree-corrected SBM, which assigns additional parameters to each vertex to adjust the expected degree relatively.
-These generalizations aim to capture variations among vertices while maintaining aspects of the original community structure.
-The RDPG is useful in this regard since any positive semidefinite SBM with degree-correction and mixed membership can be represented as an RDPG and visa versa.
+For example. \cite{airoldi2008mixed} proposed mixed membership stochastic blockmodels, 
+% which associates each vertex with multiple blocks with a probability vector rather than a single block as SBM requires.
+% To model variation of the expected degrees of different vertices within the same block,
+and \cite{karrer2011stochastic} proposed degree-corrected SBM.
+ % which assigns additional parameters to each vertex to adjust the expected degree relatively.
+These generalizations aim to capture variations among vertices while maintaining parts of the original community structure.
+The RDPG is useful in this regard since any SBM with degree-correction and mixed membership can be represented as an RDPG and visa versa.
 % \end{remark}
 
 
@@ -624,9 +620,19 @@ The asymptotic relative efficiency is defined as $\lim_{N\to \infty}\mathrm{RE}$
 We also define the scaled relative efficiency, $N\cdot \mathrm{RE}(\bar{A}_{ij},\hat{P}_{ij})$ which normalizes the relative efficiency so that the asymptotic scaled relative efficiency is non-zero and finite.
 Somewhat surprisingly, the results indicate that the asymptotic relative efficiency will not depend on this fixed sample size $M$.
 
+% To analyze the estimator $\hat{P}$ motivated by RDPG (Section~\ref{sec:phat} discusses how to construct $\hat{P}$), the SBM can be viewed as an RDPG by
+% decomposing $B$ as $\nu \nu^{\top}$, where $\nu \in \Re^{K \times d}$ with rows given by $\nu_1^{\top}, \dotsc, \nu_K^{\top}$ and each row $\nu_k^{\top}$ is the shared latent position for all vertices assigned to block $k$.
+% Let $X \in \Re^{N \times d}$ have rows given by $X_1^{\top} = \nu_{\tau_1}^{\top}, X_2^{\top} = \nu_{\tau_2}^{\top}, \dotsc, X_N^{\top} = \nu_{\tau_N}^{\top}$.
+% Since $\tau_i$ and $\tau_j$ represent the blocks that vertex $i$ and vertex $j$ belong to respectively:
+% \[
+%     \Pr[A_{ij} = 1|\tau] = B_{\tau_i, \tau_j} = \nu_{\tau_i}^{\top} \nu_{\tau_j}^{\phantom{\top}} \in [0, 1].
+% \]
+% The SBM is therefore a special case of  an RDPG where all vertices in the same block have identical latent positions.
 
-For this asymptotic framework, we assume the block memberships $\tau_i$ are drawn iid from a categorical distribution with block membership probabilities given by $\rho\in[0,1]^K$.
-In particular, this implies that for each block $k$, the proportion of vertices in block $k$, $|\{i:\tau_i=k\}|/N$, will converge to $\rho_k$ as $N\to\infty$ by the law of large numbers.
+For this asymptotic framework, 
+% we assume the block memberships $\tau_i$ are drawn iid from a categorical distribution with block membership probabilities given by $\rho\in[0,1]^K$.
+% In particular, this implies that for each block $k$, 
+the proportion of vertices in block $k$, $|\{i:\tau_i=k\}|/N$, will converge to $\rho_k$ as $N\to\infty$ by the law of large numbers.
 We will also assume that for a given $N$, the block membership probabilities are fixed for all graphs.
 Denote the block probability matrix as $B = \nu \nu^{\top} \in [0, 1]^{K \times K}$.
 By definition, the mean of the collection of graphs generated from this SBM is $P \in [0, 1]^{N \times N}$, where $P_{ij} = B_{\tau_i, \tau_j}$. After observing $M$ graphs on $N$ vertices $A^{(1)}, \cdots, A^{(M)}$ sampled independently from the SBM conditioned on $\tau$, the two estimators can be calculated, $\bar{A}$ and $\hat{P}$.
@@ -651,10 +657,10 @@ and
 In the same setting as in Lemma~\ref{lm:VarPhat}, for any $i \ne j$, if $\mathrm{rank}(B)=K=d$, then for large enough $N$:
 \begin{equation}
 	    \mathrm{RE}(\bar{A}_{ij}, \hat{P}_{ij}) \approx
-    \frac{1/\rho_{\tau_i} + 1/\rho_{\tau_j}}{N}.
+    \frac{1/\rho_{\tau_i} + 1/\rho_{\tau_j}}{N},
 \label{eq:approx_re}
 \end{equation}
-And the asymptotic relative efficiency (ARE) is
+and the asymptotic relative efficiency (ARE) is
 \[
     \mathrm{ARE}(\bar{A}_{ij}, \hat{P}_{ij}) = \lim_{N \to \infty} \mathrm{RE}(\bar{A}_{ij}, \hat{P}_{ij}) = 0.
     \label{eq:sbm_are}
@@ -971,7 +977,7 @@ For these edges, $\bar{A}$ will have exactly zero error, while $\hat{P}$ will be
 
 Despite these challenges, when the sample size is relatively small, such as $M=1$ or $M=5$, and for larger number of vertices, $\hat{P}$ gives a better estimate than $\bar{A}$ for the CoRR dataset.
 (See Appendix~\ref{sec:sim_iem} for a similar synthetic data analysis.)
-Importantly, this improvement is robust to the embedding dimension as illustrated in Section~\ref{sec:dim}.
+Importantly, this improvement is robust to the embedding dimension as illustrated in Appendix~\ref{sec:dim}.
 % We should note that though the total error for $\hat{P}$ is smaller in this case, for certain entries $\bar{A}$ does perform better.
 % For example, there are some pairs of vertices that are adjacent for all samples in the population and for these pairs $\bar{A}$ will always perform better than $\hat{P}$.
 
@@ -1022,17 +1028,13 @@ The number of flips was varied from 1 to 10  (Fig.~\ref{fig:violin_plot}). In th
 The p-value is less than 0.05 if the number of flips is larger than 7.
 Hence, latent positions in the same lobe are more similar to each other, even after accounting for the fact that geometrically proximal regions may also have similar latent positions.
 When the number of flips is small, this test has very little power, with the null distribution a small deviation from the original lobes.
- % @rt: i don't understand the above.  "regardless" means not using it in the estimate? please clarify.
-% @ds: revised. maybe we can have a better way?
-% @ds2rt: I also don't understand. It suggests that latent positions in the same lobe are more similar to each other, even after accounting for the fact that geometrically proximal regions may also have similar latent positions.
-% revised
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1\linewidth]{violinplot_new_flip_2norm_1_8.pdf}
 \caption{
 % {\bf Violin plot of the permutation test.}
-1000 simulations were run for each number of flips. Dashed line represents the statistic $T(x,l)$ based on true lobe assignment. As the null hypotheses move further from the original lobe assignment, the 95\% central region of the null distributions shifts away from $T(x,l)$ under the true lobe assignment.}
+Violin plot of the permutation test based on 1000 simulations. Dashed line represents the statistic $T(x,l)$ for the true lobes. As the null hypotheses move further from the original lobe assignment, the 95\% central region of the null shifts away from $T(x,l)$ under the true lobe assignment.}
 \label{fig:violin_plot}
 \end{figure}
 
@@ -1124,26 +1126,25 @@ As the original weights had very heavy tails, these weights were transformed by 
 	\label{fig:mouse_adj_lr}
 \end{figure}
 
-Using the procedure described in Algorithm~\ref{algo:basic}, we found a low-rank approximation to the re-weighted matrix $A$.
-In this instance, the \cite{zhu2006automatic} procedure resulted in a rank-7 approximation which is shown in the right panel of Figure~\ref{fig:mouse_adj_lr}.
-Since the sample size is only one, cross-validation cannot be employed to analyze the prediction performance of the low-rank methods, but visually it appears that the rank-7 approximation captures many of the features in the original adjacency matrix.
+Using the procedure described in Algorithm~\ref{algo:basic}, the \cite{zhu2006automatic} dimension selection procedure resulted in a rank-7 approximation which is shown in the right panel of Figure~\ref{fig:mouse_adj_lr}.
+Since the sample size is only one, cross-validation cannot be employed, but visually it appears that the rank-7 approximation captures many of the features in the original matrix.
 
-As with the human connectome, we sought to understand the relationship between the structure of the graph, as conveyed through the adjacency spectral embedding, and the eight superstructures which partition the regions of the mouse brain.
+As with the human data, we studied the relationship between the structure of the graph and the eight superstructures.
 Panel (a) of Figure~\ref{fig:mouse_ase} shows entries of the four scaled singular vectors  of the weighted adjacency matrix $A$ corresponding to the largest singular values. 
 The points are colored according to the four superstructures and the shapes are determined by the hemisphere. 
-The ordering of the points groups together nodes in the same superstructure and hemisphere. The second and fourth vectors have structure which correlates closely with the four superstructures and the two hemispheres, respectively.
+The ordering of the points groups together nodes in the same superstructure and hemisphere.
+The second and fourth vectors have structure which correlates closely with the four superstructures and the two hemispheres, respectively.
 Additionally, the first vector appears to separate the midbrain from the other three superstructures.
 
-The right panel of Figure~\ref{fig:mouse_ase} shows a scatter plot of the entries of the fourth and second vectors along with the class boundaries for the eight-class quadratic discriminant analysis classifier, which is based on Gaussian mixture models with no constraints on the covariance structure \cite{Hastie2001-qi}.
+The right panel of Figure~\ref{fig:mouse_ase} shows a scatter plot of the entries of the fourth and second vectors along with the class boundaries for the eight-class quadratic discriminant analysis classifier. %, which is based on Gaussian mixture models with no constraints on the covariance structure \cite{Hastie2001-qi}.
 This classifier achieves a training error rate of $87/296\approx 0.29$.
 The error rate is particularly high for the white matter, with $58/60$ vertices being classified incorrectly, meaning that ignoring the white matter, $29/236 \approx 0.12$ vertices were misclassified. 
 Panel (c) shows the normalized confusion matrix for the eight classes, indicating that the forebrain and hindbrain classes are well separated while the white matter and midbrain have more substantial overlap.
 This matches with the general structure of the white matter which is not defined at the first hierarchical level of the atlas according to spatial structure, while the fore-, mid-, and hind-brain superstructures are.
 
 
-Finally, as for the eight human superstructures, the same permutation analysis was also performed for the mouse connectome.
+Finally, the same permutation analysis as Fig.~\ref{fig:violin_plot} was also performed for the mouse connectome as shown in Fig.~\ref{fig:mouse_violin} in Appendix~\ref{section:testing}.
 %\todo[inline]{are lobes not the same things as superstructures? would a consistent language help with human to mouse parallelism? it is but a question}
-Figure~\ref{fig:mouse_violin} shows the violin plots for the metric defined in Eq.~\eqref{eq:test_stat} permuted in the same way as described in the Appendix.
 This test again indicates that the eight superstructures are significant even after accounting for the spatial structure of the regions.
 
 
@@ -1154,28 +1155,28 @@ This test again indicates that the eight superstructures are significant even af
 
 \begin{figure*}[tbh!]
 	\centering
-	\includegraphics[width=\linewidth]{mouse_connectome_ase_w_error_table.pdf}
+	\includegraphics[width=.90\linewidth]{mouse_connectome_ase_w_error_table.pdf}
 	\caption{
 	% {\bf Latent positions analysis of the mouse connectome}
-	Panel (a) shows the entries of the the four scaled singular vectors  of the weighted adjacency matrix $A$ corresponding to largest singular values.
+	Panel (a) shows entries of the the 4 scaled singular vectors  of $A$ corresponding to largest singular values.
 	The ordering of the entries is the same as the ordering in Figure~\ref{fig:mouse_adj_lr}, where vertices in the same superstructures and hemispheres are grouped together. 
-	The colors of points denote the superstructures and the shapes denote the hemispheres.
-	Panel (b) shows a scatter plot of the the fourth and second singular vectors. 
+	Colors of points denote the superstructures and shapes denote the hemispheres.
+	Panel (b) is a scatter plot of the the fourth and second singular vectors. 
 	The background coloring corresponds to fitting a classifier, based on a mixture of Gaussians, to classify the eight different superstructures.
 	Panel (c) shows the normalized confusion matrix for the mixture of Gaussians learned in panel (b).
     Each entry corresponds to the proportion of nodes with a given label that were predicted to be each other label,
-    with the true label given by the row and the predicted label given by the column.}
+    with true and predicted labels given by the row and column, respectively.}
 	\label{fig:mouse_ase}
 \end{figure*}
 
-\begin{figure}[tbh!]
-	\centering
-	\includegraphics[width=\linewidth]{mouse_connectome_violin.pdf}
-	\caption{
-	% {\bf Violin plot for the mouse connectome permutation test.}
-	As in Fig.~\ref{fig:violin_plot}, 1000 simulations for each number of flips show that as the number of flips increases, the distribution under the null moves further from the dashed line. This indicates that the latent positions correlate with the superstructures even after conditioning on the spatial structure. Dashed line represents the situation based on true superstructure assignment.   }
-	\label{fig:mouse_violin}
-\end{figure}
+% \begin{figure}[tbh!]
+% 	\centering
+% 	\includegraphics[width=\linewidth]{mouse_connectome_violin.pdf}
+% 	\caption{
+% 	% {\bf Violin plot for the mouse connectome permutation test.}
+% 	As in Fig.~\ref{fig:violin_plot}, 1000 simulations for each number of flips show that as the number of flips increases, the distribution under the null moves further from the dashed line. This indicates that the latent positions correlate with the superstructures even after conditioning on the spatial structure. Dashed line represents the situation based on true superstructure assignment.   }
+% 	\label{fig:mouse_violin}
+% \end{figure}
 
 
 
@@ -1186,16 +1187,15 @@ This test again indicates that the eight superstructures are significant even af
 \section{Discussion}\label{sec:discussion}
 
 % In this paper, we propose using low-rank methods to estimate the mean of a collection of graphs.
-Motivated by the RDPG model, our methodology takes advantage of the low-rank structure of graphs by applying a low-rank approximation to the entry-wise MLE.
-We give a closed form for the asymptotic relative efficiency between the entry-wise MLE $\bar{A}$ and our estimator $\hat{P}$ in the case of a stochastic blockmodel, demonstrating that when the number of vertices $N$ is sufficiently large, low-rank methods provide a substantial improvement.
-In particular, for a stochastic blockmodel with fixed number of blocks $K$, block size proportion $\rho$, and number of graphs $M$, the low-rank estimator $\hat{P}$ has MSE which is on the order of $N$ times lower than the MSE for $\bar{A}$.
-
+Motivated by the RDPG model, via a low-rank approximation to the entry-wise MLE, our methodology takes advantage of low-rank structure of graphs.
+We give a closed form for the asymptotic relative efficiency between the entry-wise MLE $\bar{A}$ and our estimator $\hat{P}$ in the case of a SBM, showing theoretically that low-rank methods can provide substantial improvements.
+% For a stochastic blockmodel with fixed number of blocks $K$, block size proportion $\rho$, and number of graphs $M$, the low-rank estimator $\hat{P}$ has MSE which is on the order of $N$ times lower than the MSE for $\bar{A}$.
 Moreover, our estimator outperforms the entry-wise MLE in a cross validation analysis of the SWU4 brain graphs and in low- and full-rank simulation settings when $M$ is small.
 % @rt: clarify that this is true when M is small
 % @ds: revised
 These results illustrate that $\hat{P}$ performs well even when the low-rank assumption is violated and that $\hat{P}$ is robust and can be applied in practice.
 
-One of the key observations from our real data analysis was that the largest improvements using the low-rank method occurred when the number of graphs $M$ was small, and that it provided only minor improvements, or even slightly degraded performance, when $M$ was large.
+The largest improvements using the low-rank method occurred when the number of graphs $M$ was small, while it provided only minor improvements, or even slightly degraded performance, when $M$ was large.
 However, even in large scale studies the low-rank methods will be useful for estimating graph means for subpopulations, e.g.\ the population of females over 60 with some college education.
 Using the element-wise sample mean for such small strata, which may have fewer than ten subjects, will frequently result in a degradation of performance.
 Similarly, \cite{durante2016nonparametric} proposed a Bayesian nonparametric approach for modeling the population distribution of network-valued data which reduces dimensionality via a mixture model and our methods could be easily adapted to those ideas.
@@ -1228,9 +1228,10 @@ Similarly, \cite{durante2016nonparametric} proposed a Bayesian nonparametric app
 
 % Meanwhile, estimating the rank of the graph structure accurately will certainly help improve the performance of the estimator $\hat{P}$. Now we are using Zhu and Ghodsi's method and USVT, but there is still a lot of space for improvement, especially in this particular case.
 
-While the low-rank methods considered in this paper will often offer substantial improvements, further refinements of these methods which account for the particular traits of connectomics data would be useful to improve estimation further.
-For example, we assume that the adjacency matrix is observed without contamination, however in practice there will be noise in the observed graph and one may seek to account for this noise with more robust methods.
-This may be especially fruitful when each graph has weighted edges and the weights themselves have noisy or heavy-tailed distributions.
+While the low-rank methods considered in this paper may perform well, further refinements of these methods which account for the particular traits of connectomics data would be useful to improve estimation further.
+For example, we assume that the adjacency matrix is observed without contamination.
+However, when heavy-tailed noise is present, robust methods may be necessary.
+% This may be especially fruitful when each graph has weighted edges and the weights themselves have noisy or heavy-tailed distributions.
 Rank-based methods and robust likelihood methods could be very useful in that case \cite{huber2009robust,qin2013maximum}.
 
  % With contaminations, robust estimators like ML$q$E is preferred. If an estimator can not only inherit robustness from the robust estimators but also has small variance by taking advantage of the low rank structure of the graphs, it will be very useful.
@@ -1240,19 +1241,19 @@ These structural ones appear since edges between certain regions of the brain ar
 For these always-present edges, the low-rank methods will have non-zero error while the sample mean will always have zero error.
 Detecting and incorporating structural ones and zeros could yield methods that share the best elements of both methods considered here.
 
-For the SWU4 dataset, we performed a cross-validation framework and compared the estimates based on a subsample to the mean for the held-out set.
-Another option would be to compare the estimates $\bar{A}$ and $\hat{P}$ to the mean for the entire population including the subsample.
-Both of these analyses lead to very similar results in the cases presented above, but for various reasons one may prefer one analysis over another.
-The cross-validation method is most reasonable from a prediction perspective where prediction about new samples is of interest.
-If instead one is interested in learning directly about the mean of a population, especially a finite population, the sub-sampling approach may be the most logical choice.
+% For the SWU4 dataset, we performed a cross-validation framework and compared the estimates based on a subsample to the mean for the held-out set.
+% Another option would be to compare the estimates $\bar{A}$ and $\hat{P}$ to the mean for the entire population including the subsample.
+% Both of these analyses lead to very similar results in the cases presented above, but for various reasons one may prefer one analysis over another.
+% The cross-validation method is most reasonable from a prediction perspective where prediction about new samples is of interest.
+% If instead one is interested in learning directly about the mean of a population, especially a finite population, the sub-sampling approach may be the most logical choice.
 
 While in this paper the focus on the estimation of the probability matrix $P$ based on the low-rank structure, many future directions are quite interesting, such as fitting the SBM or clustering the vertices to detect different brain regions.
-For example, \cite{abraham2013extracting} introduced a region-extraction approach based on a sparse penalty with dictionary learning; \cite{calhoun2001method} performed independet component analysis of fMRI data to draw group inferences; \cite{wang2017joint} consider a joint embedding model for feature extractions.
-In future work, it would be interesting to explore further statistical inferences based on our method.
+For example, \cite{abraham2013extracting} introduced a region-extraction approach based on a sparse penalty with dictionary learning; \cite{calhoun2001method} performed independent component analysis of fMRI data to draw group inferences; \cite{wang2017joint} consider a joint embedding model for feature extractions.
+% In future work, it would be interesting to explore further statistical inferences based on our method.
 
 
 
-\section*{Acknowledgments}
+% \section*{Acknowledgments}
 
 % This work is graciously supported by the XDATA program of the Defense
 % Advanced Research Projects Agency (DARPA) administered through Air
@@ -1260,7 +1261,7 @@ In future work, it would be interesting to explore further statistical inference
 % program through SPAWAR contract N66001-15-C-4041; and DARPA GRAPHS
 % contract N66001-14-1-4028. We would also like to acknowledge support from NIH through K01 AG041211, and P41 EB015897.
 
-\nocite{gorgolewski2015high,Garyfallidis2014-wg,Anderson2017-ra,behrens2007manual,brown1977means}
+% \nocite{gorgolewski2015high,Garyfallidis2014-wg,Anderson2017-ra,behrens2007manual,brown1977means}
 
 \bibliographystyle{IEEEtran}
 
@@ -1428,6 +1429,13 @@ Note that after a uniform $k$-flip, the number of regions in each lobe still sta
 
 In the permutation test, a uniform $k$-flip was applied and the test statistic $T(X, l)$ was calculated based on the lobe assignment after flipping.
 The $p$-value is computed as the proportion of uniform $k$-flips with a $T$ value smaller than the $T$ value for the true lobe assignments.
+
+
+Figure~\ref{fig:mouse_violin} shows the violin plots for the metric defined in Eq.~\eqref{eq:test_stat} permuted in the same way as described above but applied to the mouse connectome.
+
+
+
+
 
 %\subsection{Mean Squared Error and Relative Efficiency}
 %\label{section:rel_eff}
