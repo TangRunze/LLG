@@ -94,7 +94,7 @@ Carey E.~Priebe~\IEEEmembership{Senior Member,~IEEE},
 Daniel L.~Sussman%
 % \IEEEcompsocitemizethanks{
 \thanks{
-Submitted on March 28, 2018.
+Submitted on April 7, 2018.
 This work is graciously supported by the XDATA program of the Defense
 Advanced Research Projects Agency (DARPA) administered through Air
 Force Research Laboratory contract FA8750-12-2-0303; the DARPA SIMPLEX
@@ -124,9 +124,10 @@ contract N66001-14-1-4028. We would also like to acknowledge support from NIH th
 
 % Please keep the abstract below 300 words
 \begin{abstract}
-In statistical connectomics, the study of brain networks, estimating the mean of a population of graphs based on a sample is a core problem.
+In brain imaging and connectomics, the study of brain networks, estimating the mean of a population of graphs based on a sample is a core problem.
 Often, this problem is especially difficult because the sample or cohort size is relatively small, sometimes even a single subject.
-While using the element-wise sample mean of the adjacency matrices is a common approach, this method does not exploit underlying structural properties of the graphs.
+Additionally, the estimates of connectivity are often very noisy due to resolution and other errors.
+While the element-wise sample mean of the adjacency matrices is a common approach, this method does not exploit underlying structural properties of the graphs.
 We propose using a low-rank method which incorporates dimension selection and diagonal augmentation to smooth the estimates and improve performance over the na\"ive methodology for small sample sizes.
 Theoretical results for the stochastic blockmodel show that this method offers major improvements when there are many vertices.
 Similarly, we demonstrate that the low-rank methods outperform the standard sample mean for a variety of independent edge distributions as well as human connectome data derived from magnetic resonance imaging, especially when sample sizes are small.
@@ -162,8 +163,8 @@ networks, connectome, low-rank, estimation
 
 \section{Introduction}\label{sec:intro}
 
-In this manuscript we consider the challenges of estimating a population mean based on a sample of brain networks, as represented by their structural connectomes.
-Estimation of the mean of a population based on samples is at the core of statistics.
+Estimating a population mean based on a sample of brain networks, as represented by their structural connectomes estimated from DTMRI, is a key challenge.
+Generally, estimation of a population mean based on samples is at the core of statistics.
 The sample mean, motivated by its intuitive appeal, the law of large numbers, and the central limit theorem, has its place as one of the most important statistics for this task.
 % In modern settings, averages of many different kinds of data representations are taken, including scalars and vectors, but also objects  like images, shapes, and documents.
 

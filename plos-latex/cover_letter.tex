@@ -132,33 +132,31 @@
 \begin{letter}{%Chair, Faculty Search Committee\\
 \today\\
 \vspace{11pt}
-Tilmann Gneiting and Editorial Board \\
-The Annals of Applied Statistics\\
-Institute of Mathematical Statistics
+Michael F. Insana and Editorial Board \\
+Transactions on Medical Imaging\\
+Institute of Electrical and Electronics Engineers
 }
 
 
-\opening{Dear Stilmann Gneiting and Editorial Board of AoAS,}
+\opening{Dear Michael F. Insana and Editorial Board of IEEE TMI,}
 
 We submit to you our manuscript titled ``Connectome Smoothing via Low-rank Approximations'' for publication as an article.
 
-As neuroscientists, computational biologists, and social scientists measure increasingly large networks, tools to accurately estimate the mean network are increasingly important.
-When confronting high-dimensional data, even estimating the mean can require careful statistical thinking, and with graph data the number of parameters for the mean scales quadratically with the number of vertices.
-% and so using the standard sample mean of the adjacency matrices may lead to excessive variance.
-The performance of the standard sample mean can be especially poor in cases with small samples sizes and large number of vertices.
-Additionally, even if the number of networks collected in a study is large, researchers often seek to estimate the mean for smaller subsets of interest.
-The challenge is especially acute for connectomics, the study of brain networks, where accurate measurements of connectivity at the micro- and meso-scales are still in development.
-Our goal is to propose a method which will improve the performance for this estimation task in these cases.
 
-We proposed a novel method motivated by a low-rank statistical model for random networks.
-We show that this end-to-end method for estimating the mean of a collection of graphs yields improvements over using standard methods.
-This is especially evident when considering small cohorts with large numbers of vertices, as is increasingly common practice in clinical studies.
-% These methods offer substantial improvements in the increasingly common setting where the number of vertices in the graph is large but the number of graphs in the sample is relatively small.
-We also illustrate how the low-rank nature of of our method illuminates relationships between connectivity and anatomical structure that are not as evident from more standard techniques.
+In brain imaging, it is becoming increasingly common for individuals to estimate brain connectivity.
+This is true for clinical brain imaging, as well as human research and non-human research (typically animal disease models).
+The estimates of the brain networks (or graphs), however, are often noisy, due to resolution and other errors.
+Moreover, there are often very small sample sizes, e.g., case studies or animal models or small population cohorts.
+There is therefore a need to obtain good estimates of connectomes, and averages of small numbers of connectomes.
+
+
+We propose a low-rank method, prove that it can outperform the na\"ive methods, and corroborate our theoretical results with numerical simulations.
+In real imaging applications, we demonstrate that our methods not only provide good estimates of average connectivity, but also reveal connections between brain connectivity and brain anatomy.
+
+
 We believe scientists in a variety of fields will find these methods useful when confronted with collections graphs and our associated analysis will help practitioners decide on the best estimator for their setting.
-
-Note, this is a revision of a manuscript, entitled ``Law of Large Graphs'', previously submitted to another journal.
 We hope you enjoy reading the manuscript and look forward to your feedback.
+
 
 \closing{Best,}
 
