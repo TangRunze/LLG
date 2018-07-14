@@ -4,3 +4,6 @@
 [submodule "neuroimage-response"]
 	path = neuroimage-response
 	url = https://git.overleaf.com/10129430fxcfthdbzkcs
+[submodule "ieee_tmi_response"]
+	path = ieee_tmi_response
+	url = https://git.overleaf.com/17844531kvrttqrvkykg
