@@ -1,5 +1,5 @@
 [submodule "neuroimage"]
-	path = neuroimage
+	path = manuscript
 	url = https://git.overleaf.com/10169107vqbndzfvdczx
 [submodule "neuroimage-response"]
 	path = neuroimage-response
