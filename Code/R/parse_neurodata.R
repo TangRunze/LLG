@@ -19,14 +19,14 @@ output_url <- function(d){
 }
 
 read_neurodata_graph <- function(d){
-    read_graph(output_url(d), format="graphml")
+    read_graph(output_url(d), format = "graphml")
 }
 
 load_all_graphs <- function(d){
     d %>% by_row(read_neurodata_graph,.to="igraph")
 }
 
-load_all_atlas <- function(d,da_df){
+load_all_atlas <- function(d, da_df){
         d %>% filter(dataset==da_df$dataset) %>% 
         mutate(atlas=da_df$atlas[1]) %>%
         by_row(read_neurodata_graph,.to="igraph")   
@@ -35,12 +35,20 @@ load_all_atlas <- function(d,da_df){
 igraph_to_df <- function(g){
     g <- as.matrix(g[])
     n <- nrow(g)
-    expand.grid(i=1:n, j=1:n) %>% mutate(g=c(g)) %>% filter(i>j)
+    expand.grid(i = 1:n, j = 1:n) %>% mutate(g = c(g)) %>% filter(i > j)
 }
 
 df_to_mat <- function(d,n){
     m <- matrix(0,n,n)
     m[d$i,d$j] <- d$P
+}
+
+load_graphml <- function(dataset, subject, scan, atlas, size, data_dir){
+    fn <- paste0(data_dir, dataset,
+        "sub-", subject,
+        "_ses-", scan,
+        "_dwi_", atlas, ".graphml")
+    tibble(adj = list(try(igraph::read_graph(fn, format = "graphml")[])))
 }
 
 neurodata_df <- neurodata_scan_list %>%
@@ -57,16 +65,17 @@ atlas_keep <- c(
     "Talairach",
     "desikan")
 
-neurodata_df <- neurodata_df %>% filter(atlas %in% atlas_keep)
+neurodata_df <- neurodata_df %>% filter(atlas %in% atlas_keep) %>%
+    mutate(atlas = as.character(atlas))
 
-all_desikan <- neurodata_df %>% filter(atlas=="desikan") %>% load_all_graphs()
-save(all_desikan,file="/Volumes/Other/Data/neurodata_dtmri/all_desikan.RData")
+# all_desikan <- neurodata_df %>% filter(atlas=="desikan") %>% load_all_graphs()
+# save(all_desikan,file="/Volumes/Other/Data/neurodata_dtmri/all_desikan.RData")
 
 
-a <- load_all_graphs(neurodata_df[1,],dataset_atlas_df %>% 
-        filter(dataset=="HNU1"))
+# a <- load_all_graphs(neurodata_df[1,],dataset_atlas_df %>% 
+#         filter(dataset=="HNU1"))
 
-b <- all_desikan %>% group_by(subject,scan) %>%
-    mutate(g=list(igraph_to_df(igraph[[1]]))) %>%
-    select(-igraph) %>%
-    unnest()
+# b <- all_desikan %>% group_by(subject,scan) %>%
+#     mutate(g=list(igraph_to_df(igraph[[1]]))) %>%
+#     select(-igraph) %>%
+#     unnest()
