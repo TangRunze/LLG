@@ -46,7 +46,7 @@ require("irlba")
 
 
 
-usvt <- function(A,minS=1, m=1){
+usvt <- function(A, minS=1, m=1, sigma  = 0.7){
   if(class(A)=="igraph"){
     A <- get.adjacency(A)
   }
@@ -55,7 +55,7 @@ usvt <- function(A,minS=1, m=1){
   n <- nrow(A)
   
   # the threshold
-  tau <- 0.7*sqrt(n/m)
+  tau <- sigma * sqrt(n/m)
   usv <- svd(A)
   s = sum(usv$d>=tau)
   usv$d = usv$d[1:s]

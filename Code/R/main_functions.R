@@ -21,9 +21,11 @@ decompose <- function(A, dim, is_svd = TRUE){
   }
   else {
     if (dim < n / 2){
-      A.eig <- irlba(A, nu = dim, nv = dim, shift = n*max(A))
+      shift <- n * max(A)
 
-      values <- A.eig$d
+      A.eig <- irlba(A, nu = dim, nv = dim, shift = shift)
+
+      values <- A.eig$d - shift
       lvectors <- A.eig$u
       rvectors <- A.eig$v
     }
@@ -91,17 +93,9 @@ spectral_diag_aug <- function(dec, ...){
 }
 
 compute_phat <- function(alist, abar = NULL,
-  abar_dec = NULL, abar_dec_svd = NULL, abar_dec_eig = NULL,
   dim = "ZG",
-  diag_aug = TRUE, diag_aug_sec = TRUE,
+  diag_aug = FALSE, diag_aug_sec = FALSE,
   threshold = TRUE, is_svd = FALSE, ...){
-
-  if ( is_svd && !is.null(abar_dec_svd)){
-    abar_dec <- abar_dec_svd
-  }
-  if ( !is_svd && !is.null(abar_dec_eig)){
-    abar_dec <- abar_dec_svd
-  }
 
   m <- length(alist)
   if (is.null(abar)){
@@ -118,9 +112,8 @@ compute_phat <- function(alist, abar = NULL,
   # select dimension
   if ( !is.numeric(dim) ){
     # Automatic so first compute big decompositions
-    if( is.null(abar_dec) ){
-      abar_dec <- decompose(abar, ceiling(n * 3 / 5), is_svd) 
-    }
+    abar_dec <- decompose(abar, ceiling(n * 3 / 5), is_svd)
+
     # Zhu and Ghodsi
     if (dim == "ZG"){
       dim <- get_dim_zg(abar_dec$values, is_svd, ...)
@@ -129,12 +122,12 @@ compute_phat <- function(alist, abar = NULL,
     if ( dim == "USVT" ){
       dim <- get_dim_usvt(abar_dec$values, n, m, ...)
     }
-    
+
     # Truncate the decomposition
     abar_dec <- with(abar_dec, 
       list(values = values[1:dim], lvectors = lvectors[, 1:dim],
         rvectors = rvectors[, 1:dim]))
-  } else if( is.null(abar_dec) ){
+  } else{
     # Compute trunctated decomposition
     abar_dec <- decompose(abar, dim, is_svd)
   }
@@ -144,10 +137,10 @@ compute_phat <- function(alist, abar = NULL,
     diag(abar) <- spectral_diag_aug(abar_dec)
     abar_dec <- decompose(abar, dim, is_svd)
   }
-  
+
 
   phat <- low_rank_approx_dec(abar_dec)
- 
+
   if (threshold){
     diag(phat) <- 0
     phat[phat > 1] <- 1
@@ -156,3 +149,16 @@ compute_phat <- function(alist, abar = NULL,
   list(phat = phat, dim = dim)
 
 }
+
+
+low_rank_from_dec <- function(dec, dim){
+  d <- seq(dim)
+  if (dim != 1){
+    with(dec,
+      lvectors[, d] %*% Matrix::diag(values[d]) %*% t(rvectors[, d]))
+  } else{
+     with(dec,
+      outer(lvectors[, 1], rvectors[, d]) %*%  values[1])
+   }
+}
+
