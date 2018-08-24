@@ -27,14 +27,14 @@ m_all <- nrow(data_df)
 P <- reduce(data_df$adj, `+`) / m_all
 
 n <- nrow(P)
-p_dhat_p <- compute_phat(data_df$adj, diag_aug)
+p_dhat_p <- compute_phat(data_df$adj)
 d_p <- p_dhat_p$dim
 p_dhat_p <- p_dhat_p$phat
 
 p_dec <- decompose(P, n, is_svd = FALSE)
 
 save(m_all, P, n, p_dhat_p, d_p, p_dec,
-    paste0(data_dir, doi, "_", aoi, "_P.RData"))
+    file = paste0(data_dir, doi, "_", aoi, "_P.RData"))
 
 m <- 5
 alist <- sample_n(data_df, m)$adj

@@ -126,7 +126,7 @@ err_sample_df <-  mrange %>% group_by(mc) %>%
 
         # get rid of the adjacencies and store everything together
         sample_df %>% select(-adj) %>%
-            nest(-atlas, -size, .key = "sample") %>%
+            nest(-atlas, -dataset, .key = "sample") %>%
             mutate(err = list(err_df))
     }))
 
