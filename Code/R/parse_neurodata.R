@@ -2,7 +2,7 @@ library(tidyverse)
 library(stringr)
 library(igraph)
 
-source("../../data/neurodata_list.R")
+source("neurodata_list.R")
 
 parse_file_name <- function(s){
     d <- str_split(s,"_")[[1]]
