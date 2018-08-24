@@ -4,7 +4,6 @@ for i in `ls $1`
 	echo $1/graphml/$i | cut -d '.' -f 1
 	python2 -c "import networkx as nx; g = nx.read_gpickle('`echo $1/$i`'); nx.write_edgelist(g,'`echo $1/edgelist/$i | cut -d '.' -f 1`.edgelist',data=['weight'])"
     # nx.write_graphml(g,'`echo $1/graphml/$i | cut -d '.' -f 1`.graphml')"
-	exit
 done
 
 # import networkx as nx;

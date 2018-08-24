@@ -114,10 +114,12 @@ download_fm <- function(url, fn, data_dir, ...){
 
 # data_dir <- "/Volumes/Other/Data/neurodata_fmri/"
 # # data_dir <- "~/Dropbox/Data/neurodata_fmri/"
-# neuro_fm_df <- df_fm(atlas_fm_df, fmri_scan_list) %>%
-#     filter(atlas == "DS01216_res-2x2x2", dataset == "SWU4") %>%
-#     append_url_fn() %>%
-#     pwalk(download_fm, data_dir = data_dir)
+# "/n/regal/airoldi_lab/sussman/""
+neuro_fm_df <- df_fm(atlas_fm_df, fmri_scan_list) %>%
+    filter(atlas %in% c("DS01216_res-2x2x2", "CPAC200_res-2x2x2"),
+        dataset == "SWU4") %>%
+    append_url_fn() %>%
+    pwalk(download_fm, data_dir = data_dir)
 
 # dir("/Volumes/Other/Data/neurodata_fmri/graphml/")
 # g <- read_graph("/Volumes/Other/Data/neurodata_fmri/graphml/SWU4_DS01216_res-2x2x2_0025629_2.graphml", format = "graphml")
