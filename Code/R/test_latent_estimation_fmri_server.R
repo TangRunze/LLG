@@ -137,7 +137,7 @@ err_sample_df$run_id <- run_id
 save(err_sample_df,
     file = paste0(save_dir,
         paste(aoi, doi, run_id, job_id,
-            "_test_latent_fmri.RData", sep = "_")))
+            "test_latent_fmri.RData", sep = "_")))
 
 pattern <- paste("test_latent", aoi, doi, run_id,
     "*fmri.RData", sep = "_")
