@@ -101,8 +101,9 @@ mrange <- cross_df(list(mc = 1:nmc, m = c(1, 2, 5, 10, 20, 50, 100)))
 set.seed(1000 + job_id)
 
 read_edgelist <- function(fn){
-    read_csv(fn, col_names = c("i", "j", "weight")) %>%
-        from_data_frame(directed = FALSE)
+    read_delim(fn, col_names = c("i", "j", "weight"),
+            delim = " ", progress = FALSE, col_types = "iid") %>%
+        graph_from_data_frame(directed = FALSE)
 }
 
 err_sample_df <-  mrange %>% group_by(mc) %>%
@@ -111,11 +112,12 @@ err_sample_df <-  mrange %>% group_by(mc) %>%
         # sample m graphs
         sample_df <- data_df %>% ungroup() %>%
             sample_n(m) %>%
-            mutate(adj = list(read_graph(
-                paste0(data_dir, "edgelist/", fn, ".edgelist"),
-                format = "edgelist")[])) %>%
+            group_by_all() %>%
+            mutate(adj = list(read_edgelist(
+                paste0(data_dir, "edgelist/",
+                    fn, ".edgelist"))[])) %>%
             ungroup() %>%
-            select(-url, -dataset)
+            select(-url)
 
         # compute all the errors
         err_df <- try(sample_df %>%
