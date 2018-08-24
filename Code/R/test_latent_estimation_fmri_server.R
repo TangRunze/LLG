@@ -15,7 +15,7 @@ library(methods)
 # Get job ID if its available
 if ( Sys.getenv("SLURM_JOB_ID") != "" ){
     job_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
-    run_id <- Sys.getenv("SLURM_JOB_ID")
+    run_id <- as.numeric(Sys.getenv("SLURM_JOB_ID"))
     data_dir <- "/n/regal/airoldi_lab/sussman/neurodata/"
     total_jobs <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_COUNT"))
     server <- TRUE
@@ -38,7 +38,7 @@ source("parse_neurodata.R")
 save_dir <- paste0(data_dir, "results/")
 
 aoi <- "DS01216_res-2x2x2"
-aoi <- "CPAC200_res-2x2x2"
+# aoi <- "CPAC200_res-2x2x2"
 doi <- "SWU4"
 
 # Load P and its decompositions so we don't have to do that everytime
@@ -139,18 +139,74 @@ save(err_sample_df,
         paste(aoi, doi, run_id, job_id,
             "test_latent_fmri.RData", sep = "_")))
 
-pattern <- paste("test_latent", aoi, doi, run_id,
-    "*fmri.RData", sep = "_")
-saved <- list.files(save_dir, pattern)
+pattern <- paste(aoi, doi,
+    "*_test_latent_fmri.RData", sep = "_") %>% glob2rx()
+(saved <- list.files(save_dir, pattern))
 
 if ( length(saved) == total_jobs ){
     cat("\n")
     all_df <- saved %>%
         map_df(function(x){
             cat(x, "\r")
-            load(x);
+            load(paste0(save_dir, x))
             err_sample_df
     })
     cat("\n")
-    save(all_df, file=paste0(wd,"/",pattern, "_ALL.RData"))
+    save(all_df, file=paste0(save_dir,
+        paste(aoi, doi, "all",
+            "test_latent_fmri.RData", sep = "_")))
+}
+
+process <- function(){
+
+fn <- "/Volumes/Other/Data/neurodata_fmri/test_latent_SWU4_CPAC200_res-2x2x2_51637946_fmri_ALL.RData"
+load(fn)
+err_sample_df <- all_df %>% unnest(res) %>% unnest(err)
+err_sample_df %>%
+    mutate(err = err^2) %>%
+    filter( (param == "p" & est == "abar") |
+        (param == "p_dhat_p" & est == "phat")) %>%
+    mutate(which = recode(param, p = "Abar estimating P",
+        p_dhat_p = "Phat estiating P d*")) %>%
+    ggplot(aes(x = m, y = err, color = which, group = which)) +
+    stat_summary(fun.data = "mean_cl_boot", shape = 5) +
+    stat_summary(fun.y = "mean", geom = "line") +
+    stat_summary(fun.data = label_fun, geom = "text", color = "black") +
+    scale_color_discrete(" ") + scale_x_log10() + scale_y_log10() +
+    theme(legend.position="bottom") +
+    annotation_logticks()
+
+g <- err_sample_df %>% filter(m < 400) %>%
+    mutate(param = recode(param,
+        p = "P", p_dhat_p = "P d*", p_dhat = "P dhat")) %>%
+    mutate(err = err^2) %>%
+        group_by(mc, m, param) %>%
+    mutate(`relative efficiency` = ifelse(param == "P",
+        err/err[est == "abar"],
+        err/err[est == "abar"])) %>%
+    filter(est == "phat") %>%
+    ggplot(aes(x = m, y = `relative efficiency`))+
+    stat_summary(fun.data = "mean_cl_boot") +
+    stat_summary(fun.y = "mean", geom = "line") +
+    facet_wrap(. ~ param) + geom_hline(yintercept = 1, linetype = 2)
+
+g + scale_x_log10() + scale_y_log10() +
+    annotation_logticks()
+
+
+
+
+
+err_sample_df %>%
+    mutate(err = err^2) %>%
+    filter( (param == "p" & est == "abar") |
+        (param == "p_dhat_p" & est == "phat")) %>%
+    mutate(which = recode(param, p = "Abar estimating P",
+        p_dhat_p = "Phat estiating P d*")) %>%
+    ggplot(aes(x = m, y = err, color = which, group = which)) +
+    stat_summary(fun.data = "mean_cl_boot", shape = 5) +
+    stat_summary(fun.y = "mean", geom = "line") +
+    scale_color_discrete(" ") + scale_x_log10() + scale_y_log10() +
+    theme(legend.position="bottom") +
+    annotation_logticks()
 }
