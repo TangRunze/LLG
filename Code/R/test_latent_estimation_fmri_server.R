@@ -24,8 +24,13 @@ if ( Sys.getenv("SLURM_JOB_ID") != "" ){
     run_id <- "local"
     server <- FALSE
     data_dir <- "/Volumes/Other/Data/neurodata_fmri/"
+    total_jobs <- 1
 }
-/n/regal/airoldi_lab/sussman/neurodata/_SWU4_CPAC200_res-2x2x2__P.RData
+
+print(run_id)
+print(jobid)
+print(total_jobs)
+
 
 source("main_functions.R")
 source("parse_neurodata.R")
