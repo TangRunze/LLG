@@ -25,6 +25,7 @@ if ( Sys.getenv("SLURM_JOB_ID") != "" ){
     server <- FALSE
     data_dir <- "/Volumes/Other/Data/neurodata_fmri/"
 }
+/n/regal/airoldi_lab/sussman/neurodata/_SWU4_CPAC200_res-2x2x2__P.RData
 
 source("main_functions.R")
 source("parse_neurodata.R")
@@ -36,7 +37,7 @@ aoi <- "CPAC200_res-2x2x2"
 doi <- "SWU4"
 
 # Load P and its decompositions so we don't have to do that everytime
-load(paste(data_dir, doi, aoi, "_P.RData", sep = "_"))
+load(paste0(data_dir, doi, "_", aoi, "_P.RData"))
 
 # Load data
 data_df <- df_fm(atlas_fm_df, fmri_scan_list) %>%
