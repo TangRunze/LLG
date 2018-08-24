@@ -1,10 +1,27 @@
-
-for i in `ls $1`
-	do
-	echo $1/graphml/$i | cut -d '.' -f 1
-	python2 -c "import networkx as nx; g = nx.read_gpickle('`echo $1/$i`'); nx.write_edgelist(g,'`echo $1/edgelist/$i | cut -d '.' -f 1`.edgelist',data=['weight'])"
-    # nx.write_graphml(g,'`echo $1/graphml/$i | cut -d '.' -f 1`.graphml')"
+#!/bin/bash
+#SBATCH -n 1                # Number of cores
+#SBATCH -N 1                # Ensure that all cores are on one machine
+#SBATCH -t 0-8:00          # Runtime in D-HH:MM, minimum of 10 minutes
+#SBATCH -p stats   # Partition to submit to
+#SBATCH --mem=2000           # Memory pool for all cores (see also --mem-per-cpu)
+#SBATCH -o myoutput.out  # File to which STDOUT will be written, %j inserts jobid
+#SBATCH -e myerrors.err  # File to which STDERR will be written, %j inserts jobid
+module load python/2.7.14-fasrc01
+X=/n/regal/airoldi_lab/sussman/neurodata/
+for i in `ls $X/gpickle`
+do
+    echo $X/$i | cut -d '.' -f 1
+    python2 -c "import networkx as nx; g = nx.read_gpickle('`echo $X/gpickle/$i`'); nx.write_edgelist(g,'`echo $X/edgelist/$i | cut -d '.' -f 1`.edgelist',data=['weight'])"
+    mv $X/gpickle/$i $X/gpickle_processed
+    # nx.write_graphml(g,'`echo $X/graphml/$i | cut -d '.' -f 1`.graphml')"
 done
+
+# for i in `ls $1`
+#	do
+#	echo $1/graphml/$i | cut -d '.' -f 1
+#	python2 -c "import networkx as nx; g = nx.read_gpickle('`echo $1/$i`'); nx.write_edgelist(g,'`echo $1/edgelist/$i| cut -d '.' -f 1`.edgelist',data=['weight'])"
+    # nx.write_graphml(g,'`echo $1/graphml/$i | cut -d '.' -f 1`.graphml')"
+# done
 
 # import networkx as nx;
 # fn = '/Volumes/Other/Data/neurodata_dtmri/MRN114sub-M87129789_ses-1_dwi_AAL.gpickle'
