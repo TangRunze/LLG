@@ -28,7 +28,7 @@ if ( Sys.getenv("SLURM_JOB_ID") != "" ){
 }
 
 print(run_id)
-print(jobid)
+print(job_id)
 print(total_jobs)
 
 
