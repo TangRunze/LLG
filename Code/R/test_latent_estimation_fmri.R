@@ -6,6 +6,7 @@ data_dir <- "/Volumes/Other/Data/neurodata_fmri/"
 
 
 aoi <- "DS01216_res-2x2x2"
+aoi <- "CPAC200_res-2x2x2"
 doi <- "SWU4"
 
 # Load data
@@ -31,6 +32,9 @@ d_p <- p_dhat_p$dim
 p_dhat_p <- p_dhat_p$phat
 
 p_dec <- decompose(P, n, is_svd = FALSE)
+
+save(m_all, P, n, p_dhat_p, d_p, p_dec,
+    paste0(data_dir, doi, "_", aoi, "_P.RData"))
 
 m <- 5
 alist <- sample_n(data_df, m)$adj

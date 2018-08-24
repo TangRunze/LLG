@@ -100,6 +100,11 @@ mrange <- cross_df(list(mc = 1:nmc, m = c(1, 2, 5, 10, 20, 50, 100)))
 
 set.seed(1000 + job_id)
 
+read_edgelist <- function(fn){
+    read_csv(fn, col_names = c("i", "j", "weight")) %>%
+        from_data_frame(directed = FALSE)
+}
+
 err_sample_df <-  mrange %>% group_by(mc) %>%
     mutate(res = map(m, function(m){
         print(mc[1])
