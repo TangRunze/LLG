@@ -120,9 +120,9 @@ err_sample_df <-  mrange %>% group_by(mc) %>%
             select(-url)
 
         # compute all the errors
-        err_df <- try(sample_df %>%
+        err_df <- sample_df %>%
             select(adj) %>% unlist %>%
-            compare_to_latent(P, p_dec, p_dhat_p, d_p))
+            compare_to_latent(P, p_dec, p_dhat_p, d_p)
 
         # get rid of the adjacencies and store everything together
         sample_df %>% select(-adj) %>%
