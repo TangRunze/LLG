@@ -102,13 +102,13 @@ set.seed(1000 + job_id)
 
 read_edgelist <- function(fn){
     read_delim(fn, col_names = c("i", "j", "weight"),
-            delim = " ", progress = FALSE, col_types = "iid") %>%
+            delim = " ", progress = FALSE, col_types = "ddd") %>%
         graph_from_data_frame(directed = FALSE)
 }
 
 err_sample_df <-  mrange %>% group_by(mc) %>%
     mutate(res = map(m, function(m){
-        print(mc[1])
+        print(c(mc[1], m))
         # sample m graphs
         sample_df <- data_df %>% ungroup() %>%
             sample_n(m) %>%
