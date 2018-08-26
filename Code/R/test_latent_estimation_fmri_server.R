@@ -23,7 +23,7 @@ if ( Sys.getenv("SLURM_JOB_ID") != "" ){
     job_id <- 99
     run_id <- "local"
     server <- FALSE
-    data_dir <- "/Volumes/Other/Data/neurodata_fmri/"
+    data_dir <- "/n/regal/airoldi_lab/sussman/neurodata/"
     total_jobs <- 1
 }
 
@@ -141,7 +141,7 @@ save(err_sample_df,
 
 pattern <- paste(aoi, doi,
     "*_test_latent_fmri.RData", sep = "_") %>% glob2rx()
-(saved <- list.files(save_dir, pattern))
+saved <- list.files(save_dir, pattern)
 
 if ( length(saved) == total_jobs ){
     cat("\n")
@@ -160,8 +160,11 @@ if ( length(saved) == total_jobs ){
 process <- function(){
 
 fn <- "/Volumes/Other/Data/neurodata_fmri/test_latent_SWU4_CPAC200_res-2x2x2_51637946_fmri_ALL.RData"
+fn <- "~/Dropbox (Personal)/Manuscript/LLG/Data/DS01216_res-2x2x2_SWU4_all_test_latent_fmri.RData"
 load(fn)
+unnest(all_df, res)$err[1]
 err_sample_df <- all_df %>% unnest(res) %>% unnest(err)
+
 err_sample_df %>%
     mutate(err = err^2) %>%
     filter( (param == "p" & est == "abar") |
