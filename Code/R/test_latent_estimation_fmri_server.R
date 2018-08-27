@@ -49,8 +49,7 @@ data_df <- df_fm(atlas_fm_df, fmri_scan_list) %>%
     filter(atlas == aoi, dataset == doi) %>%
     append_url_fn() %>%
     mutate(idx = seq(n())) %>%
-    group_by_all() %>%
-    select(-url)
+    group_by_all()
 
 
 # compute P = average of all

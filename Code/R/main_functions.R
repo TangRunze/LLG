@@ -112,7 +112,7 @@ compute_phat <- function(alist, abar = NULL,
   # select dimension
   if ( !is.numeric(dim) ){
     # Automatic so first compute big decompositions
-    abar_dec <- decompose(abar, ceiling(n * 3 / 5), is_svd)
+    abar_dec <- decompose(abar, n, is_svd)
 
     # Zhu and Ghodsi
     if (dim == "ZG"){
