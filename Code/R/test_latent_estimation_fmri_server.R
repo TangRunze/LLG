@@ -5,7 +5,7 @@
 #SBATCH -p stats
 #SBATCH --mem-per-cpu=3200
 #SBATCH -t 300
-#SBATCH -a 1-200
+#SBATCH -a 1-2
 
 # Set total jobs
 total_jobs <- 200
@@ -93,7 +93,7 @@ compare_to_latent <- function(alist, p, p_dec, p_dhat_p, d_p){
 
 
 # 100 replicates
-nmc <- 5
+nmc <- 1
 # for each m in 1,5,10, 20, 50
 mrange <- cross_df(list(mc = 1:nmc, m = c(1, 2, 5, 10, 20, 50)))
 
