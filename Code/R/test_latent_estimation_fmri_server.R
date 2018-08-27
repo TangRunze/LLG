@@ -3,7 +3,7 @@
 #SBATCH -o /n/home15/dsussman/log/out-%a.txt
 #SBATCH -e /n/home15/dsussman/log/err-%a.txt
 #SBATCH -p stats
-#SBATCH --mem-per-cpu=1500
+#SBATCH --mem-per-cpu=3200
 #SBATCH -t 300
 #SBATCH -a 1-200
 
@@ -96,7 +96,7 @@ compare_to_latent <- function(alist, p, p_dec, p_dhat_p, d_p){
 # 100 replicates
 nmc <- 5
 # for each m in 1,5,10, 20, 50
-mrange <- cross_df(list(mc = 1:nmc, m = c(1, 2, 5, 10, 20, 50, 100)))
+mrange <- cross_df(list(mc = 1:nmc, m = c(1, 2, 5, 10, 20, 50)))
 
 set.seed(1000 + job_id)
 
@@ -109,6 +109,7 @@ read_edgelist <- function(fn){
 err_sample_df <-  mrange %>% group_by(mc) %>%
     mutate(res = map(m, function(m){
         print(c(mc[1], m))
+        gc()
         # sample m graphs
         sample_df <- data_df %>% ungroup() %>%
             sample_n(m) %>%
